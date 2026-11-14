@@ -35,7 +35,7 @@ for (const width of WIDTHS) {
   });
 }
 
-for (const width of [375, 768, 1440]) {
+for (const width of [320, 375, 768, 1440, 1920]) {
   test(`homepage screenshots at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
@@ -86,6 +86,7 @@ test('mobile menu opens and navigates', async ({ page }) => {
 
 test('inventory starts empty and nothing is attached to the quote by default', async ({ page }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: /add an item list/i }).click();
   const counts = await page.locator('[aria-live="polite"].font-mono').allTextContents();
   expect(counts.length).toBeGreaterThan(5);
   expect(counts.every((c) => c.trim() === '0')).toBe(true);
@@ -95,6 +96,7 @@ test('inventory starts empty and nothing is attached to the quote by default', a
 
 test('inventory preset, clear and prefill of the quote form', async ({ page }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: /add an item list/i }).click();
   await page.getByRole('button', { name: '2 bed' }).click();
   await expect(page.getByRole('button', { name: /add this list to my quote/i })).toBeEnabled();
   await page.getByRole('button', { name: /add this list to my quote/i }).click();
@@ -186,4 +188,97 @@ test('page makes no request to third-party form providers or reference sites', a
   for (const h of hosts) {
     expect(h).not.toMatch(/web3forms|hfremovals|noorremovals|abwebstudio/i);
   }
+});
+
+// ---- Post-deployment audit regressions --------------------------------------------------------
+import AxeBuilder from '@axe-core/playwright';
+
+const ALL_ROUTES = ['/', '/services', '/pricing', '/quote', '/contact', '/service-areas', '/faq', '/about',
+  '/services/house-removals', '/services/apartment-strata-moves', '/services/office-commercial-relocations',
+  '/services/furniture-single-item-moves', '/services/packing-move-preparation', '/services/heavy-bulky-item-moves'];
+
+test('no serious or critical accessibility violations (axe, desktop + mobile)', async ({ page }) => {
+  test.setTimeout(180_000); // 28 page loads + axe scans take ~45 s
+  const found = new Set<string>();
+  // Measure the settled state: mid-animation opacity would make contrast readings timing-dependent.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  for (const width of [1440, 375]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const route of ALL_ROUTES) {
+      await page.goto(route);
+      await page.waitForLoadState('networkidle');
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+      for (const v of results.violations.filter((x) => x.impact === 'serious' || x.impact === 'critical')) {
+        for (const n of v.nodes) found.add(`${v.id} @${width} ${route}: ${n.target.join(' ')}`);
+      }
+    }
+  }
+  expect([...found], 'axe violations').toEqual([]);
+});
+test('every page that shows an hourly rate also states GST, the 3-hour minimum and the call-out fee', async ({ page }) => {
+  for (const route of ALL_ROUTES) {
+    await page.goto(route);
+    const text = await page.evaluate(() => document.body.innerText);
+    if (!/\$130/.test(text)) continue;
+    expect(text, `${route} GST`).toMatch(/GST/);
+    expect(text, `${route} minimum`).toMatch(/3-hour minimum/i);
+    expect(text, `${route} call-out`).toMatch(/1-hour call-out/i);
+  }
+});
+
+test('hero text is visible in the prerendered HTML (not hidden until JavaScript runs)', async ({ request }) => {
+  const html = await (await request.get('/')).text();
+  const h1 = html.match(/<h1[^>]*>/)?.[0] ?? '';
+  expect(h1).not.toMatch(/opacity:\s*0\b/);
+  expect(h1).toContain('mrk-rise');
+});
+
+test('social, icon and logo assets referenced in the page head all resolve', async ({ page, request }) => {
+  await page.goto('/');
+  const urls = await page.evaluate(() =>
+    [...document.querySelectorAll('meta[property="og:image"], meta[name="twitter:image"], link[rel="apple-touch-icon"], link[rel="icon"]')]
+      .map((el) => el.getAttribute('content') || el.getAttribute('href'))
+      .filter(Boolean) as string[]
+  );
+  expect(urls.length).toBeGreaterThanOrEqual(3);
+  for (const u of urls) {
+    const path = new URL(u, 'http://127.0.0.1:4173').pathname;
+    const res = await request.get(path);
+    expect(res.status(), u).toBe(200);
+    expect(res.headers()['content-type'] ?? '', `${u} must be a real image, not the SPA fallback`).toMatch(/^image\//);
+  }
+  const og = await page.locator('meta[property="og:image"]').getAttribute('content');
+  expect(og).toMatch(/^https:\/\/mrkremovalsadelaide\.com\.au\//);
+});
+
+test('footer credits AB Web Studio with a safe, readable link', async ({ page }) => {
+  await page.goto('/');
+  const link = page.getByRole('contentinfo').getByRole('link', { name: 'AB Web Studio' });
+  await expect(link).toBeVisible();
+  await expect(link).toHaveAttribute('href', 'https://abwebstudio.com.au/');
+  await expect(link).toHaveAttribute('rel', /noopener/);
+  // The AB monogram inside the link is a real, loaded image and part of the clickable area.
+  const logo = link.locator('img');
+  await logo.scrollIntoViewIfNeeded();
+  await expect(logo).toBeVisible();
+  await expect.poll(() => logo.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0);
+});
+
+test('homepage image payload stays within budget and only the hero is eager', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+  const eager = await page.evaluate(() => [...document.images].filter((i) => i.loading !== 'lazy' && i.getBoundingClientRect().width > 0).length);
+  expect(eager).toBeLessThanOrEqual(3); // hero + logo wordmark (+ hero logo card hidden on mobile)
+  const bytes = await page.evaluate(() => performance.getEntriesByType('resource').filter((r) => /\.(webp|jpg|png)/.test(r.name)).reduce((a, r) => a + ((r as PerformanceResourceTiming).transferSize || 0), 0));
+  expect(bytes / 1024).toBeLessThan(500);
+});
+
+test('hover and animation CSS never animate layout properties', async ({ request }) => {
+  const css = await (await request.get('/')).text();
+  const href = css.match(/href="(\/assets\/index-[^"]+\.css)"/)?.[1];
+  expect(href).toBeTruthy();
+  const sheet = await (await request.get(href!)).text();
+  const frames = [...sheet.matchAll(/@keyframes\s+mrk-[a-z-]+\{[^@]*?\}\}/g)].map((m) => m[0]).join('');
+  expect(frames).not.toMatch(/\b(width|height|top|left|margin|padding|box-shadow)\s*:/);
 });

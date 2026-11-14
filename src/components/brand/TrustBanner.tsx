@@ -61,7 +61,7 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({
     <section
       aria-label="MRK Removals Adelaide Core Trust Standards"
       data-testid="trust-banner"
-      className={`mrk-surface rounded-2xl border border-[#C9D2DC]/20 overflow-hidden relative ${className}`}
+      className={`mrk-surface rounded-2xl border border-[#D7E0EC] overflow-hidden relative ${className}`}
     >
       {/* Subtle Top Sapphire-Ruby Hairline Accent */}
       <div
@@ -73,14 +73,14 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({
       />
 
       <div className={variant === 'compact' ? 'p-5 sm:p-6' : 'p-6 sm:p-8'}>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-5 mb-5 border-b border-[#C9D2DC]/12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-5 mb-5 border-b border-[#D7E0EC]">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-xs bg-[#C81036] shrink-0" aria-hidden="true" />
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#C5A15C]">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#8A6414]">
               Why customers get in touch with MRK Removals
-            </p>
+            </h2>
           </div>
-          <p className="text-xs text-[#94A3B8] font-mono tabular-nums">
+          <p className="text-xs text-[#5B6B80] font-mono tabular-nums">
             Direct enquiries: {mrkBusiness.phoneDisplay}
           </p>
         </div>
@@ -90,28 +90,28 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({
             <div
               key={id}
               data-testid={`trust-pillar-${id}`}
-              className="bg-[#090D15]/90 rounded-2xl p-5 sm:p-6 border border-[#C9D2DC]/15 hover:border-[#C81036]/40 transition-all shadow-md hover:-translate-y-1 flex flex-col justify-between space-y-3"
+              className="bg-white/90 rounded-2xl p-5 sm:p-6 border border-[#D7E0EC] hover:border-[#C81036]/40 transition-all shadow-md hover:-translate-y-1 flex flex-col justify-between space-y-3"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-3">
                   <div
-                    className="w-10 h-10 rounded-lg bg-[#161E2E] border border-[#C9D2DC]/20 flex items-center justify-center shrink-0"
+                    className="w-10 h-10 rounded-lg bg-[#E8EEF7] border border-[#D7E0EC] flex items-center justify-center shrink-0"
                     style={{
                       boxShadow: `0 0 18px -4px ${accentColor}55`,
                     }}
                   >
-                    <Icon className="w-5 h-5 text-white" />
+                    <Icon className="w-5 h-5 text-[#0B1B33]" />
                   </div>
-                  <span className="text-[11px] font-mono text-[#94A3B8] text-right">
+                  <span className="text-[11px] font-mono text-[#5B6B80] text-right">
                     {subtitle}
                   </span>
                 </div>
 
-                <h3 className="font-display text-base sm:text-lg font-bold text-white">
+                <h3 className="font-display text-base sm:text-lg font-bold text-[#0B1B33]">
                   {title}
                 </h3>
 
-                <p className="text-xs text-[#C9D2DC] leading-relaxed">{description}</p>
+                <p className="text-xs text-[#33445C] leading-relaxed">{description}</p>
               </div>
             </div>
           ))}

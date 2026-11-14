@@ -27,8 +27,8 @@ The live site already had correct prerendered, indexable route HTML (verified ag
 
 - Shared by `api/quote.ts` (Vercel) and `server.ts` (local dev).
 - `delivered` is returned only when the provider confirms (`success:true` / Resend `id`). Otherwise `ok:false` with `delivery_failed` (502), `not_configured` (503), `rate_limited` (429), `validation_error`/`spam_rejected` (400).
-- First confirmed success stops the chain, so no duplicate email. A retry with the same `attemptId` returns the earlier result without resending (best effort per serverless instance; in-memory).
-- Rate limit: 6 requests / 10 min / IP (in-memory, per instance).
+- First confirmed success stops the chain, so no duplicate email. A retry with the same `attemptId` returns the earlier result without resending. An exclusive 60 s claim stops two instances sending the same attempt at once (`in_progress`, HTTP 409). **Serverless-safe only when Redis is configured** (section 12); without it this is best-effort per warm instance.
+- Rate limit: 6 requests / 10 min / client (hashed IP; shared in Redis when configured, per instance otherwise).
 - Audit: one JSON log line per request (reference, provider, service, suburbs — no name/phone/email) in Vercel runtime logs.
 - Key: `WEB3FORMS_ACCESS_KEY`, or the existing Vercel production secret `web3form_key`. No key in client code. Preview has no key → honest `not_configured`.
 - UI: failure keeps all entered data and offers *Try Sending Again*, *Email Instead* (mailto with the brief) and *Call 0423 653 342*.
@@ -102,3 +102,98 @@ A real defect was caught by the preview check: the first deploy crashed `/api/qu
 - Add/replace images: put sources in `assets-src/`, run `npm run images`.
 - Run tests: `npm test`; browser: `npx playwright test` (set `PW_CHANNEL=chrome` to use installed Chrome). The suite mocks `/api/quote` and never sends real email.
 - Do not point any provider at HF Removals or Noor Removals; `business.test.ts` enforces identity isolation.
+
+## 12. Post-deployment quality audit (branch `audit/post-deploy-quality`, after PR #2 and #3)
+
+Production at audit time: `dpl_9HjMSogBHfzTVoBbGuBYfB3ZaqAo`, commit `98eb5c9` (verified via Vercel; domain aliased to it). Nothing in this section is deployed until the audit PR is approved and merged.
+
+### 12.1 Verified on the live domain (before fixes)
+
+| Check | Result |
+|---|---|
+| Serves expected commit / new assets | Yes: `98eb5c9`; wordmark 200, new hero, no "illustrative"/"Licensed" text |
+| Overflow at 320/375/390/768/1440/1920 | 0 px at all six (real Chrome, Playwright) |
+| Observed LCP / CLS / console errors | LCP 0.52–0.74 s, CLS 0–0.010, 0 console errors at all widths |
+| Main-thread long tasks | at most 1 (≈110–120 ms) per load |
+| Pricing disclosures | All 14 routes that show `$130` also show GST, "3-hour minimum" and "1-hour call-out" |
+| Lighthouse (live, simulated throttling) | Mobile home 83 / a11y 96 / BP 100 / SEO 92; desktop home 99 / 96 / 100 / 92; mobile pricing 94 / 97 / 100 / 100 |
+| Logo | Wordmark 720 px source, shown ≈225–250 px: sharp at 2× DPR; footer 350 px at 2×; hero card 960 px source at ≈480 px. Consistent in header, footer, hero card, About gallery |
+| Visual review (hero, six widths) | Layout holds at all six widths; no clipping; CTA pair stays above the fold. At 320–390 px the sticky call/quote bar covers the end of the rate notice until the visitor scrolls |
+
+### 12.2 Defects confirmed and fixed on this branch
+
+1. **Broken share/icon images (live 404s):** `og:image`, `twitter:image` and `apple-touch-icon` pointed at PNGs removed in PR #2. Replaced with a generated 1200×630 `og-image.jpg` and a 180 px touch icon, absolute URLs, plus `logo`/`image` in the JSON-LD.
+2. **Hero text hidden until JavaScript ran:** the staggered hero used JS variants, so the prerendered HTML had `opacity:0` text (delayed LCP, blank without JS). Replaced with CSS entrance animation; the animation library is no longer loaded: **JS 527 KB → 407 KB (153 → 113 KB gzip)**.
+3. **Render-blocking Google Fonts (≈900 ms) and font-swap layout shift:** fonts are now self-hosted (`@fontsource`, latin subsets, 11 files, 165 KB on disk, only used weights downloaded) with the two above-the-fold faces preloaded.
+4. **Contrast failures (WCAG AA):** `#64748B` text (4.18:1) and ruby `#C81036` text on dark backgrounds. Text now uses `#94A3B8` / `#F2536F`.
+5. **Heading order and link text:** trust banner heading is now an `h2`; "Learn more" links now name their target ("Explore Residential House Removals"), "View all 10 questions".
+6. **Animation cost:** the CTA glow animated `box-shadow` (paint-heavy); now animates opacity of a pseudo-element. Unused keyframes removed. Test guards against layout/paint properties in `mrk-*` keyframes.
+7. **Wasted bytes:** the hero logo card (hidden on mobile) was being preloaded on mobile; now lazy.
+8. **Footer credit:** was 11 px low-contrast plain text. Now "Website by" + the AB monogram (supplied by the studio, transparent WebP, 15 KB) + **AB Web Studio**, all one link to https://abwebstudio.com.au/ (new tab, `rel="noopener"`), readable contrast; covered by an e2e test that the logo loads and is inside the link.
+9. **Quote delivery: serverless safety.** In-memory rate limiting and deduplication only protect one warm instance. Added `src/lib/quote-store.ts`: optional Upstash Redis REST store (env `UPSTASH_REDIS_REST_URL`/`_TOKEN`, or Vercel `KV_REST_API_URL`/`_TOKEN`) with atomic rate limiting, 24 h idempotency records, a 60 s exclusive claim, hashed IPs, and automatic memory fallback if Redis is down. "Delivered" is still only returned on provider confirmation; if Redis fails to record a confirmed delivery the customer still sees success (the provider accepted it).
+10. **Mobile page length (≈13,900 px):** the optional inventory builder (≈1,500 px) is now collapsed behind "Add an item list for a more accurate quote".
+
+### 12.3 Results after fixes (actual runs)
+
+| Check | Result |
+|---|---|
+| `npm run lint` | pass |
+| `npm test` | 44/44 pass (was 38; +6 shared-store tests: cross-instance dedupe, cross-instance rate limit, in-progress claim, Redis outage fallback, record-failure, no raw IP in keys) |
+| `npm run build` | pass, 24 routes; JS 407 KB / 113 KB gzip |
+| `npx playwright test` (production build, Chrome, quote API mocked) | 35/35 pass: overflow at 9 widths, forms, keyboard, reduced motion, axe (WCAG 2 A/AA, serious+critical) on 14 routes × 2 widths = 0 violations, pricing disclosure on every route, hero visible in raw HTML, share/icon assets are real images, AB Web Studio credit, image budget < 500 KB, no layout properties animated |
+| Lighthouse on this build (local, simulated mobile) | Home 93 / a11y **100** / BP 100; desktop 99 / **100** / 100; pricing 93 / 100 / 100; quote 100 / 100 / 100. TBT mobile home 150 → 10 ms. (Local SEO score is not meaningful: the local build is deliberately `noindex`; the live SEO 92 was caused by the link-text defect fixed above.) |
+
+Test-reliability notes: the axe test initially failed intermittently because of its own 45 s timeout (28 page loads), not an accessibility violation; it now has a 180 s timeout and measures the settled (reduced-motion) state, and passed 3/3 repeated runs plus the full suite. Also, one earlier test ("share/icon assets resolve") passed against the preview server's SPA fallback even though the images did not exist; it now asserts an `image/*` content type.
+
+### 12.4 Remaining issues (not fixed)
+
+- Lighthouse **simulated** mobile LCP is still ≈3.3 s (observed real LCP is ≈0.5 s). The LCP element is the prioritised hero image; further gains would need a smaller/lighter hero for slow connections.
+- **Redis is not provisioned.** Until the owner adds an Upstash (or Vercel KV) database and sets the env vars, deduplication/rate limiting remain per-instance. Delivery honesty is unaffected.
+- No source maps on production JS (Lighthouse "valid-source-maps"); intentional, not exposing source.
+- `robots.txt` disallows `/privacy` and `/terms` while they are also `noindex`.
+- Scroll-reveal uses CSS view timelines (Chromium); Safari/Firefox show content without the reveal. Not tested in Safari/Firefox/WebKit, and no manual screen-reader pass.
+- Sticky mobile action bar covers the end of the rate notice at the very top of the page on 320–390 px.
+- Imagery is still AI-style renders (no captions per owner). Real MRK photos and verified reviews are still absent. Insurance published only as "$1 million insurance coverage".
+- Quote POST on the deployed site was not exercised in this audit (owner reports the live test is done).
+
+### 12.5 Release recommendation
+
+**Ship the audit PR after review.** It fixes live 404s on share/icon images, an LCP/no-JS regression, contrast, heading and link-text issues, and makes the quote protection genuinely serverless-capable. Suggested order: merge → send one test enquiry → provision Redis and set the two env vars (recommended, not blocking). Rollback: promote `dpl_9HjMSogBHfzTVoBbGuBYfB3ZaqAo`. No additional merge or deploy has been done without approval.
+
+Evidence: `docs/screenshots/audit/` (live contact sheet, scrolled full-page 375/1440, `live-audit.json` raw measurements).
+
+
+## 13. Bright theme (branch `design/bright-theme`, built on top of the audit branch / PR #4)
+
+**Why:** the client rejected the dark theme and asked for a bright, shiny site. This is a re-theme only: content, structure, pricing wording, quote flow and SEO are unchanged.
+
+### 13.1 What changed
+- **Canvas and surfaces:** near-white page with soft sky-blue and ruby light pools; glossy white cards (top highlight, sapphire-tinted shadow) replace the dark glass cards. Inner tiles, inputs and chips are light.
+- **Typography colours:** deep navy ink (`#0B1B33`) for headings, slate body (`#33445C`), muted (`#5B6B80`), ruby accent text (`#C81036`), deep gold for small labels (`#8A6414`). All chosen to pass WCAG AA on white.
+- **Shine:** glossy ruby buttons with a light sweep on hover (transform only), ruby-gradient display words, white secondary buttons with sapphire hover, ruby-to-sapphire closing banner with a blended truck photo.
+- **Hero:** now the sunlit crew-wrapping photo under a white wash (full on mobile for legibility, left-to-right fade on desktop), with the supplied logo card still floating on the right.
+- **Logo:** the logo artwork is designed for dark backgrounds, so the header and footer wordmark sit in a dark rounded badge. This keeps the supplied logo crisp and unmodified.
+- **Photos:** service photos are brightened (overlays lightened, brightness/saturation up).
+- Header, footer, forms, FAQ, pricing, about, contact, service pages, 404 and legal pages were all converted.
+
+### 13.2 Defects found and fixed during the re-theme
+- Selected tabs/filters and the closing banner initially had navy text on ruby fills (axe contrast 2.9:1). Fixed; white text on every solid ruby/sapphire fill.
+- Desktop navigation active/hover state and the mobile menu rendered white text on white after the automated pass. Fixed by hand.
+
+### 13.3 Verification (actual runs)
+| Check | Result |
+|---|---|
+| `npm run lint` | pass |
+| `npm test` | 44/44 |
+| `npm run build` | pass, 24 routes |
+| `npx playwright test` (production build, Chrome) | **39/39 pass**: includes axe (WCAG 2 A/AA, serious+critical) on 14 routes × 2 widths with 0 violations, overflow at 9 widths, and 4 new theme guards (bright canvas on 12 routes, no large dark panels, closing banner white text, glossy primary buttons) |
+| Leftover-dark scan, 13 routes | 0 dark panels (only intentional dark logo badges and selected chips) |
+| Lighthouse (local, simulated) | Mobile home 91 / a11y 100 / BP 100; desktop 99 / 100 / 100 (unchanged from the dark build: 93 and 99) |
+
+Evidence: `docs/screenshots/bright/` (hero 1440/390, full-page sheets at 1440 and 375, six inner pages).
+
+### 13.4 Notes and remaining
+- The dark badge behind the logo is deliberate. If the client wants a fully light logo lockup, a light-background logo variant must be supplied.
+- The AI-style photos remain; the three darkest (office, midnight truck, old office image) are brightened by filter only. Real MRK photography would lift the brightness further.
+- Not tested in Safari/Firefox; no manual screen-reader pass.
+- Not merged or deployed. This branch is stacked on PR #4 (audit); merge #4 first, or merge this PR into it.

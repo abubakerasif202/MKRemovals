@@ -51,7 +51,7 @@ export const ScrollProgressBar: React.FC<ScrollProgressBarProps> = ({ pathname }
       aria-valuemax={100}
       aria-valuenow={Math.round(progress)}
       data-testid="mrk-scroll-progress"
-      className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-[#090D15]/40 pointer-events-none overflow-hidden"
+      className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-[#F3F7FC] pointer-events-none overflow-hidden"
     >
       <div
         className="h-full w-full origin-left bg-gradient-to-r from-[#124FA3] via-[#C81036] to-[#C5A15C] transition-transform duration-75 ease-out shadow-[0_0_10px_rgba(200,16,54,0.5)]"

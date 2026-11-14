@@ -211,16 +211,16 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       <div
         role="status"
         aria-live="polite"
-        className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/25 space-y-6 scroll-mt-24"
+        className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#D7E0EC] space-y-6 scroll-mt-24"
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#C9D2DC]/15">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#D7E0EC]">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 text-xs text-[#C5A15C] font-mono tabular-nums">
+            <div className="flex items-center gap-2 text-xs text-[#8A6414] font-mono tabular-nums">
               <span>REFERENCE: {outcome.referenceId}</span>
               <span aria-hidden="true">·</span>
               <span>DELIVERY CONFIRMED</span>
             </div>
-            <h3 className="font-display text-2xl font-bold text-white">
+            <h3 className="font-display text-2xl font-bold text-[#0B1B33]">
               Quote Sent Successfully
             </h3>
           </div>
@@ -228,26 +228,26 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <button
             type="button"
             onClick={handleResetNewEnquiry}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#161E2E] hover:bg-[#242A34] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/20 transition-colors whitespace-nowrap shrink-0"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#E8EEF7] hover:bg-[#DCE5F2] text-[#33445C] hover:text-[#C81036] border border-[#D7E0EC] transition-colors whitespace-nowrap shrink-0"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Send Another Quote</span>
           </button>
         </div>
 
-        <p className="text-sm text-[#C9D2DC] leading-relaxed">{outcome.message}</p>
+        <p className="text-sm text-[#33445C] leading-relaxed">{outcome.message}</p>
 
         {/* Direct Call Action & Copyable Move Brief */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div className="lg:col-span-7 bg-[#090D15] rounded-xl p-4 border border-[#C9D2DC]/15 space-y-3">
+          <div className="lg:col-span-7 bg-white rounded-xl p-4 border border-[#D7E0EC] space-y-3">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-xs font-semibold text-white">
+              <span className="text-xs font-semibold text-[#0B1B33]">
                 Structured Move Summary
               </span>
               <button
                 type="button"
                 onClick={handleCopyBrief}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-[#161E2E] hover:bg-[#C81036] text-white transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-[#E8EEF7] hover:bg-[#C81036] text-white transition-colors hover:text-[#C81036]"
               >
                 {copiedBrief ? (
                   <>
@@ -262,19 +262,19 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                 )}
               </button>
             </div>
-            <pre className="text-xs font-mono text-[#C9D2DC] whitespace-pre-wrap leading-relaxed overflow-x-auto max-h-64">
+            <pre className="text-xs font-mono text-[#33445C] whitespace-pre-wrap leading-relaxed overflow-x-auto max-h-64">
               {outcome.moveBrief}
             </pre>
           </div>
 
-          <div className="lg:col-span-5 bg-[#161E2E]/70 rounded-xl p-5 border border-[#C9D2DC]/20 space-y-4">
-            <h4 className="font-display text-base font-semibold text-white">
+          <div className="lg:col-span-5 bg-[#E8EEF7] rounded-xl p-5 border border-[#D7E0EC] space-y-4">
+            <h4 className="font-display text-base font-semibold text-[#0B1B33]">
               Speak Directly with {mrkBusiness.ownerContactName.value}
             </h4>
-            <p className="text-xs text-[#C9D2DC] leading-relaxed">
+            <p className="text-xs text-[#33445C] leading-relaxed">
               For fast confirmation of truck availability, crew size, inclusions for your move between{' '}
-              <strong className="text-white">{formData.pickupSuburb}</strong> and{' '}
-              <strong className="text-white">{formData.destinationSuburb}</strong>, call directly:
+              <strong className="text-[#0B1B33]">{formData.pickupSuburb}</strong> and{' '}
+              <strong className="text-[#0B1B33]">{formData.destinationSuburb}</strong>, call directly:
             </p>
             <a
               href={mrkBusiness.phoneHref}
@@ -285,12 +285,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             </a>
             <a
               href={`${mrkBusiness.enquiryEmailHref}?subject=${encodeURIComponent(`Moving Quote Request: ${formData.pickupSuburb} to ${formData.destinationSuburb} [${outcome.referenceId || 'MRK'}]`)}&body=${encodeURIComponent(outcome.moveBrief || '')}`}
-              className="w-full py-2.5 px-4 rounded-lg bg-[#090D15] hover:bg-[#1A2234] border border-[#C5A15C]/40 hover:border-[#C5A15C] text-[#F5F7FA] text-xs font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-lg bg-white hover:bg-[#DCE5F2] border border-[#8A6414]/40 hover:border-[#8A6414] text-[#0B1B33] text-xs font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
-              <Mail className="w-3.5 h-3.5 text-[#C5A15C]" />
+              <Mail className="w-3.5 h-3.5 text-[#8A6414]" />
               <span>Email Move Brief to {mrkBusiness.enquiryEmail}</span>
             </a>
-            <p className="text-[11px] text-[#94A3B8] leading-normal">
+            <p className="text-[11px] text-[#5B6B80] leading-normal">
               {getMandatoryRateDisclaimer()}
             </p>
           </div>
@@ -304,25 +304,25 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       onSubmit={handleSubmit}
       noValidate
       aria-label="Request a Moving Quote Form"
-      className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 space-y-6 shadow-2xl"
+      className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#D7E0EC] space-y-6 shadow-2xl"
     >
       {!compactHeader && (
-        <div className="pb-5 border-b border-[#C9D2DC]/15 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="pb-5 border-b border-[#D7E0EC] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <p className="text-xs text-[#C5A15C] font-medium mb-1">
+            <p className="text-xs text-[#8A6414] font-medium mb-1">
               Adelaide Residential, Apartment &amp; Commercial Moves
             </p>
-            <h3 className="font-display text-2xl font-bold text-white">
+            <h3 className="font-display text-2xl font-bold text-[#0B1B33]">
               Request Your Tailored Moving Quote
             </h3>
           </div>
           <div className="text-left sm:text-right">
-            <p className="text-xs font-semibold text-white">{formatIndicativeRateHeadline()}</p>
-            <p className="text-[11px] text-[#94A3B8]">
+            <p className="text-xs font-semibold text-[#0B1B33]">{formatIndicativeRateHeadline()}</p>
+            <p className="text-[11px] text-[#5B6B80]">
               Or call directly:{' '}
               <a
                 href={mrkBusiness.phoneHref}
-                className="font-mono text-[#F5F7FA] underline hover:text-[#C81036]"
+                className="font-mono text-[#0B1B33] underline hover:text-[#A00E2C]"
               >
                 {mrkBusiness.phoneDisplay}
               </a>
@@ -335,7 +335,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       {outcome && !outcome.ok && (
         <div
           role="alert"
-          className="rounded-xl bg-[#C81036]/15 border border-[#C81036] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-white"
+          className="rounded-xl bg-[#C81036]/10 border border-[#C81036] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-[#0B1B33]"
         >
           <div className="flex items-start gap-2.5">
             <AlertCircle className="w-5 h-5 text-[#C81036] shrink-0 mt-0.5" />
@@ -352,7 +352,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               </a>
               <a
                 href={`${mrkBusiness.enquiryEmailHref}?subject=${encodeURIComponent('Moving quote request')}&body=${encodeURIComponent(outcome.moveBrief || '')}`}
-                className="px-3.5 py-2 rounded-lg border border-[#C9D2DC]/40 text-white text-xs font-semibold whitespace-nowrap inline-flex items-center gap-1.5"
+                className="px-3.5 py-2 rounded-lg border border-[#D7E0EC] text-[#0B1B33] text-xs font-semibold whitespace-nowrap inline-flex items-center gap-1.5"
               >
                 <Mail className="w-3.5 h-3.5" />
                 <span>Email Instead</span>
@@ -380,7 +380,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div>
           <label
             htmlFor="quote-fullName"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Full Name <span className="text-[#C81036]">*</span>
           </label>
@@ -395,12 +395,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('fullName', e.target.value)}
             aria-invalid={Boolean(fieldErrors.fullName)}
             aria-describedby={fieldErrors.fullName ? 'err-fullName' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
-              fieldErrors.fullName ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
+            className={`w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] placeholder-[#94A3B8] border ${
+              fieldErrors.fullName ? 'border-[#C81036]' : 'border-[#D7E0EC]'
             } focus:outline-none focus:border-[#C81036]`}
           />
           {fieldErrors.fullName && (
-            <p id="err-fullName" className="mt-1 text-xs text-[#FDA4AF]">
+            <p id="err-fullName" className="mt-1 text-xs text-[#B4102E]">
               {fieldErrors.fullName}
             </p>
           )}
@@ -409,7 +409,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div>
           <label
             htmlFor="quote-phone"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Australian Phone Number <span className="text-[#C81036]">*</span>
           </label>
@@ -424,12 +424,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('phone', e.target.value)}
             aria-invalid={Boolean(fieldErrors.phone)}
             aria-describedby={fieldErrors.phone ? 'err-phone' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] font-mono tabular-nums border ${
-              fieldErrors.phone ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
+            className={`w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] placeholder-[#94A3B8] font-mono tabular-nums border ${
+              fieldErrors.phone ? 'border-[#C81036]' : 'border-[#D7E0EC]'
             } focus:outline-none focus:border-[#C81036]`}
           />
           {fieldErrors.phone && (
-            <p id="err-phone" className="mt-1 text-xs text-[#FDA4AF]">
+            <p id="err-phone" className="mt-1 text-xs text-[#B4102E]">
               {fieldErrors.phone}
             </p>
           )}
@@ -438,10 +438,10 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div className="sm:col-span-2 lg:col-span-1">
           <label
             htmlFor="quote-email"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Email Address{' '}
-            <span className="text-[#94A3B8] font-normal">(Optional if calling)</span>
+            <span className="text-[#5B6B80] font-normal">(Optional if calling)</span>
           </label>
           <input
             id="quote-email"
@@ -453,12 +453,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('email', e.target.value)}
             aria-invalid={Boolean(fieldErrors.email)}
             aria-describedby={fieldErrors.email ? 'err-email' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
-              fieldErrors.email ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
+            className={`w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] placeholder-[#94A3B8] border ${
+              fieldErrors.email ? 'border-[#C81036]' : 'border-[#D7E0EC]'
             } focus:outline-none focus:border-[#C81036]`}
           />
           {fieldErrors.email && (
-            <p id="err-email" className="mt-1 text-xs text-[#FDA4AF]">
+            <p id="err-email" className="mt-1 text-xs text-[#B4102E]">
               {fieldErrors.email}
             </p>
           )}
@@ -466,12 +466,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       </div>
 
       {/* Section 2: Pickup & Destination Suburbs + Access */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#C9D2DC]/10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#D7E0EC]">
         <div className="space-y-3">
           <div>
             <label
               htmlFor="quote-pickupSuburb"
-              className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+              className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
             >
               Pickup Suburb or Postcode <span className="text-[#C81036]">*</span>
             </label>
@@ -485,12 +485,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               onChange={(e) => updateField('pickupSuburb', e.target.value)}
               aria-invalid={Boolean(fieldErrors.pickupSuburb)}
               aria-describedby={fieldErrors.pickupSuburb ? 'err-pickupSuburb' : undefined}
-              className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
-                fieldErrors.pickupSuburb ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
+              className={`w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] placeholder-[#94A3B8] border ${
+                fieldErrors.pickupSuburb ? 'border-[#C81036]' : 'border-[#D7E0EC]'
               } focus:outline-none focus:border-[#C81036]`}
             />
             {fieldErrors.pickupSuburb && (
-              <p id="err-pickupSuburb" className="mt-1 text-xs text-[#FDA4AF]">
+              <p id="err-pickupSuburb" className="mt-1 text-xs text-[#B4102E]">
                 {fieldErrors.pickupSuburb}
               </p>
             )}
@@ -499,7 +499,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <div>
             <label
               htmlFor="quote-pickupAccess"
-              className="block text-xs font-medium text-[#C9D2DC] mb-1"
+              className="block text-xs font-medium text-[#33445C] mb-1"
             >
               Pickup Property Type &amp; Access
             </label>
@@ -509,7 +509,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               onChange={(e) =>
                 updateField('pickupAccess', e.target.value as PropertyAccessType)
               }
-              className="w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
+              className="w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] border border-[#D7E0EC] focus:outline-none focus:border-[#C81036]"
             >
               <option value="single-storey-house">Single-Storey House (Ground Access)</option>
               <option value="two-storey-house">Two-Storey / Split-Level Home</option>
@@ -526,7 +526,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <div>
             <label
               htmlFor="quote-destinationSuburb"
-              className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+              className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
             >
               Destination Suburb or Postcode <span className="text-[#C81036]">*</span>
             </label>
@@ -542,12 +542,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               aria-describedby={
                 fieldErrors.destinationSuburb ? 'err-destinationSuburb' : undefined
               }
-              className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
-                fieldErrors.destinationSuburb ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
+              className={`w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] placeholder-[#94A3B8] border ${
+                fieldErrors.destinationSuburb ? 'border-[#C81036]' : 'border-[#D7E0EC]'
               } focus:outline-none focus:border-[#C81036]`}
             />
             {fieldErrors.destinationSuburb && (
-              <p id="err-destinationSuburb" className="mt-1 text-xs text-[#FDA4AF]">
+              <p id="err-destinationSuburb" className="mt-1 text-xs text-[#B4102E]">
                 {fieldErrors.destinationSuburb}
               </p>
             )}
@@ -556,7 +556,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <div>
             <label
               htmlFor="quote-destinationAccess"
-              className="block text-xs font-medium text-[#C9D2DC] mb-1"
+              className="block text-xs font-medium text-[#33445C] mb-1"
             >
               Destination Property Type &amp; Access
             </label>
@@ -566,7 +566,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               onChange={(e) =>
                 updateField('destinationAccess', e.target.value as PropertyAccessType)
               }
-              className="w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
+              className="w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] border border-[#D7E0EC] focus:outline-none focus:border-[#C81036]"
             >
               <option value="single-storey-house">Single-Storey House (Ground Access)</option>
               <option value="two-storey-house">Two-Storey / Split-Level Home</option>
@@ -581,11 +581,11 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       </div>
 
       {/* Section 3: Service Category, Move Size, Target Date & Flexibility */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 border-t border-[#C9D2DC]/10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 border-t border-[#D7E0EC]">
         <div>
           <label
             htmlFor="quote-serviceType"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Service Category
           </label>
@@ -593,7 +593,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             id="quote-serviceType"
             value={formData.serviceType}
             onChange={(e) => updateField('serviceType', e.target.value)}
-            className="w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
+            className="w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] border border-[#D7E0EC] focus:outline-none focus:border-[#C81036]"
           >
             {MRK_SERVICES.map((s) => (
               <option key={s.slug} value={s.slug}>
@@ -606,7 +606,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div>
           <label
             htmlFor="quote-estimatedSize"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Estimated Move Size
           </label>
@@ -614,7 +614,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             id="quote-estimatedSize"
             value={formData.estimatedSize}
             onChange={(e) => updateField('estimatedSize', e.target.value)}
-            className="w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
+            className="w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] border border-[#D7E0EC] focus:outline-none focus:border-[#C81036]"
           >
             <option value={SIZE_NOT_SELECTED}>Not sure yet</option>
             <option value="Single Item / Few Furniture Pieces">Single Item / Few Pieces</option>
@@ -629,7 +629,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div>
           <label
             htmlFor="quote-moveDate"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Target Move Date{' '}
             {formData.dateFlexibility !== 'planning-ahead' && (
@@ -644,12 +644,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('moveDate', e.target.value)}
             aria-invalid={Boolean(fieldErrors.moveDate)}
             aria-describedby={fieldErrors.moveDate ? 'err-moveDate' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white font-mono border ${
-              fieldErrors.moveDate ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
+            className={`w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] font-mono border ${
+              fieldErrors.moveDate ? 'border-[#C81036]' : 'border-[#D7E0EC]'
             } focus:outline-none focus:border-[#C81036]`}
           />
           {fieldErrors.moveDate && (
-            <p id="err-moveDate" className="mt-1 text-xs text-[#FDA4AF]">
+            <p id="err-moveDate" className="mt-1 text-xs text-[#B4102E]">
               {fieldErrors.moveDate}
             </p>
           )}
@@ -658,7 +658,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         <div>
           <label
             htmlFor="quote-dateFlexibility"
-            className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
+            className="block text-xs font-semibold text-[#0B1B33] mb-1.5"
           >
             Date Flexibility
           </label>
@@ -668,7 +668,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) =>
               updateField('dateFlexibility', e.target.value as DateFlexibility)
             }
-            className="w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
+            className="w-full rounded-lg bg-white px-3.5 py-2.5 text-sm text-[#0B1B33] border border-[#D7E0EC] focus:outline-none focus:border-[#C81036]"
           >
             <option value="exact-date">Fixed Date (Settlement / Lease)</option>
             <option value="flexible-3-days">Flexible (±3 Days)</option>
@@ -679,12 +679,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       </div>
 
       {/* Collapsible Optional Inventory, Stairs, Parking & Packing Details */}
-      <div className="pt-2 border-t border-[#C9D2DC]/10">
+      <div className="pt-2 border-t border-[#D7E0EC]">
         <button
           type="button"
           onClick={() => setShowExtendedDetails((prev) => !prev)}
           aria-expanded={showExtendedDetails}
-          className="inline-flex items-center gap-2 text-xs font-semibold text-[#C9D2DC] hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-[#33445C] hover:text-[#C81036] transition-colors"
         >
           {showExtendedDetails ? (
             <ChevronUp className="w-4 h-4 text-[#C81036]" />
@@ -699,12 +699,12 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         </button>
 
         {showExtendedDetails && (
-          <div className="mt-4 space-y-4 bg-[#090D15]/70 rounded-xl p-4 border border-[#C9D2DC]/15">
+          <div className="mt-4 space-y-4 bg-[#F3F7FC] rounded-xl p-4 border border-[#D7E0EC]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label
                   htmlFor="quote-parkingDistance"
-                  className="block text-xs font-medium text-[#C9D2DC] mb-1"
+                  className="block text-xs font-medium text-[#33445C] mb-1"
                 >
                   Truck Parking &amp; Carry Distance
                 </label>
@@ -712,7 +712,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                   id="quote-parkingDistance"
                   value={formData.parkingDistance}
                   onChange={(e) => updateField('parkingDistance', e.target.value)}
-                  className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2 text-sm text-white border border-[#C9D2DC]/20"
+                  className="w-full rounded-lg bg-[#F3F7FC] px-3.5 py-2 text-sm text-[#0B1B33] border border-[#D7E0EC]"
                 >
                   <option value="Driveway / Direct Kerbside (<15m)">
                     Driveway / Direct Kerbside (&lt;15m)
@@ -732,7 +732,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               <div>
                 <label
                   htmlFor="quote-stairsOrLiftDetails"
-                  className="block text-xs font-medium text-[#C9D2DC] mb-1"
+                  className="block text-xs font-medium text-[#33445C] mb-1"
                 >
                   Stairs, Lift Window, or Clearance Notes
                 </label>
@@ -742,28 +742,28 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                   placeholder="e.g. Lift booked 9am–12pm, or 14 internal stairs"
                   value={formData.stairsOrLiftDetails}
                   onChange={(e) => updateField('stairsOrLiftDetails', e.target.value)}
-                  className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2 text-sm text-white placeholder-[#64748B] border border-[#C9D2DC]/20"
+                  className="w-full rounded-lg bg-[#F3F7FC] px-3.5 py-2 text-sm text-[#0B1B33] placeholder-[#94A3B8] border border-[#D7E0EC]"
                 />
               </div>
             </div>
 
             <div className="flex flex-wrap items-center gap-6 pt-1">
-              <label className="inline-flex items-center gap-2 text-xs text-[#F5F7FA] cursor-pointer">
+              <label className="inline-flex items-center gap-2 text-xs text-[#0B1B33] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={Boolean(formData.packingRequired)}
                   onChange={(e) => updateField('packingRequired', e.target.checked)}
-                  className="rounded border-[#C9D2DC]/30 bg-[#090D15] text-[#C81036] focus:ring-[#C81036]"
+                  className="rounded border-[#D7E0EC] bg-white text-[#C81036] focus:ring-[#C81036]"
                 />
                 <span>Include packing / carton preparation discussion</span>
               </label>
 
-              <label className="inline-flex items-center gap-2 text-xs text-[#F5F7FA] cursor-pointer">
+              <label className="inline-flex items-center gap-2 text-xs text-[#0B1B33] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={Boolean(formData.disassemblyRequired)}
                   onChange={(e) => updateField('disassemblyRequired', e.target.checked)}
-                  className="rounded border-[#C9D2DC]/30 bg-[#090D15] text-[#C81036] focus:ring-[#C81036]"
+                  className="rounded border-[#D7E0EC] bg-white text-[#C81036] focus:ring-[#C81036]"
                 />
                 <span>Bed frame / dining table disassembly required</span>
               </label>
@@ -772,7 +772,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             <div>
               <label
                 htmlFor="quote-inventoryNotes"
-                className="block text-xs font-medium text-[#C9D2DC] mb-1"
+                className="block text-xs font-medium text-[#33445C] mb-1"
               >
                 Key Furniture Inventory &amp; Bulky Items
               </label>
@@ -782,7 +782,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                 placeholder="List major items (e.g. 2 queen beds, L-shape sofa, double-door fridge, washing machine, 6-seater dining table, ~30 boxes) and any heavy or fragile pieces..."
                 value={formData.inventoryNotes}
                 onChange={(e) => updateField('inventoryNotes', e.target.value)}
-                className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border border-[#C9D2DC]/20 focus:outline-none focus:border-[#C81036]"
+                className="w-full rounded-lg bg-[#F3F7FC] px-3.5 py-2.5 text-sm text-[#0B1B33] placeholder-[#94A3B8] border border-[#D7E0EC] focus:outline-none focus:border-[#C81036]"
               />
             </div>
           </div>
@@ -790,8 +790,8 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       </div>
 
       {/* Submit Row & Honest Pricing Disclosure */}
-      <div className="pt-3 border-t border-[#C9D2DC]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <p className="text-xs text-[#94A3B8] max-w-xl leading-relaxed">
+      <div className="pt-3 border-t border-[#D7E0EC] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <p className="text-xs text-[#5B6B80] max-w-xl leading-relaxed">
           {getMandatoryRateDisclaimer()}
         </p>
 

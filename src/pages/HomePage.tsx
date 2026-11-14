@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   Clock,
 } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '../lib/useReducedMotion';
 import {
   mrkBusiness,
   formatIndicativeRateHeadline,
@@ -25,15 +25,6 @@ import { ResponsiveImage } from '../components/ui/ResponsiveImage';
 interface HomePageProps {
   onNavigate: (path: string) => void;
 }
-
-const HERO_CONTAINER = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-};
-const HERO_ITEM = {
-  hidden: { opacity: 0, y: 22 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
-};
 
 const PROCESS_STEPS = [
   {
@@ -64,6 +55,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [presetNotes, setPresetNotes] = useState<string>('');
   const [activeAreaSlug, setActiveAreaSlug] = useState<string>(MRK_SERVICE_AREAS[0].slug);
   const [openFaqId, setOpenFaqId] = useState<string>('');
+  const [showInventory, setShowInventory] = useState<boolean>(false);
   const reduceMotion = useReducedMotion();
 
   const quoteSectionRef = useRef<HTMLElement>(null);
@@ -87,52 +79,57 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* 1. HERO */}
       <section className="relative isolate overflow-hidden" aria-labelledby="hero-heading">
         <ResponsiveImage
-          src={mrkBusiness.photographyAssets.adelaideSkylineTwilight}
-          alt="MRK moving truck on an Adelaide boulevard at dusk"
+          src={mrkBusiness.photographyAssets.professionalWrapping}
+          alt="MRK Removals crew wrapping furniture in moving blankets in a bright Adelaide home"
           priority
           sizes="100vw"
-          width={1914}
-          height={822}
-          className="mrk-kenburns absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          width={1448}
+          height={1086}
+          className="mrk-kenburns absolute inset-0 -z-20 h-full w-full object-cover object-[72%_35%]"
         />
+        {/* Bright wash: full on mobile for legibility, left-to-right fade on desktop so the photo shines through. */}
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-white/88 lg:hidden" />
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0 -z-10 hidden lg:block"
           style={{
             background:
-              'linear-gradient(180deg, rgba(9,13,21,0) 55%, #090D15 100%), linear-gradient(90deg, rgba(9,13,21,0.92) 0%, rgba(9,13,21,0.7) 50%, rgba(9,13,21,0.2) 100%), radial-gradient(circle at 10% 20%, rgba(200,16,54,0.22), transparent 45%)',
+              'linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.9) 36%, rgba(255,255,255,0.4) 66%, rgba(255,255,255,0.05) 100%), radial-gradient(circle at 8% 15%, rgba(200,16,54,0.10), transparent 45%)',
           }}
         />
-
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-b from-transparent to-[#F7FAFE]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-24 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center">
-          <motion.div
-            variants={HERO_CONTAINER}
-            initial={reduceMotion ? false : 'hidden'}
-            animate="show"
-            className="lg:col-span-7 space-y-6"
-          >
-            <motion.p variants={HERO_ITEM} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#090D15]/80 border border-[#C9D2DC]/25 text-xs font-medium text-white">
+          <div className="lg:col-span-7 space-y-6">
+            <p
+              style={{ '--d': '0.05s' } as React.CSSProperties}
+              className="mrk-rise inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F3F7FC] border border-[#D7E0EC] text-xs font-medium text-[#0B1B33]"
+            >
               <span className="w-2 h-2 rounded-full bg-[#C81036]" aria-hidden="true" />
               Adelaide, South Australia · Residential &amp; Commercial Removals
-            </motion.p>
+            </p>
 
-            <motion.h1
-              variants={HERO_ITEM}
+            <h1
               id="hero-heading"
-              className="font-display font-extrabold text-white tracking-tight leading-[1.05]"
-              style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)' }}
+              style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)', '--d': '0.12s' } as React.CSSProperties}
+              className="mrk-rise font-display font-extrabold text-[#0B1B33] tracking-tight leading-[1.05]"
             >
               Adelaide removalists,
               <br />
               <span className="text-platinum-sheen">planned with precision.</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p variants={HERO_ITEM} className="text-base sm:text-lg text-[#E2E8F0] leading-relaxed max-w-2xl">
+            <p
+              style={{ '--d': '0.22s' } as React.CSSProperties}
+              className="mrk-rise text-base sm:text-lg text-[#33445C] leading-relaxed max-w-2xl"
+            >
               House, apartment and office moves across Adelaide, coordinated directly with{' '}
               {mrkBusiness.ownerContactName.value}. Tell us about your move and get a clear quote.
-            </motion.p>
+            </p>
 
-            <motion.div variants={HERO_ITEM} className="flex flex-col sm:flex-row gap-3 pt-1">
+            <div
+              style={{ '--d': '0.32s' } as React.CSSProperties}
+              className="mrk-rise flex flex-col sm:flex-row gap-3 pt-1"
+            >
               <button
                 type="button"
                 onClick={scrollToQuote}
@@ -143,41 +140,39 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </button>
               <a
                 href={mrkBusiness.phoneHref}
-                className="min-h-12 px-7 rounded-xl btn-secondary text-[#F5F7FA] text-base font-semibold inline-flex items-center justify-center gap-2.5"
+                className="min-h-12 px-7 rounded-xl btn-secondary text-[#0B1B33] text-base font-semibold inline-flex items-center justify-center gap-2.5"
               >
                 <Phone className="w-4 h-4 text-[#C81036]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
               </a>
-            </motion.div>
+            </div>
 
-            <motion.p variants={HERO_ITEM} className="flex items-start gap-2 text-sm text-[#E2E8F0] max-w-2xl">
+            <p
+              style={{ '--d': '0.42s' } as React.CSSProperties}
+              className="mrk-rise flex items-start gap-2 text-sm text-[#33445C] max-w-2xl"
+            >
               <Clock className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
               <span>
-                <strong className="text-white">{formatIndicativeRateHeadline()}</strong>{' '}
+                <strong className="text-[#0B1B33]">{formatIndicativeRateHeadline()}</strong>{' '}
                 {getMandatoryRateDisclaimer()}
               </span>
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.94, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden lg:block lg:col-span-5"
-          >
-            <div className="mrk-float rounded-3xl overflow-hidden border border-[#C9D2DC]/25 shadow-[0_30px_80px_-30px_rgba(200,16,54,0.55)]">
+          <div className="mrk-pop hidden lg:block lg:col-span-5">
+            <div className="mrk-float rounded-3xl overflow-hidden border border-[#D7E0EC] shadow-[0_30px_80px_-30px_rgba(200,16,54,0.55)]">
               <img
                 src={mrkBusiness.brandAssets.logoFull}
                 alt="MRK Removals Adelaide logo"
                 width={960}
                 height={640}
+                loading="lazy"
                 decoding="async"
                 className="w-full h-auto"
               />
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </div>      </section>
 
       {/* 2. TRUST */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-10">
@@ -189,14 +184,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <h2
             id="services-heading"
-            className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight max-w-2xl"
+            className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0B1B33] tracking-tight max-w-2xl"
           >
             Moving services for every kind of move
           </h2>
           <a
             href="/services"
             onClick={go('/services')}
-            className="text-sm font-semibold text-[#C9D2DC] hover:text-white inline-flex items-center gap-1.5 whitespace-nowrap group"
+            className="text-sm font-semibold text-[#33445C] hover:text-[#C81036] inline-flex items-center gap-1.5 whitespace-nowrap group"
           >
             <span>All services</span>
             <ArrowRight className="w-4 h-4 text-[#C81036] transition-transform group-hover:translate-x-1" />
@@ -210,11 +205,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               className="mrk-surface-interactive rounded-2xl p-6 flex flex-col justify-between gap-5"
             >
               <div className="space-y-3">
-                <h3 className="font-display text-xl font-bold text-white tracking-tight">
+                <h3 className="font-display text-xl font-bold text-[#0B1B33] tracking-tight">
                   {service.title}
                 </h3>
-                <p className="text-sm text-[#C9D2DC] leading-relaxed">{service.summary}</p>
-                <ul className="space-y-1.5 text-xs text-[#C9D2DC]">
+                <p className="text-sm text-[#33445C] leading-relaxed">{service.summary}</p>
+                <ul className="space-y-1.5 text-xs text-[#33445C]">
                   {service.idealFor.slice(0, 3).map((point) => (
                     <li key={point} className="flex items-start gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
@@ -223,13 +218,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   ))}
                 </ul>
               </div>
-              <div className="pt-4 border-t border-[#C9D2DC]/15 flex flex-wrap items-center justify-between gap-3">
+              <div className="pt-4 border-t border-[#D7E0EC] flex flex-wrap items-center justify-between gap-3">
                 <a
                   href={`/services/${service.slug}`}
                   onClick={go(`/services/${service.slug}`)}
-                  className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-[#FDA4AF]"
+                  className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0B1B33] hover:text-[#C81036]"
                 >
-                  <span>Learn more</span>
+                  <span>Explore {service.shortTitle}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
                 <button
@@ -238,7 +233,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     setPresetServiceType(service.slug);
                     scrollToQuote();
                   }}
-                  className="min-h-11 px-4 rounded-lg text-sm font-semibold text-white bg-[#161E2E] hover:bg-[#C81036] cursor-pointer"
+                  className="min-h-11 px-4 rounded-lg text-sm font-semibold text-[#0B1B33] bg-[#E8EEF7] hover:bg-[#C81036] cursor-pointer hover:text-[#C81036]"
                 >
                   Quote this service
                 </button>
@@ -250,31 +245,31 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* 4. PRICING & INCLUSIONS */}
       <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="pricing-heading">
-        <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#D7E0EC] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-6 space-y-4">
-            <h2 id="pricing-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            <h2 id="pricing-heading" className="font-display text-2xl sm:text-3xl font-bold text-[#0B1B33] tracking-tight">
               Clear, honest pricing
             </h2>
-            <p className="text-5xl font-display font-extrabold text-white tabular-nums">
-              $130–$135<span className="text-lg font-semibold text-[#C9D2DC]"> / hour</span>
+            <p className="text-5xl font-display font-extrabold text-[#0B1B33] tabular-nums">
+              $130–$135<span className="text-lg font-semibold text-[#33445C]"> / hour</span>
             </p>
-            <p className="text-sm text-[#C9D2DC] leading-relaxed">
+            <p className="text-sm text-[#33445C] leading-relaxed">
               Indicative AUD hourly rate. {getMandatoryRateDisclaimer()}
             </p>
             <a
               href="/pricing"
               onClick={go('/pricing')}
-              className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-[#FDA4AF]"
+              className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0B1B33] hover:text-[#C81036]"
             >
               <span>How pricing works</span>
               <ArrowRight className="w-4 h-4 text-[#C81036]" />
             </a>
           </div>
           <div className="lg:col-span-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#C5A15C] mb-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#8A6414] mb-3">
               Confirmed in your quote
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm text-[#E2E8F0]">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm text-[#33445C]">
               {[
                 'Truck size & crew numbers',
                 'What the hourly rate includes',
@@ -283,7 +278,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 'Rate includes GST',
                 'Stairs & heavy-item handling',
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2 bg-[#090D15]/70 rounded-xl p-3 border border-[#C9D2DC]/15">
+                <li key={item} className="flex items-start gap-2 bg-[#F3F7FC] rounded-xl p-3 border border-[#D7E0EC]">
                   <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
                   <span>{item}</span>
                 </li>
@@ -297,7 +292,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="process-heading">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-5 grid grid-cols-2 gap-3">
-            <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
+            <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#D7E0EC]">
               <ResponsiveImage
                 src={mrkBusiness.photographyAssets.professionalWrapping}
                 alt="Crew wrapping furniture in moving blankets"
@@ -307,7 +302,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 className="w-full h-52 sm:h-64 object-cover"
               />
             </figure>
-            <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
+            <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#D7E0EC]">
               <ResponsiveImage
                 src={mrkBusiness.photographyAssets.apartmentRelocation}
                 alt="Mover carrying a blanket-wrapped armchair through an apartment lobby"
@@ -319,15 +314,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </figure>
           </div>
           <div className="lg:col-span-7 space-y-5">
-            <h2 id="process-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            <h2 id="process-heading" className="font-display text-2xl sm:text-3xl font-bold text-[#0B1B33] tracking-tight">
               How your move works
             </h2>
             <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {PROCESS_STEPS.map((step) => (
-                <li key={step.num} className="mrk-surface rounded-2xl p-5 border border-[#C9D2DC]/15 space-y-1.5">
+                <li key={step.num} className="mrk-surface rounded-2xl p-5 border border-[#D7E0EC] space-y-1.5">
                   <span className="font-mono text-xs text-[#C81036] font-bold tabular-nums">STEP {step.num}</span>
-                  <h3 className="font-display text-base font-bold text-white">{step.title}</h3>
-                  <p className="text-sm text-[#C9D2DC] leading-relaxed">{step.body}</p>
+                  <h3 className="font-display text-base font-bold text-[#0B1B33]">{step.title}</h3>
+                  <p className="text-sm text-[#33445C] leading-relaxed">{step.body}</p>
                 </li>
               ))}
             </ol>
@@ -355,13 +350,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* 8. COVERAGE */}
       <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6" aria-labelledby="coverage-heading">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <h2 id="coverage-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h2 id="coverage-heading" className="font-display text-2xl sm:text-3xl font-bold text-[#0B1B33] tracking-tight">
             Adelaide coverage
           </h2>
           <a
             href="/service-areas"
             onClick={go('/service-areas')}
-            className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#C9D2DC] hover:text-white"
+            className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#33445C] hover:text-[#C81036]"
           >
             <span>All service areas</span>
             <ArrowRight className="w-4 h-4 text-[#C81036]" />
@@ -381,7 +376,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 className={`min-h-11 px-4 rounded-xl text-sm font-semibold border cursor-pointer ${
                   isSelected
                     ? 'bg-[#C81036] text-white border-[#C81036]'
-                    : 'bg-[#0E1420] text-[#C9D2DC] border-[#C9D2DC]/20 hover:text-white'
+                    : 'bg-[#F3F7FC] text-[#33445C] border-[#D7E0EC] hover:text-[#C81036]'
                 }`}
               >
                 {area.shortName}
@@ -390,26 +385,26 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           })}
         </div>
 
-        <div role="tabpanel" className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/25 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div role="tabpanel" className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 border border-[#D7E0EC] grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-7 space-y-3">
-            <p className="flex flex-wrap items-center gap-2 text-xs text-[#C9D2DC]">
-              <MapPin className="w-3.5 h-3.5 text-[#38BDF8]" aria-hidden="true" />
-              <span className="text-[#C5A15C] font-semibold">{selectedArea.regionGroup}</span>
-              <span className="font-mono tabular-nums text-white">
+            <p className="flex flex-wrap items-center gap-2 text-xs text-[#33445C]">
+              <MapPin className="w-3.5 h-3.5 text-[#124FA3]" aria-hidden="true" />
+              <span className="text-[#8A6414] font-semibold">{selectedArea.regionGroup}</span>
+              <span className="font-mono tabular-nums text-[#0B1B33]">
                 Postcodes: {selectedArea.postcodes.join(', ')}
               </span>
             </p>
-            <h3 className="font-display text-xl sm:text-2xl font-bold text-white">{selectedArea.title}</h3>
-            <p className="text-sm text-[#C9D2DC] leading-relaxed">{selectedArea.localMovingProfile}</p>
-            <p className="text-xs text-[#94A3B8] leading-relaxed">
-              <span className="font-semibold text-white">Key suburbs:</span> {selectedArea.keySuburbs.join(' · ')}
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-[#0B1B33]">{selectedArea.title}</h3>
+            <p className="text-sm text-[#33445C] leading-relaxed">{selectedArea.localMovingProfile}</p>
+            <p className="text-xs text-[#5B6B80] leading-relaxed">
+              <span className="font-semibold text-[#0B1B33]">Key suburbs:</span> {selectedArea.keySuburbs.join(' · ')}
             </p>
           </div>
           <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col justify-end gap-2.5">
             <a
               href={`/service-areas/${selectedArea.slug}`}
               onClick={go(`/service-areas/${selectedArea.slug}`)}
-              className="min-h-11 px-4 rounded-xl bg-[#161E2E] hover:bg-[#242A34] text-white text-sm font-semibold inline-flex items-center justify-center border border-[#C9D2DC]/20"
+              className="min-h-11 px-4 rounded-xl bg-[#E8EEF7] hover:bg-[#DCE5F2] text-[#0B1B33] text-sm font-semibold inline-flex items-center justify-center border border-[#D7E0EC]"
             >
               Read the {selectedArea.shortName} guide
             </a>
@@ -426,27 +421,50 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* 9. OPTIONAL INVENTORY BUILDER */}
       <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Optional inventory list">
-        <MoveScopeBuilder
-          onApplyScopeToQuote={(summary, sizeLabel) => {
-            setPresetNotes(summary);
-            setPresetSize(sizeLabel);
-            scrollToQuote();
-          }}
-        />
+        <button
+          type="button"
+          onClick={() => setShowInventory((v) => !v)}
+          aria-expanded={showInventory}
+          aria-controls="inventory-panel"
+          className="w-full min-h-14 px-5 py-4 rounded-2xl mrk-surface border border-[#D7E0EC] hover:border-[#B5C3D8] flex items-center justify-between gap-4 text-left cursor-pointer"
+        >
+          <span>
+            <span className="block text-xs font-semibold uppercase tracking-wider text-[#8A6414]">Optional</span>
+            <span className="block font-display text-base sm:text-lg font-bold text-[#0B1B33]">
+              Add an item list for a more accurate quote
+            </span>
+          </span>
+          {showInventory ? (
+            <ChevronUp className="w-5 h-5 text-[#C81036] shrink-0" aria-hidden="true" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-[#33445C] shrink-0" aria-hidden="true" />
+          )}
+        </button>
+        {showInventory && (
+          <div id="inventory-panel" className="mt-4">
+            <MoveScopeBuilder
+              onApplyScopeToQuote={(summary, sizeLabel) => {
+                setPresetNotes(summary);
+                setPresetSize(sizeLabel);
+                scrollToQuote();
+              }}
+            />
+          </div>
+        )}
       </section>
 
       {/* 10. FAQ + CLOSING CTA */}
       <section className="mrk-reveal max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6" aria-labelledby="faq-heading">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <h2 id="faq-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h2 id="faq-heading" className="font-display text-2xl sm:text-3xl font-bold text-[#0B1B33] tracking-tight">
             Frequently asked questions
           </h2>
           <a
             href="/faq"
             onClick={go('/faq')}
-            className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#C9D2DC] hover:text-white"
+            className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#33445C] hover:text-[#C81036]"
           >
-            <span>View all {MRK_FAQS.length}</span>
+            <span>View all {MRK_FAQS.length} questions</span>
             <ArrowRight className="w-3.5 h-3.5 text-[#C81036]" />
           </a>
         </div>
@@ -455,25 +473,25 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           {MRK_FAQS.slice(0, 6).map((faq) => {
             const isOpen = openFaqId === faq.id;
             return (
-              <div key={faq.id} className="mrk-surface rounded-2xl border border-[#C9D2DC]/15 overflow-hidden">
+              <div key={faq.id} className="mrk-surface rounded-2xl border border-[#D7E0EC] overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setOpenFaqId(isOpen ? '' : faq.id)}
                   aria-expanded={isOpen}
                   aria-controls={`faq-panel-${faq.id}`}
-                  className="w-full min-h-14 px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-[#161E2E]/50 cursor-pointer"
+                  className="w-full min-h-14 px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-[#EEF3FA] cursor-pointer"
                 >
-                  <span className="font-display text-base font-semibold text-white">{faq.question}</span>
+                  <span className="font-display text-base font-semibold text-[#0B1B33]">{faq.question}</span>
                   {isOpen ? (
                     <ChevronUp className="w-4 h-4 text-[#C81036] shrink-0" aria-hidden="true" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-[#C9D2DC] shrink-0" aria-hidden="true" />
+                    <ChevronDown className="w-4 h-4 text-[#33445C] shrink-0" aria-hidden="true" />
                   )}
                 </button>
                 {isOpen && (
                   <div
                     id={`faq-panel-${faq.id}`}
-                    className="px-5 pb-5 pt-3 text-sm text-[#C9D2DC] leading-relaxed border-t border-[#C9D2DC]/10"
+                    className="px-5 pb-5 pt-3 text-sm text-[#33445C] leading-relaxed border-t border-[#D7E0EC]"
                   >
                     {faq.answer}
                   </div>
@@ -483,37 +501,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           })}
         </div>
 
-        <div className="relative isolate overflow-hidden rounded-3xl px-6 py-16 sm:py-24 border border-[#C9D2DC]/25 text-center space-y-6">
+        <div className="relative isolate overflow-hidden rounded-3xl px-6 py-16 sm:py-24 text-center space-y-6 bg-gradient-to-br from-[#A80D2D] via-[#C81036] to-[#124FA3] shadow-[0_30px_60px_-24px_rgba(200,16,54,0.55)]">
           <ResponsiveImage
             src={mrkBusiness.photographyAssets.heroTruckCinematic}
             alt=""
             sizes="(min-width: 1024px) 960px, 100vw"
             width={1672}
             height={941}
-            className="mrk-drive absolute inset-0 -z-20 h-full w-full object-cover object-[60%_72%]"
+            className="mrk-drive absolute inset-0 -z-20 h-full w-full object-cover object-[60%_72%] opacity-35 mix-blend-soft-light"
           />
-          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-[#090D15]/85 via-[#090D15]/35 to-[#090D15]/10" />
+          <div aria-hidden="true" className="absolute -top-24 -left-24 -z-10 h-72 w-72 rounded-full bg-white/20 blur-3xl" />
           <h2 className="font-display text-2xl sm:text-4xl font-bold text-white tracking-tight">
             Ready to plan your move?
           </h2>
+          <p className="text-white/90 text-sm sm:text-base">Tell us about your move and get a clear quote.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-3">
             <button
               type="button"
               onClick={scrollToQuote}
-              className="min-h-12 px-7 rounded-xl btn-ruby text-white font-bold cursor-pointer"
+              className="min-h-12 px-7 rounded-xl bg-white text-[#A00E2C] font-bold cursor-pointer shadow-lg hover:-translate-y-0.5 transition-transform"
             >
               Get a Free Quote
             </button>
             <a
               href={mrkBusiness.phoneHref}
-              className="min-h-12 px-7 rounded-xl btn-secondary text-[#F5F7FA] font-semibold inline-flex items-center justify-center gap-2"
+              className="min-h-12 px-7 rounded-xl border border-white/70 text-white font-semibold inline-flex items-center justify-center gap-2 hover:bg-white/15 transition-colors"
             >
-              <Phone className="w-4 h-4 text-[#C81036]" />
+              <Phone className="w-4 h-4" />
               <span>Call {mrkBusiness.phoneDisplay}</span>
             </a>
           </div>
-        </div>
-      </section>
+        </div>      </section>
     </div>
   );
 };

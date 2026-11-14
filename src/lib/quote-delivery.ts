@@ -1,5 +1,9 @@
 import { validateQuoteSubmission, formatMoveBriefText } from './quote-validation.js';
 import { mrkBusiness } from '../config/business.js';
+import { getQuoteStore, type QuoteStore } from './quote-store.js';
+
+export { createMemoryStore as createQuoteStore, RATE_LIMIT_MAX_REQUESTS, RATE_LIMIT_WINDOW_MS } from './quote-store.js';
+export type { QuoteStore } from './quote-store.js';
 
 /**
  * Single authoritative quote-delivery flow, shared by the Vercel function (api/quote.ts)
@@ -17,6 +21,7 @@ export type QuoteOutcomeStatus =
   | 'validation_error'
   | 'spam_rejected'
   | 'rate_limited'
+  | 'in_progress'
   | 'delivery_failed'
   | 'not_configured'
   | 'bad_request';
@@ -32,28 +37,7 @@ export interface QuoteResult {
   body: Record<string, unknown>;
 }
 
-interface AttemptRecord {
-  referenceId: string;
-  timestamp: string;
-  provider: string;
-}
-
-export interface QuoteStore {
-  rate: Map<string, { count: number; windowStart: number }>;
-  delivered: Map<string, AttemptRecord>;
-  inFlight: Map<string, Promise<QuoteResult>>;
-}
-
-export const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-export const RATE_LIMIT_MAX_REQUESTS = 6;
 const PROVIDER_TIMEOUT_MS = 8000;
-const MAX_STORE_ENTRIES = 500;
-
-export function createQuoteStore(): QuoteStore {
-  return { rate: new Map(), delivered: new Map(), inFlight: new Map() };
-}
-
-const defaultStore = createQuoteStore();
 
 export function readQuoteEnv(env: NodeJS.ProcessEnv = process.env): QuoteEnv {
   return {
@@ -80,26 +64,6 @@ function fail(
   extra: Record<string, unknown> = {}
 ): QuoteResult {
   return { statusCode, body: { ok: false, status, message, ...extra, ...fallbackContact() } };
-}
-
-function trim(map: Map<string, unknown>) {
-  while (map.size > MAX_STORE_ENTRIES) {
-    const oldest = map.keys().next().value;
-    if (oldest === undefined) break;
-    map.delete(oldest);
-  }
-}
-
-export function checkRateLimit(store: QuoteStore, ip: string, now: number): boolean {
-  const entry = store.rate.get(ip);
-  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
-    store.rate.set(ip, { count: 1, windowStart: now });
-    trim(store.rate);
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT_MAX_REQUESTS) return false;
-  entry.count += 1;
-  return true;
 }
 
 export function generateReferenceId(now: Date = new Date()): string {
@@ -210,17 +174,21 @@ const defaultLog = (entry: Record<string, unknown>) => {
   console.info(JSON.stringify({ event: 'mrk_quote', ...entry }));
 };
 
+/** Same-instance concurrent duplicates share one in-flight send; cross-instance ones use the store lock. */
+const inFlight = new Map<string, Promise<QuoteResult>>();
+
 export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<QuoteResult> {
-  const store = options.store ?? defaultStore;
-  const now = options.now ?? Date.now;
   const log = options.log ?? defaultLog;
+  const store =
+    options.store ?? getQuoteStore(undefined, (op, err) => log({ status: 'store_fallback', op, err: String(err) }));
+  const now = options.now ?? Date.now;
   const fetchImpl = options.fetchImpl ?? fetch;
 
   if (!options.body || typeof options.body !== 'object') {
     return fail(400, 'bad_request', 'The request could not be read. Please try again.');
   }
 
-  if (!checkRateLimit(store, options.ip, now())) {
+  if (!(await store.rateLimit(options.ip, now()))) {
     log({ status: 'rate_limited' });
     return fail(
       429,
@@ -246,7 +214,7 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
 
   // Idempotency: a retry of an attempt that was already delivered never sends a second email.
   if (attemptId) {
-    const prior = store.delivered.get(attemptId);
+    const prior = await store.getDelivered(attemptId);
     if (prior) {
       return {
         statusCode: 200,
@@ -261,11 +229,21 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
         },
       };
     }
-    const pending = store.inFlight.get(attemptId);
+    const pending = inFlight.get(attemptId);
     if (pending) return pending;
+    if (!(await store.claim(attemptId))) {
+      // Another instance is sending this attempt right now. Never send a second copy.
+      log({ status: 'in_progress' });
+      return fail(
+        409,
+        'in_progress',
+        'Your request is already being sent. Please wait a few seconds before trying again.',
+        { moveBrief }
+      );
+    }
   }
 
-  const run = (async (): Promise<QuoteResult> => {
+  const work = async (): Promise<QuoteResult> => {
     const web3Key = options.env.WEB3FORMS_ACCESS_KEY?.trim();
     const resendKey = options.env.RESEND_API_KEY?.trim();
 
@@ -327,13 +305,18 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
     }
 
     if (attemptId) {
-      store.delivered.set(attemptId, { referenceId, timestamp, provider: confirmed.provider });
-      trim(store.delivered);
+      try {
+        await store.setDelivered(attemptId, { referenceId, timestamp, provider: confirmed.provider });
+      } catch (err) {
+        // The email WAS accepted by the provider; failing to remember it must not turn that into an error.
+        log({ status: 'record_failed', referenceId, err: String(err) });
+      }
     }
     log({
       status: 'delivered',
       referenceId,
       provider: confirmed.provider,
+      store: store.kind,
       service: sanitized.serviceType,
       pickup: sanitized.pickupSuburb,
       destination: sanitized.destinationSuburb,
@@ -342,11 +325,24 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
       statusCode: 200,
       body: { ok: true, status: 'delivered', referenceId, timestamp, moveBrief, ...fallbackContact() },
     };
+  };
+
+  // Release the lock before resolving so an immediate retry after a failure is never blocked.
+  const run = (async (): Promise<QuoteResult> => {
+    try {
+      return await work();
+    } finally {
+      if (attemptId) {
+        inFlight.delete(attemptId);
+        try {
+          await store.release(attemptId);
+        } catch {
+          // The claim expires on its own after CLAIM_TTL_SECONDS.
+        }
+      }
+    }
   })();
 
-  if (attemptId) {
-    store.inFlight.set(attemptId, run);
-    run.finally(() => store.inFlight.delete(attemptId)).catch(() => undefined);
-  }
+  if (attemptId) inFlight.set(attemptId, run);
   return run;
 }
