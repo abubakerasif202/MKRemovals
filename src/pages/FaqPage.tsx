@@ -49,14 +49,14 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
         />
 
         <div className="mt-4 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC]">
-            <HelpCircle className="w-3.5 h-3.5 text-[#38BDF8]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/10 border border-[#124FA3]/25 text-xs text-[#33445C]">
+            <HelpCircle className="w-3.5 h-3.5 text-[#124FA3]" />
             <span>Honest Moving Guidance · Adelaide, South Australia</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B33] tracking-tight">
             Frequently Asked Questions
           </h1>
-          <p className="text-base text-[#C9D2DC] leading-relaxed">
+          <p className="text-base text-[#33445C] leading-relaxed">
             Clear answers regarding our indicative $130–$135 hourly rate range, what details to
             confirm for your quote, apartment service lifts, and pre-move preparation.
           </p>
@@ -73,7 +73,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
             className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
               selectedCategory === category
                 ? 'bg-[#C81036] text-white shadow-md'
-                : 'bg-[#0E1420] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/20'
+                : 'bg-[#F3F7FC] text-[#33445C] hover:text-[#C81036] border border-[#D7E0EC]'
             }`}
           >
             {category}
@@ -88,28 +88,28 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
           return (
             <div
               key={faq.id}
-              className="mrk-surface rounded-2xl border border-[#C9D2DC]/15 overflow-hidden transition-colors hover:border-[#C9D2DC]/30 shadow-md"
+              className="mrk-surface rounded-2xl border border-[#D7E0EC] overflow-hidden transition-colors hover:border-[#B5C3D8] shadow-md"
             >
               <button
                 type="button"
                 onClick={() => setOpenId(isOpen ? '' : faq.id)}
                 aria-expanded={isOpen}
-                className="w-full px-6 py-4.5 text-left flex items-center justify-between gap-4 hover:bg-[#161E2E]/50 transition-colors cursor-pointer"
+                className="w-full px-6 py-4.5 text-left flex items-center justify-between gap-4 hover:bg-[#EEF3FA] transition-colors cursor-pointer"
               >
                 <div className="space-y-1">
-                  <p className="text-[11px] text-[#C5A15C] font-semibold uppercase tracking-wider">{faq.category}</p>
-                  <h2 className="font-display text-base sm:text-lg font-bold text-white">
+                  <p className="text-[11px] text-[#8A6414] font-semibold uppercase tracking-wider">{faq.category}</p>
+                  <h2 className="font-display text-base sm:text-lg font-bold text-[#0B1B33]">
                     {faq.question}
                   </h2>
                 </div>
                 {isOpen ? (
-                  <ChevronUp className="w-5 h-5 text-[#F2536F] shrink-0" />
+                  <ChevronUp className="w-5 h-5 text-[#C81036] shrink-0" />
                 ) : (
-                  <ChevronDown className="w-5 h-5 text-[#C9D2DC] shrink-0" />
+                  <ChevronDown className="w-5 h-5 text-[#33445C] shrink-0" />
                 )}
               </button>
               {isOpen && (
-                <div className="px-6 pb-5 pt-2 text-sm text-[#C9D2DC] leading-relaxed border-t border-[#C9D2DC]/10">
+                <div className="px-6 pb-5 pt-2 text-sm text-[#33445C] leading-relaxed border-t border-[#D7E0EC]">
                   {faq.answer}
                 </div>
               )}
@@ -119,13 +119,13 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Bottom CTA */}
-      <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#C9D2DC]/25 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl">
+      <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#D7E0EC] flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl">
         <div className="space-y-1.5 max-w-xl">
-          <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-[#0B1B33]">
             Still Have a Question About Your Adelaide Move?
           </h2>
-          <p className="text-xs sm:text-sm text-[#C9D2DC]">{formatIndicativeRateHeadline()}</p>
-          <p className="text-[11px] text-[#94A3B8] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
+          <p className="text-xs sm:text-sm text-[#33445C]">{formatIndicativeRateHeadline()}</p>
+          <p className="text-[11px] text-[#5B6B80] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 shrink-0">
@@ -142,9 +142,9 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
           </a>
           <a
             href={mrkBusiness.phoneHref}
-            className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
+            className="px-5 py-3 rounded-xl btn-secondary text-[#0B1B33] text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
           >
-            <Phone className="w-4 h-4 text-[#F2536F]" />
+            <Phone className="w-4 h-4 text-[#C81036]" />
             <span>Call {mrkBusiness.phoneDisplay}</span>
           </a>
         </div>

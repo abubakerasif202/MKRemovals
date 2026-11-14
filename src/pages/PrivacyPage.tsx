@@ -19,29 +19,29 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         />
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-[#C5A15C] font-medium">
+          <p className="text-xs text-[#8A6414] font-medium">
             Prepared for Owner &amp; Legal Review · South Australia
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0B1B33]">
             Privacy Policy — {mrkBusiness.brandName}
           </h1>
-          <p className="text-xs text-[#94A3B8]">
+          <p className="text-xs text-[#5B6B80]">
             Status: Draft prepared for review by {mrkBusiness.ownerContactName.value} (ABN{' '}
             {mrkBusiness.abn.value} supplied) prior to live commercial publication.
           </p>
         </div>
       </div>
 
-      <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-6 text-sm text-[#C9D2DC] leading-relaxed">
+      <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#D7E0EC] space-y-6 text-sm text-[#33445C] leading-relaxed">
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             1. Scope &amp; Purpose
           </h2>
           <p>
-            This Privacy Policy describes how <strong className="text-white">{mrkBusiness.brandName}</strong>{' '}
+            This Privacy Policy describes how <strong className="text-[#0B1B33]">{mrkBusiness.brandName}</strong>{' '}
             collects, uses, and protects personal information provided by visitors when requesting a
             moving quote or contacting us by telephone on{' '}
-            <a href={mrkBusiness.phoneHref} className="text-white underline font-mono">
+            <a href={mrkBusiness.phoneHref} className="text-[#0B1B33] underline font-mono">
               {mrkBusiness.phoneDisplay}
             </a>
             .
@@ -49,7 +49,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             2. Information We Collect for Moving Quotes
           </h2>
           <p>
@@ -65,7 +65,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             3. How Enquiry Data Is Handled
           </h2>
           <p>
@@ -81,7 +81,7 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             4. How Quote Requests Are Delivered
           </h2>
           <p>
@@ -93,14 +93,14 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             5. Contact &amp; Access Requests
           </h2>
           <p>
             To request access to, correction of, or deletion of any quote enquiry details you have
-            shared with <strong className="text-white">{mrkBusiness.brandName}</strong>, please
-            contact <strong className="text-white">{mrkBusiness.ownerContactName.value}</strong> on{' '}
-            <a href={mrkBusiness.phoneHref} className="text-white underline font-mono">
+            shared with <strong className="text-[#0B1B33]">{mrkBusiness.brandName}</strong>, please
+            contact <strong className="text-[#0B1B33]">{mrkBusiness.ownerContactName.value}</strong> on{' '}
+            <a href={mrkBusiness.phoneHref} className="text-[#0B1B33] underline font-mono">
               {mrkBusiness.phoneDisplay}
             </a>
             .

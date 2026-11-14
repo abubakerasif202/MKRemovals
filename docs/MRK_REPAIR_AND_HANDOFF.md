@@ -161,3 +161,39 @@ Test-reliability notes: the axe test initially failed intermittently because of 
 **Ship the audit PR after review.** It fixes live 404s on share/icon images, an LCP/no-JS regression, contrast, heading and link-text issues, and makes the quote protection genuinely serverless-capable. Suggested order: merge → send one test enquiry → provision Redis and set the two env vars (recommended, not blocking). Rollback: promote `dpl_9HjMSogBHfzTVoBbGuBYfB3ZaqAo`. No additional merge or deploy has been done without approval.
 
 Evidence: `docs/screenshots/audit/` (live contact sheet, scrolled full-page 375/1440, `live-audit.json` raw measurements).
+
+
+## 13. Bright theme (branch `design/bright-theme`, built on top of the audit branch / PR #4)
+
+**Why:** the client rejected the dark theme and asked for a bright, shiny site. This is a re-theme only: content, structure, pricing wording, quote flow and SEO are unchanged.
+
+### 13.1 What changed
+- **Canvas and surfaces:** near-white page with soft sky-blue and ruby light pools; glossy white cards (top highlight, sapphire-tinted shadow) replace the dark glass cards. Inner tiles, inputs and chips are light.
+- **Typography colours:** deep navy ink (`#0B1B33`) for headings, slate body (`#33445C`), muted (`#5B6B80`), ruby accent text (`#C81036`), deep gold for small labels (`#8A6414`). All chosen to pass WCAG AA on white.
+- **Shine:** glossy ruby buttons with a light sweep on hover (transform only), ruby-gradient display words, white secondary buttons with sapphire hover, ruby-to-sapphire closing banner with a blended truck photo.
+- **Hero:** now the sunlit crew-wrapping photo under a white wash (full on mobile for legibility, left-to-right fade on desktop), with the supplied logo card still floating on the right.
+- **Logo:** the logo artwork is designed for dark backgrounds, so the header and footer wordmark sit in a dark rounded badge. This keeps the supplied logo crisp and unmodified.
+- **Photos:** service photos are brightened (overlays lightened, brightness/saturation up).
+- Header, footer, forms, FAQ, pricing, about, contact, service pages, 404 and legal pages were all converted.
+
+### 13.2 Defects found and fixed during the re-theme
+- Selected tabs/filters and the closing banner initially had navy text on ruby fills (axe contrast 2.9:1). Fixed; white text on every solid ruby/sapphire fill.
+- Desktop navigation active/hover state and the mobile menu rendered white text on white after the automated pass. Fixed by hand.
+
+### 13.3 Verification (actual runs)
+| Check | Result |
+|---|---|
+| `npm run lint` | pass |
+| `npm test` | 44/44 |
+| `npm run build` | pass, 24 routes |
+| `npx playwright test` (production build, Chrome) | **39/39 pass**: includes axe (WCAG 2 A/AA, serious+critical) on 14 routes × 2 widths with 0 violations, overflow at 9 widths, and 4 new theme guards (bright canvas on 12 routes, no large dark panels, closing banner white text, glossy primary buttons) |
+| Leftover-dark scan, 13 routes | 0 dark panels (only intentional dark logo badges and selected chips) |
+| Lighthouse (local, simulated) | Mobile home 91 / a11y 100 / BP 100; desktop 99 / 100 / 100 (unchanged from the dark build: 93 and 99) |
+
+Evidence: `docs/screenshots/bright/` (hero 1440/390, full-page sheets at 1440 and 375, six inner pages).
+
+### 13.4 Notes and remaining
+- The dark badge behind the logo is deliberate. If the client wants a fully light logo lockup, a light-background logo variant must be supplied.
+- The AI-style photos remain; the three darkest (office, midnight truck, old office image) are brightened by filter only. Real MRK photography would lift the brightness further.
+- Not tested in Safari/Firefox; no manual screen-reader pass.
+- Not merged or deployed. This branch is stacked on PR #4 (audit); merge #4 first, or merge this PR into it.

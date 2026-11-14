@@ -23,49 +23,49 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onNavigate }) => {
         />
 
         <div className="mt-4 space-y-3">
-          <p className="text-xs text-[#C5A15C] font-medium">
+          <p className="text-xs text-[#8A6414] font-medium">
             Prepared for Owner &amp; Legal Review · South Australia
           </p>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0B1B33]">
             Website &amp; Quote Terms — {mrkBusiness.brandName}
           </h1>
-          <p className="text-xs text-[#94A3B8]">
+          <p className="text-xs text-[#5B6B80]">
             Status: Draft prepared for review by {mrkBusiness.ownerContactName.value} (ABN{' '}
             {mrkBusiness.abn.value} supplied) prior to live commercial publication.
           </p>
         </div>
       </div>
 
-      <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-6 text-sm text-[#C9D2DC] leading-relaxed">
+      <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#D7E0EC] space-y-6 text-sm text-[#33445C] leading-relaxed">
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             1. Quote Enquiries Are Not Automated Bookings
           </h2>
           <p>
-            Submitting a quote form on <strong className="text-white">{mrkBusiness.domain}</strong>{' '}
+            Submitting a quote form on <strong className="text-[#0B1B33]">{mrkBusiness.domain}</strong>{' '}
             constitutes an enquiry for a moving estimate and does not create a confirmed reservation
             or binding contract. A moving date and arrival window are only confirmed after{' '}
-            <strong className="text-white">{mrkBusiness.brandName}</strong> reviews your inventory
+            <strong className="text-[#0B1B33]">{mrkBusiness.brandName}</strong> reviews your inventory
             and access requirements and both parties explicitly agree to the quoted scope and terms.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             2. Indicative Hourly Rate Guidance ($130–$135/hr)
           </h2>
-          <p className="text-white font-medium">{formatIndicativeRateHeadline()}</p>
+          <p className="text-[#0B1B33] font-medium">{formatIndicativeRateHeadline()}</p>
           <p>{getMandatoryRateDisclaimer()}</p>
           <p>
             Any hourly figures shown on this website are general indicative guidance only. Crew
             allocation, truck capacity, minimum booking hours, travel/call-out charges, stair or
             heavy-item conditions must be confirmed directly with{' '}
-            <strong className="text-white">{mrkBusiness.brandName}</strong> for your specific job.
+            <strong className="text-[#0B1B33]">{mrkBusiness.brandName}</strong> for your specific job.
           </p>
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             3. Customer Disclosures &amp; Safe Access
           </h2>
           <p>
@@ -80,15 +80,15 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onNavigate }) => {
         </section>
 
         <section className="space-y-2">
-          <h2 className="font-display text-lg font-bold text-white">
+          <h2 className="font-display text-lg font-bold text-[#0B1B33]">
             4. Pending Commercial Policy Confirmation
           </h2>
           <p>
             Before entering into a moving service agreement, customers should request and review the
             applicable service terms covering cancellation/rescheduling notice, payment methods,
             transit goods handling, and liability/insurance provisions directly from{' '}
-            <strong className="text-white">{mrkBusiness.brandName}</strong> on{' '}
-            <a href={mrkBusiness.phoneHref} className="text-white underline font-mono">
+            <strong className="text-[#0B1B33]">{mrkBusiness.brandName}</strong> on{' '}
+            <a href={mrkBusiness.phoneHref} className="text-[#0B1B33] underline font-mono">
               {mrkBusiness.phoneDisplay}
             </a>
             .
