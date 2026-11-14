@@ -9,24 +9,39 @@ export const SeoHead: React.FC<SeoHeadProps> = ({ pathname }) => {
   const seo = resolveRouteSeo(pathname);
 
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+
     document.title = seo.title;
 
-    const updateMeta = (selector: string, attr: 'content' | 'href', value: string) => {
-      const el = document.querySelector(selector);
-      if (el) {
-        el.setAttribute(attr, value);
+    const setOrCreateMeta = (attrName: string, attrValue: string, contentValue: string) => {
+      let el = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attrName, attrValue);
+        document.head.appendChild(el);
       }
+      el.setAttribute('content', contentValue);
     };
 
-    updateMeta('meta[name="description"]', 'content', seo.description);
-    updateMeta('meta[name="robots"]', 'content', seo.robots);
-    updateMeta('link[rel="canonical"]', 'href', seo.canonicalUrl);
-    updateMeta('meta[property="og:title"]', 'content', seo.title);
-    updateMeta('meta[property="og:description"]', 'content', seo.description);
-    updateMeta('meta[property="og:url"]', 'content', seo.canonicalUrl);
-    updateMeta('meta[property="og:type"]', 'content', seo.ogType);
-    updateMeta('meta[name="twitter:title"]', 'content', seo.title);
-    updateMeta('meta[name="twitter:description"]', 'content', seo.description);
+    const setOrCreateCanonical = (url: string) => {
+      let link = document.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', 'canonical');
+        document.head.appendChild(link);
+      }
+      link.setAttribute('href', url);
+    };
+
+    setOrCreateMeta('name', 'description', seo.description);
+    setOrCreateMeta('name', 'robots', seo.robots);
+    setOrCreateCanonical(seo.canonicalUrl);
+    setOrCreateMeta('property', 'og:title', seo.title);
+    setOrCreateMeta('property', 'og:description', seo.description);
+    setOrCreateMeta('property', 'og:url', seo.canonicalUrl);
+    setOrCreateMeta('property', 'og:type', seo.ogType);
+    setOrCreateMeta('name', 'twitter:title', seo.title);
+    setOrCreateMeta('name', 'twitter:description', seo.description);
   }, [seo]);
 
   return (

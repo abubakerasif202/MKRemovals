@@ -1,5 +1,5 @@
 # MRK Removals Adelaide — Preview Robots Configuration
-# Set MRK_PRODUCTION_INDEXING=true after domain verification & owner sign-off.
+# Safe Preview: Search indexing is paused pending owner sign-off.
+# Set MRK_PRODUCTION_INDEXING=true to authorize live production crawling.
 User-agent: *
-Disallow: /api/
-Sitemap: https://mrkremovalsadelaide.com.au/sitemap.xml
+Disallow: /
