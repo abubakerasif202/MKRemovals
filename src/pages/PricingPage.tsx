@@ -7,7 +7,7 @@ import {
 } from '../config/business';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { MoveScopeBuilder } from '../components/interactive/MoveScopeBuilder';
-import { QuoteForm } from '../components/forms/QuoteForm';
+import { QuoteForm, SIZE_NOT_SELECTED } from '../components/forms/QuoteForm';
 
 interface PricingPageProps {
   onNavigate: (path: string) => void;
@@ -15,7 +15,7 @@ interface PricingPageProps {
 
 export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
   const [scopeNotes, setScopeNotes] = useState('');
-  const [scopeSize, setScopeSize] = useState('3–4 Bedroom Home');
+  const [scopeSize, setScopeSize] = useState(SIZE_NOT_SELECTED);
   const quoteFormRef = useRef<HTMLDivElement>(null);
 
   const handleApplyScope = (summary: string, sizeLabel: string) => {
