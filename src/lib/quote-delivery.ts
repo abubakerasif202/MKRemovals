@@ -1,5 +1,5 @@
-import { validateQuoteSubmission, formatMoveBriefText } from './quote-validation';
-import { mrkBusiness } from '../config/business';
+import { validateQuoteSubmission, formatMoveBriefText } from './quote-validation.js';
+import { mrkBusiness } from '../config/business.js';
 
 /**
  * Single authoritative quote-delivery flow, shared by the Vercel function (api/quote.ts)

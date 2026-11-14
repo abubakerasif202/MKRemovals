@@ -13,7 +13,7 @@
     "lint": "tsc --noEmit",
     "test:e2e": "playwright test",
     "images": "node scripts/optimize-images.mjs",
-    "test": "tsx --test src/config/business.test.ts src/lib/quote-validation.test.ts src/lib/seo.test.ts src/lib/quote-delivery.test.ts src/components/interactive/MoveScopeBuilder.test.ts"
+    "test": "tsx --test src/config/business.test.ts src/lib/quote-validation.test.ts src/lib/seo.test.ts src/lib/quote-delivery.test.ts src/lib/serverless-imports.test.ts src/components/interactive/MoveScopeBuilder.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
