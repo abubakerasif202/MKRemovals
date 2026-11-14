@@ -72,7 +72,7 @@ export const MRK_SERVICES: ServiceItem[] = [
     whatToConfirmWithUs: [
       'Exact pickup and delivery suburbs and whether settlement times constrain keys handover.',
       'Rough inventory of major furniture pieces (e.g., king beds, double-door fridges, outdoor spas or gym gear).',
-      'Applicable hourly rate ($130–$135/hr indicative range), crew allocation, minimum booking hours, and travel terms (rate includes GST).',
+      'Applicable hourly rate ($130–$135/hr indicative range), crew allocation, and the 3-hour minimum plus 1-hour call-out fee (rate includes GST).',
     ],
     adelaideLogisticsNote:
       'In established Adelaide suburbs with narrow heritage streets or timed school-zone clearways, early morning positioning helps keep truck loading smooth and uninterrupted.',
@@ -139,7 +139,7 @@ export const MRK_SERVICES: ServiceItem[] = [
     whatToConfirmWithUs: [
       'Exact lift booking start and finish times at both pickup and destination buildings.',
       'Maximum height clearance if the loading zone is covered or inside a podium level.',
-      'Hourly rate inclusions, minimum duration, and any parking/access requirements.',
+      'Hourly rate inclusions, the 3-hour minimum, and any parking/access requirements.',
     ],
     adelaideLogisticsNote:
       'Adelaide CBD streets (such as Waymouth, Pirie, Grote, and North Terrace precincts) often have ticketed loading zones or peak-hour bus lanes—confirming street kerbside rules ahead of time prevents delays.',
@@ -271,7 +271,7 @@ export const MRK_SERVICES: ServiceItem[] = [
     ],
     whatToConfirmWithUs: [
       'Exact list and rough measurements of each furniture piece or appliance.',
-      'Minimum booking hours and applicable hourly rate ($130–$135/hr indicative range) for small or single-item jobs.',
+      '3-hour minimum plus 1-hour call-out fee and applicable hourly rate ($130–$135/hr indicative range) for small or single-item jobs.',
       'Any fragile surfaces such as glass tabletops, stone slabs, or high-gloss cabinetry.',
     ],
     adelaideLogisticsNote:
@@ -280,7 +280,7 @@ export const MRK_SERVICES: ServiceItem[] = [
       {
         question: 'Is there a minimum booking time for moving just one or two items?',
         answer:
-          'Minimum hours and travel/call-out terms depend on your pickup and destination suburbs and scheduling window. Request a quote or call 0423 653 342 to confirm exact terms for your items.',
+          'A 3-hour minimum plus a 1-hour call-out fee applies, including for small or single-item jobs. Request a quote or call 0423 653 342 to confirm exact terms for your items.',
       },
       {
         question: 'Can you move a fridge upright?',

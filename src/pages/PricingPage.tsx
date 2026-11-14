@@ -110,11 +110,11 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
-                <span>Minimum booking hours &amp; billing increments</span>
+                <span>3-hour minimum booking</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
-                <span>Travel / call-out time between depot, pickup, and drop-off</span>
+                <span>1-hour call-out fee</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />

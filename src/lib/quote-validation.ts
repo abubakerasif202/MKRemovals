@@ -173,7 +173,7 @@ export function formatMoveBriefText(data: QuoteFormInput): string {
     data.inventoryNotes ? `Inventory & Notes: ${data.inventoryNotes}` : null,
     `----------------------------------------`,
     `Direct MRK Phone: 0423 653 342`,
-    `Indicative Rate Note: AUD $130–$135/hr (includes GST; subject to confirmation of inclusions, minimums & travel)`,
+    `Indicative Rate Note: AUD $130–$135/hr (includes GST; 3-hour minimum plus 1-hour call-out fee; inclusions confirmed in quote)`,
   ].filter(Boolean);
 
   return lines.join('\n');

@@ -45,12 +45,17 @@ test('Indicative hourly rate preserves AUD $130-$135 range with GST included and
   assert.equal(rate.currency, 'AUD');
   assert.equal(rate.unit, 'hour');
   assert.equal(rate.gst, 'included');
+  assert.equal(rate.minimumHours, '3 hours');
+  assert.equal(rate.callOutFee, '1 hour');
   assert.equal(rate.package, 'unconfirmed');
   assert.equal(
     formatIndicativeRateHeadline(),
     'Indicative hourly rates: $130–$135. Request a quote for your move.'
   );
-  assert.ok(getMandatoryRateDisclaimer().includes('Rates include GST'));
+  assert.ok(getMandatoryRateDisclaimer().includes('Rates include GST')
+  );
+  assert.ok(
+    getMandatoryRateDisclaimer().includes('3-hour minimum plus a 1-hour call-out fee'));
 });
 
 test('Zero HF Removals or Noor Removals brand leakage across all content, config, and SEO outputs', () => {
@@ -131,7 +136,7 @@ test('TRUST_BANNER_ITEMS defines the 4 core confidence pillars with icons', () =
   assert.equal(TRUST_BANNER_ITEMS.length, 4);
   assert.deepEqual(
     TRUST_BANNER_ITEMS.map((item) => item.title),
-    ['Owner-Led Service', 'Adelaide Local', 'Transparent Quotes', 'Careful Handling']
+    ['Owner-Led Service', 'Adelaide Local', 'Transparent Quotes', '$1M Insurance Cover']
   );
   for (const item of TRUST_BANNER_ITEMS) {
     assert.ok(typeof item.Icon === 'function' || typeof item.Icon === 'object');
@@ -139,3 +144,13 @@ test('TRUST_BANNER_ITEMS defines the 4 core confidence pillars with icons', () =
   }
 });
 
+
+test('owner-confirmed terms are published consistently and image captions stay empty', async () => {
+  const fs = await import('node:fs');
+  const pages = ['src/pages/HomePage.tsx', 'src/pages/ServiceDetailPage.tsx', 'src/pages/PricingPage.tsx'];
+  for (const p of pages) {
+    assert.ok(!/illustrative/i.test(fs.readFileSync(p, 'utf-8')), `${p} must not label images as illustrative`);
+  }
+  assert.equal(mrkBusiness.insurance?.value.wording, '$1 million insurance coverage');
+  assert.ok(/3-hour minimum plus a 1-hour call-out fee/.test(getMandatoryRateDisclaimer()));
+});

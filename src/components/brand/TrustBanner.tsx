@@ -34,16 +34,16 @@ export const TRUST_BANNER_ITEMS: TrustPillar[] = [
     title: 'Transparent Quotes',
     subtitle: 'Quote-only, no instant booking',
     description:
-      'Indicative hourly rates (including GST) are shown up front. Inclusions, minimums and travel charges are confirmed in your quote before you commit.',
+      'Indicative hourly rates (including GST) are shown up front: 3-hour minimum plus a 1-hour call-out fee. Inclusions are confirmed in your quote before you commit.',
     Icon: ShieldCheck,
     accentColor: '#C81036',
   },
   {
-    id: 'careful-handling',
-    title: 'Careful Handling',
-    subtitle: 'Access reviewed first',
+    id: 'insured',
+    title: '$1M Insurance Cover',
+    subtitle: 'Insured moves',
     description:
-      'Stairs, lifts, parking distance and heavy items are reviewed with you before moving day so the plan fits your property.',
+      'MRK Removals Adelaide holds $1 million of insurance coverage. Stairs, lifts, parking and heavy items are also reviewed with you before moving day.',
     Icon: PackageCheck,
     accentColor: '#C81036',
   },

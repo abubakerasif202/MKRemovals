@@ -33,8 +33,8 @@ export type MRKBusinessConfig = {
     unit: 'hour';
     gst: 'included';
     package: 'unconfirmed';
-    minimumHours: 'unconfirmed';
-    callOutFee: 'unconfirmed';
+    minimumHours: '3 hours';
+    callOutFee: '1 hour';
   }>;
   enquiryEmail: 'mkremovalsadelaide@gmail.com';
   enquiryEmailHref: 'mailto:mkremovalsadelaide@gmail.com';
@@ -96,19 +96,27 @@ export const mrkBusiness: MRKBusinessConfig = {
       unit: 'hour',
       gst: 'included',
       package: 'unconfirmed',
-      minimumHours: 'unconfirmed',
-      callOutFee: 'unconfirmed',
+      minimumHours: '3 hours',
+      callOutFee: '1 hour',
     },
     source: 'owner-brief',
     approvalStatus: 'supplied',
     publicationNote:
-      'Indicative hourly guidance. Owner confirmed the hourly rate includes GST. Truck size, crew allocation, minimum booking hours, and travel/access charges are confirmed per individual quote.',
+      'Indicative hourly guidance. Owner confirmed the hourly rate includes GST, with a 3-hour minimum and a 1-hour call-out fee. Truck size, crew allocation and any other charges are confirmed per individual quote.',
   },
   enquiryEmail: 'mkremovalsadelaide@gmail.com',
   enquiryEmailHref: 'mailto:mkremovalsadelaide@gmail.com',
   publicAddress: undefined,
   hours: undefined,
-  insurance: undefined,
+  insurance: {
+    value: {
+      wording: '$1 million insurance coverage',
+      restrictions: 'Policy type and terms not supplied; do not describe beyond the coverage amount.',
+    },
+    source: 'owner-brief',
+    approvalStatus: 'supplied',
+    publicationNote: 'Owner stated MRK holds 1M insurance coverage. Publish only as $1 million insurance coverage; do not name a policy type or insurer.',
+  },
   reviews: undefined,
   approvedServiceIds: [
     'house-removals',
@@ -160,7 +168,7 @@ export function formatIndicativeRateHeadline(): string {
 }
 
 export function getMandatoryRateDisclaimer(): string {
-  return 'Rates include GST. Final pricing depends on your moving requirements; please confirm inclusions, minimums and travel charges.';
+  return 'Rates include GST. 3-hour minimum plus a 1-hour call-out fee. Final pricing depends on your moving requirements; please confirm inclusions and any other charges.';
 }
 
 export type NavItem = {
