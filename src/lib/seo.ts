@@ -3,19 +3,94 @@ import { MRK_SERVICES, getServiceBySlug } from '../content/services';
 import { MRK_SERVICE_AREAS, getServiceAreaBySlug } from '../content/service-areas';
 import { MRK_FAQS } from '../content/faqs';
 
+export type RobotsDirective = 'index, follow' | 'noindex, nofollow';
+
 export interface RouteSeoMeta {
   title: string;
   description: string;
   canonicalUrl: string;
-  robots: string;
+  robots: RobotsDirective;
   ogType: 'website' | 'article';
   breadcrumbs: { name: string; path: string }[];
   jsonLd: Record<string, unknown>[];
 }
 
+/**
+ * Evaluates whether production indexing is currently authorized.
+ * Safe preview by default: requires explicit MRK_PRODUCTION_INDEXING=true or VITE_MRK_PRODUCTION_INDEXING=true.
+ */
+export function isProductionIndexingEnabled(): boolean {
+  if (typeof process !== 'undefined' && process.env) {
+    if (process.env.MRK_PREVIEW_ONLY === 'true') return false;
+    if (process.env.MRK_PRODUCTION_INDEXING === 'true') return true;
+    if (process.env.VITE_MRK_PRODUCTION_INDEXING === 'true') return true;
+    if (process.env.VERCEL_ENV === 'production') return true;
+  }
+  if (typeof import.meta !== 'undefined' && (import.meta as any).env) {
+    if ((import.meta as any).env.VITE_MRK_PREVIEW_ONLY === 'true') return false;
+    if ((import.meta as any).env.VITE_MRK_PRODUCTION_INDEXING === 'true') return true;
+    if ((import.meta as any).env.MRK_PRODUCTION_INDEXING === 'true') return true;
+    if ((import.meta as any).env.VERCEL_ENV === 'production') return true;
+  }
+  return false;
+}
+
 export function buildCanonicalUrl(pathname: string): string {
   const cleanPath = pathname === '/' ? '' : pathname.replace(/\/+$/, '');
   return `${mrkBusiness.canonicalOrigin}${cleanPath || '/'}`;
+}
+
+/**
+ * Approved canonical public routes that are eligible for search engine indexing
+ * once production indexing is authorized by the business owner.
+ */
+export const APPROVED_PUBLIC_CANONICAL_PATHS: string[] = [
+  '/',
+  '/services',
+  ...MRK_SERVICES.map((s) => `/services/${s.slug}`),
+  '/service-areas',
+  ...MRK_SERVICE_AREAS.map((a) => `/service-areas/${a.slug}`),
+  '/pricing',
+  '/about',
+  '/contact',
+  '/quote',
+  '/faq',
+];
+
+/**
+ * Unapproved drafts or internal routes that must ALWAYS remain strictly noindex, nofollow.
+ */
+export const RESTRICTED_NON_INDEXABLE_PATHS: string[] = [
+  '/privacy', // Marked as draft for legal review per AGENT.md
+  '/terms',   // Marked as draft for legal review per AGENT.md
+  '/404',
+];
+
+export function isApprovedPublicRoute(cleanPath: string): boolean {
+  return APPROVED_PUBLIC_CANONICAL_PATHS.includes(cleanPath);
+}
+
+/**
+ * Resolves the precise robots directive for any route.
+ * Guarantees that draft policies, unknown routes, and preview deployments stay noindex, nofollow.
+ */
+export function getRobotsDirectiveForRoute(
+  cleanPath: string,
+  isProductionAuthorized: boolean = isProductionIndexingEnabled()
+): RobotsDirective {
+  if (
+    cleanPath === '/404' ||
+    cleanPath.startsWith('/api/') ||
+    RESTRICTED_NON_INDEXABLE_PATHS.includes(cleanPath)
+  ) {
+    return 'noindex, nofollow';
+  }
+
+  if (!isApprovedPublicRoute(cleanPath)) {
+    return 'noindex, nofollow';
+  }
+
+  return isProductionAuthorized ? 'index, follow' : 'noindex, nofollow';
 }
 
 export function buildMovingCompanyJsonLd() {
@@ -91,9 +166,13 @@ export function calculateScrollProgress(
   return Math.max(0, Math.min(100, Number(ratio.toFixed(2))));
 }
 
-export function resolveRouteSeo(pathname: string): RouteSeoMeta {
+export function resolveRouteSeo(
+  pathname: string,
+  isProductionAuthorized: boolean = isProductionIndexingEnabled()
+): RouteSeoMeta {
   const cleanPath = pathname.split('?')[0].replace(/\/+$/, '') || '/';
   const baseOrg = buildMovingCompanyJsonLd();
+  const robots = getRobotsDirectiveForRoute(cleanPath, isProductionAuthorized);
 
   if (cleanPath === '/') {
     const breadcrumbs = [{ name: 'Home', path: '/' }];
@@ -102,7 +181,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Careful Adelaide removalists for houses, apartments, offices and furniture moves. Indicative hourly rates $130–$135. Request a quote or call 0423 653 342.',
       canonicalUrl: buildCanonicalUrl('/'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -119,7 +198,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Explore residential house removals, apartment & strata moves, office relocations, furniture pickups, and packing prep across Adelaide. Call 0423 653 342.',
       canonicalUrl: buildCanonicalUrl('/services'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -153,7 +232,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
         title: `${service.title} Adelaide | MRK Removals Adelaide`,
         description: `${service.summary} Request a tailored moving quote or call 0423 653 342.`,
         canonicalUrl: buildCanonicalUrl(`/services/${service.slug}`),
-        robots: 'noindex, nofollow',
+        robots,
         ogType: 'article',
         breadcrumbs,
         jsonLd: [baseOrg, serviceSchema, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -171,7 +250,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Local Adelaide moving logistics across Central, East, West, North, South, Hills and Coastal suburbs. Practical access, parking and strata planning tips.',
       canonicalUrl: buildCanonicalUrl('/service-areas'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -191,7 +270,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
         title: `Removalists ${area.title} | MRK Removals Adelaide`,
         description: `${area.summary} Plan access, parking, and moving logistics with MRK Removals Adelaide. Call 0423 653 342.`,
         canonicalUrl: buildCanonicalUrl(`/service-areas/${area.slug}`),
-        robots: 'noindex, nofollow',
+        robots,
         ogType: 'article',
         breadcrumbs,
         jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -209,7 +288,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Transparent indicative hourly rates ($130–$135/hr) and what affects your Adelaide moving quote. Confirm inclusions, minimums, travel charges and GST.',
       canonicalUrl: buildCanonicalUrl('/pricing'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -226,7 +305,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Learn how MRK Removals Adelaide approaches house, apartment, and office moves with clear communication, careful loading, and practical local planning.',
       canonicalUrl: buildCanonicalUrl('/about'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -243,7 +322,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Speak directly with MRK Removals Adelaide on 0423 653 342 or submit your moving quote enquiry online for residential, apartment, and office moves.',
       canonicalUrl: buildCanonicalUrl('/contact'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -260,7 +339,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Submit your pickup and destination suburbs, inventory, and access details for a tailored Adelaide moving quote from MRK Removals Adelaide.',
       canonicalUrl: buildCanonicalUrl('/quote'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -277,7 +356,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Answers to common Adelaide moving questions including indicative $130–$135/hr rates, apartment lift windows, appliance preparation, and restricted items.',
       canonicalUrl: buildCanonicalUrl('/faq'),
-      robots: 'noindex, nofollow',
+      robots,
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -294,7 +373,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'How MRK Removals Adelaide collects, uses, and safeguards moving quote enquiry information in accordance with Australian Privacy Principles.',
       canonicalUrl: buildCanonicalUrl('/privacy'),
-      robots: 'noindex, nofollow',
+      robots: 'noindex, nofollow', // Strictly restricted draft
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
@@ -311,13 +390,14 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       description:
         'Terms governing website usage, indicative hourly rate guidance ($130–$135/hr), and quote enquiries for MRK Removals Adelaide.',
       canonicalUrl: buildCanonicalUrl('/terms'),
-      robots: 'noindex, nofollow',
+      robots: 'noindex, nofollow', // Strictly restricted draft
       ogType: 'website',
       breadcrumbs,
       jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
     };
   }
 
+  // 404 / Unknown route fallback
   return {
     title: 'Page Not Found (404) | MRK Removals Adelaide',
     description: 'The requested page could not be found on MRK Removals Adelaide.',
@@ -329,26 +409,19 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
   };
 }
 
+/**
+ * Returns all approved public indexable canonical paths for sitemap and prerender generation.
+ */
 export function getAllCanonicalPaths(): string[] {
-  const staticPaths = [
-    '/',
-    '/services',
-    '/service-areas',
-    '/pricing',
-    '/about',
-    '/contact',
-    '/quote',
-    '/faq',
-    '/privacy',
-    '/terms',
-  ];
-  const servicePaths = MRK_SERVICES.map((s) => `/services/${s.slug}`);
-  const areaPaths = MRK_SERVICE_AREAS.map((a) => `/service-areas/${a.slug}`);
-  return [...staticPaths, ...servicePaths, ...areaPaths];
+  return [...APPROVED_PUBLIC_CANONICAL_PATHS];
 }
 
+/**
+ * Generates XML Sitemap containing strictly approved public canonical indexable routes.
+ * Excludes legal drafts, 404 pages, and administrative routes.
+ */
 export function generateSitemapXml(): string {
-  const paths = getAllCanonicalPaths();
+  const paths = APPROVED_PUBLIC_CANONICAL_PATHS;
   const urls = paths
     .map((p) => {
       const loc = buildCanonicalUrl(p);
@@ -360,21 +433,30 @@ export function generateSitemapXml(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
 }
 
-export function generateRobotsTxt(isProductionAuthorized = false): string {
+/**
+ * Generates robots.txt based on production indexing authorization.
+ * In preview mode, crawlers are globally disallowed.
+ * In authorized production mode, public routes are allowed while /api/, drafts, and 404s remain restricted.
+ */
+export function generateRobotsTxt(isProductionAuthorized: boolean = isProductionIndexingEnabled()): string {
   if (!isProductionAuthorized) {
-    // Per AGENT.md Section 3.4 & 12: Keep preview safe from premature search indexing until owner authorizes live launch
     return [
       '# MRK Removals Adelaide — Preview Robots Configuration',
-      '# Set MRK_PRODUCTION_INDEXING=true after domain verification & owner sign-off.',
+      '# Safe Preview: Search indexing is paused pending owner sign-off.',
+      '# Set MRK_PRODUCTION_INDEXING=true to authorize live production crawling.',
       'User-agent: *',
-      'Disallow: /api/',
-      `Sitemap: ${mrkBusiness.canonicalOrigin}/sitemap.xml`,
+      'Disallow: /',
     ].join('\n');
   }
+
   return [
+    '# MRK Removals Adelaide — Production Robots Configuration',
     'User-agent: *',
     'Allow: /',
     'Disallow: /api/',
+    'Disallow: /privacy',
+    'Disallow: /terms',
+    'Disallow: /404',
     `Sitemap: ${mrkBusiness.canonicalOrigin}/sitemap.xml`,
   ].join('\n');
 }

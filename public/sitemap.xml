@@ -11,46 +11,6 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://mrkremovalsadelaide.com.au/service-areas</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/pricing</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/about</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/contact</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/quote</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/faq</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/privacy</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mrkremovalsadelaide.com.au/terms</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://mrkremovalsadelaide.com.au/services/house-removals</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -79,6 +39,11 @@
     <loc>https://mrkremovalsadelaide.com.au/services/heavy-bulky-item-moves</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mrkremovalsadelaide.com.au/service-areas</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://mrkremovalsadelaide.com.au/service-areas/adelaide-cbd-park-lands</loc>
@@ -112,6 +77,31 @@
   </url>
   <url>
     <loc>https://mrkremovalsadelaide.com.au/service-areas/tea-tree-gully-modbury-north-east</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mrkremovalsadelaide.com.au/pricing</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mrkremovalsadelaide.com.au/about</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mrkremovalsadelaide.com.au/contact</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mrkremovalsadelaide.com.au/quote</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mrkremovalsadelaide.com.au/faq</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

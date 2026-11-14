@@ -17,13 +17,26 @@ import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-export default function App() {
-  const [locationState, setLocationState] = useState<{ pathname: string; search: string }>(() => ({
-    pathname: window.location.pathname || '/',
-    search: window.location.search || '',
-  }));
+export interface AppProps {
+  initialPath?: string;
+}
+
+export default function App({ initialPath }: AppProps = {}): React.ReactElement {
+  const [locationState, setLocationState] = useState<{ pathname: string; search: string }>(() => {
+    if (typeof window !== 'undefined') {
+      return {
+        pathname: window.location.pathname || '/',
+        search: window.location.search || '',
+      };
+    }
+    const [rawPath, rawSearch] = (initialPath || '/').split('?');
+    const pathname = rawPath.replace(/\/+$/, '') || '/';
+    const search = rawSearch ? `?${rawSearch}` : '';
+    return { pathname, search };
+  });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const handlePopState = () => {
       setLocationState({
         pathname: window.location.pathname || '/',
@@ -40,15 +53,17 @@ export default function App() {
     const search = rawSearch ? `?${rawSearch}` : '';
     const fullUrl = `${pathname}${search}`;
 
-    if (
-      window.location.pathname !== pathname ||
-      window.location.search !== search
-    ) {
-      window.history.pushState({}, '', fullUrl);
+    if (typeof window !== 'undefined') {
+      if (
+        window.location.pathname !== pathname ||
+        window.location.search !== search
+      ) {
+        window.history.pushState({}, '', fullUrl);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     setLocationState({ pathname, search });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const { pathname, search } = locationState;
