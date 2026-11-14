@@ -24,6 +24,8 @@ test('MRK business identity matches exact owner-supplied specification', () => {
   assert.equal(mrkBusiness.ownerContactName.value, 'Mubashar Riaz');
   assert.equal(mrkBusiness.phoneDisplay, '0423 653 342');
   assert.equal(mrkBusiness.phoneHref, 'tel:+61423653342');
+  assert.equal(mrkBusiness.enquiryEmail, 'mkremovalsadelaide@gmail.com');
+  assert.equal(mrkBusiness.enquiryEmailHref, 'mailto:mkremovalsadelaide@gmail.com');
   assert.equal(mrkBusiness.domain, 'mrkremovalsadelaide.com.au');
   assert.equal(mrkBusiness.canonicalOrigin, 'https://mrkremovalsadelaide.com.au');
   assert.equal(mrkBusiness.bookingMode, 'quote-only');

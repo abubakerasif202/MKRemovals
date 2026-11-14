@@ -58,12 +58,14 @@ async function createServer() {
   // Quote system configuration status endpoint
   app.get('/api/quote/config', (_req, res) => {
     const providerConfigured = Boolean(
-      process.env.MRK_QUOTE_PROVIDER_URL && process.env.MRK_QUOTE_PROVIDER_URL.trim().length > 0
+      (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY.trim().length > 0) ||
+        (process.env.MRK_QUOTE_PROVIDER_URL && process.env.MRK_QUOTE_PROVIDER_URL.trim().length > 0)
     );
     res.json({
       brandName: mrkBusiness.brandName,
       bookingMode: mrkBusiness.bookingMode,
       providerConfigured,
+      deliveryEmail: mrkBusiness.enquiryEmail,
       directPhoneDisplay: mrkBusiness.phoneDisplay,
       directPhoneHref: mrkBusiness.phoneHref,
       recentPreviewEnquiriesCount: previewQuoteLedger.length,
@@ -123,6 +125,55 @@ async function createServer() {
     const timestamp = new Date().toISOString();
     const moveBrief = formatMoveBriefText(sanitized);
 
+    // Live direct email delivery via Resend if RESEND_API_KEY is configured
+    const resendKey = process.env.RESEND_API_KEY?.trim();
+    if (resendKey) {
+      try {
+        const emailRes = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${resendKey}`,
+          },
+          body: JSON.stringify({
+            from: process.env.RESEND_FROM_EMAIL || 'MRK Moving Quotes <onboarding@resend.dev>',
+            to: [mrkBusiness.enquiryEmail],
+            reply_to: sanitized.email || undefined,
+            subject: `New Moving Quote: ${sanitized.pickupSuburb} to ${sanitized.destinationSuburb} [${referenceId}]`,
+            text: moveBrief,
+          }),
+        });
+
+        if (emailRes.ok) {
+          if (sanitized.attemptId) {
+            processedAttempts.set(sanitized.attemptId, { referenceId, status: 'delivered', timestamp });
+          }
+          previewQuoteLedger.unshift({
+            referenceId,
+            receivedAt: timestamp,
+            pickupSuburb: sanitized.pickupSuburb,
+            destinationSuburb: sanitized.destinationSuburb,
+            serviceType: sanitized.serviceType,
+            status: 'delivered',
+          });
+          res.status(200).json({
+            ok: true,
+            status: 'delivered',
+            referenceId,
+            timestamp,
+            deliveryEmail: mrkBusiness.enquiryEmail,
+            message: `Your moving quote request has been delivered directly to ${mrkBusiness.enquiryEmail}.`,
+            moveBrief,
+            fallbackPhone: mrkBusiness.phoneDisplay,
+            fallbackPhoneHref: mrkBusiness.phoneHref,
+          });
+          return;
+        }
+      } catch (err) {
+        console.error('Error delivering quote email via Resend:', err);
+      }
+    }
+
     const providerUrl = process.env.MRK_QUOTE_PROVIDER_URL?.trim();
 
     if (providerUrl) {
@@ -152,6 +203,7 @@ async function createServer() {
           body: JSON.stringify({
             referenceId,
             brand: mrkBusiness.brandName,
+            deliveryEmail: mrkBusiness.enquiryEmail,
             enquiry: sanitized,
             formattedBrief: moveBrief,
           }),
@@ -192,7 +244,8 @@ async function createServer() {
           status: 'delivered',
           referenceId,
           timestamp,
-          message: 'Your moving quote request has been delivered to MRK Removals Adelaide.',
+          deliveryEmail: mrkBusiness.enquiryEmail,
+          message: `Your moving quote request has been delivered to ${mrkBusiness.enquiryEmail}.`,
           moveBrief,
           fallbackPhone: mrkBusiness.phoneDisplay,
           fallbackPhoneHref: mrkBusiness.phoneHref,
@@ -210,7 +263,7 @@ async function createServer() {
       }
     }
 
-    // Honest preview behavior when MRK_QUOTE_PROVIDER_URL is not yet connected:
+    // Honest preview behavior when MRK_QUOTE_PROVIDER_URL / RESEND_API_KEY is not yet connected:
     // Record in preview session and return status: 'recorded_preview' (never falsely claiming live inbox delivery).
     if (sanitized.attemptId) {
       processedAttempts.set(sanitized.attemptId, {
@@ -234,8 +287,8 @@ async function createServer() {
       status: 'recorded_preview',
       referenceId,
       timestamp,
-      message:
-        'Quote details validated and formatted in preview mode. Because live email delivery awaits owner inbox activation, please call 0423 653 342 with your Move Brief below for immediate scheduling.',
+      deliveryEmail: mrkBusiness.enquiryEmail,
+      message: `Quote details validated and formatted for ${mrkBusiness.enquiryEmail}. You can send your brief using the email button below or call ${mrkBusiness.phoneDisplay} directly.`,
       moveBrief,
       fallbackPhone: mrkBusiness.phoneDisplay,
       fallbackPhoneHref: mrkBusiness.phoneHref,

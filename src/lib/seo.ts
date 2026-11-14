@@ -28,6 +28,7 @@ export function buildMovingCompanyJsonLd() {
     name: mrkBusiness.brandName,
     url: mrkBusiness.canonicalOrigin,
     telephone: mrkBusiness.phoneInternational,
+    email: mrkBusiness.enquiryEmail,
     areaServed: {
       '@type': 'City',
       name: 'Adelaide',
@@ -39,6 +40,7 @@ export function buildMovingCompanyJsonLd() {
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: mrkBusiness.phoneInternational,
+      email: mrkBusiness.enquiryEmail,
       contactType: 'customer service',
       areaServed: 'AU-SA',
       availableLanguage: ['English'],

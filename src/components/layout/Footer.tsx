@@ -59,6 +59,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   </a>
                 </p>
                 <p>
+                  <span className="text-[#94A3B8]">Email: </span>
+                  <a
+                    href={mrkBusiness.enquiryEmailHref}
+                    className="font-mono text-xs sm:text-sm text-white hover:text-[#C81036] transition-colors"
+                  >
+                    {mrkBusiness.enquiryEmail}
+                  </a>
+                </p>
+                <p>
                   <span className="text-[#94A3B8]">Contact: </span>
                   <span className="text-[#F5F7FA]">{mrkBusiness.ownerContactName.value}</span>
                 </p>

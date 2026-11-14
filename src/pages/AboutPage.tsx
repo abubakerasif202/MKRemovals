@@ -87,6 +87,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
+                <dt className="text-[#94A3B8]">Direct Email</dt>
+                <dd className="font-mono text-white text-right text-xs sm:text-sm">
+                  <a href={mrkBusiness.enquiryEmailHref} className="hover:text-[#C81036] underline">
+                    {mrkBusiness.enquiryEmail}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex justify-between gap-4">
                 <dt className="text-[#94A3B8]">Owner-Supplied ABN</dt>
                 <dd className="font-mono text-white text-right tabular-nums">
                   {mrkBusiness.abn.value}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Check, Copy, AlertCircle, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react';
+import { Phone, Check, Copy, AlertCircle, RotateCcw, ChevronDown, ChevronUp, Mail } from 'lucide-react';
 import {
   validateQuoteSubmission,
   type QuoteFormInput,
@@ -272,6 +272,13 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             >
               <Phone className="w-4 h-4" />
               <span>Call {mrkBusiness.phoneDisplay}</span>
+            </a>
+            <a
+              href={`${mrkBusiness.enquiryEmailHref}?subject=${encodeURIComponent(`Moving Quote Request: ${formData.pickupSuburb} to ${formData.destinationSuburb} [${outcome.referenceId || 'MRK'}]`)}&body=${encodeURIComponent(outcome.moveBrief || '')}`}
+              className="w-full py-2.5 px-4 rounded-lg bg-[#090D15] hover:bg-[#1A2234] border border-[#C5A15C]/40 hover:border-[#C5A15C] text-[#F5F7FA] text-xs font-semibold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#C5A15C]" />
+              <span>Email Move Brief to {mrkBusiness.enquiryEmail}</span>
             </a>
             <p className="text-[11px] text-[#94A3B8] leading-normal">
               {getMandatoryRateDisclaimer()}

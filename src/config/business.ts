@@ -36,7 +36,8 @@ export type MRKBusinessConfig = {
     minimumHours: 'unconfirmed';
     callOutFee: 'unconfirmed';
   }>;
-  enquiryEmail?: string;
+  enquiryEmail: 'mkremovalsadelaide@gmail.com';
+  enquiryEmailHref: 'mailto:mkremovalsadelaide@gmail.com';
   publicAddress?: EvidenceValue<string>;
   hours?: EvidenceValue<string>;
   insurance?: EvidenceValue<{ wording: string; restrictions: string }>;
@@ -101,7 +102,8 @@ export const mrkBusiness: MRKBusinessConfig = {
     publicationNote:
       'Indicative hourly guidance only. Truck size, crew allocation, GST treatment, minimum booking hours, and travel/access charges are confirmed per individual quote.',
   },
-  enquiryEmail: undefined,
+  enquiryEmail: 'mkremovalsadelaide@gmail.com',
+  enquiryEmailHref: 'mailto:mkremovalsadelaide@gmail.com',
   publicAddress: undefined,
   hours: undefined,
   insurance: undefined,

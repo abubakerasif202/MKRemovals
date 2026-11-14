@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MapPin, ShieldCheck, Clock, Sparkles } from 'lucide-react';
+import { Phone, MapPin, ShieldCheck, Clock, Sparkles, Mail } from 'lucide-react';
 import {
   mrkBusiness,
   formatIndicativeRateHeadline,
@@ -57,13 +57,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 Call directly to discuss pickup and destination suburbs, inventory volume, stairs or
                 apartment lift windows, and date availability.
               </p>
-              <div className="pt-2">
+              <div className="pt-2 flex flex-col gap-2">
                 <a
                   href={mrkBusiness.phoneHref}
                   className="w-full py-3.5 px-4 rounded-xl btn-ruby text-white text-sm font-bold inline-flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Call {mrkBusiness.phoneDisplay}</span>
+                </a>
+                <a
+                  href={mrkBusiness.enquiryEmailHref}
+                  className="w-full py-3 px-4 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <Mail className="w-4 h-4 text-[#C5A15C]" />
+                  <span>Email {mrkBusiness.enquiryEmail}</span>
                 </a>
               </div>
             </div>
@@ -74,6 +81,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 <span className="text-white font-semibold">
                   {mrkBusiness.ownerContactName.value}
                 </span>
+              </div>
+              <div className="flex justify-between gap-2">
+                <span className="text-[#94A3B8]">Direct Email</span>
+                <a
+                  href={mrkBusiness.enquiryEmailHref}
+                  className="text-[#F5F7FA] hover:text-[#C81036] font-mono underline"
+                >
+                  {mrkBusiness.enquiryEmail}
+                </a>
               </div>
               <div className="flex justify-between gap-2">
                 <span className="text-[#94A3B8]">Service Base</span>
