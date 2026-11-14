@@ -6,7 +6,7 @@
 
 ## 1. Executive summary
 
-The live site already had correct prerendered, indexable route HTML (verified against the custom domain). The real defects were in lead delivery, inventory defaults, unverified claims and image weight. These are repaired on the branch, covered by unit and browser tests, and verified on a Vercel preview. **One owner-authorised live test enquiry is still required before merge** (section 9).
+The live site already had correct prerendered, indexable route HTML (verified against the custom domain). The real defects were in lead delivery, inventory defaults, unverified claims and image weight. These are repaired on the branch, covered by unit and browser tests, and verified on a Vercel preview. The owner reports the live test enquiry is already done (not independently verified by me).
 
 ## 2. Initial defects
 
@@ -49,7 +49,7 @@ Web3Forms is now called **server-side**. Web3Forms may restrict server-side call
 
 Hero: Adelaide skyline image, one dominant "Get a Free Quote" CTA, one click-to-call, visible indicative-rate line. Homepage order: hero → trust → services → pricing & inclusions → process → quote form → (reviews omitted: none verified) → coverage → optional inventory → FAQ + closing CTA. Touch targets ≥44px. Reduced motion respected (`useReducedMotion`).
 
-**Not done:** video, and "authentic relocation photography". The photos in the repo are AI-generated concept art, so they are captioned "Illustrative image". Real MRK truck/crew photos are needed from the owner. The 70/30 2D/3D target is met by removal of the interactive 3D-style scene rather than addition.
+**Owner-supplied imagery (round 2):** the supplied logo, boulevard/midnight truck renders, crew and armchair images are now used (header/footer wordmark crop, hero logo card, process section, closing CTA). They are AI-style renders, so they stay captioned "Illustrative image" until real MRK photos exist. **Animation (round 2):** hero slow zoom, staggered text, floating logo card, glow on the main CTA, scroll-reveal (CSS, Chromium; other browsers show content statically), image hover zoom, drifting CTA background. All disabled under `prefers-reduced-motion`. **Not done:** video.
 
 ## 6. SEO & performance
 
@@ -79,20 +79,20 @@ A real defect was caught by the preview check: the first deploy crashed `/api/qu
 
 ## 9. Outstanding owner approvals / actions
 
-1. **Authorise one live test enquiry** after merge to confirm Web3Forms delivery from Vercel.
+1. ~~Live test enquiry~~ Owner states this is done.
 2. Confirm inbox: `mkremovalsadelaide@gmail.com` vs an `mrk…` address (MK/MRK spelling not changed).
-3. Rate inclusions, GST, minimum hours, call-out fee (all still shown as unconfirmed).
-4. ABR entity name for ABN `95 685 822 473`; insurance wording/certificates before any insurance claim returns.
-5. Real photos of trucks/crew; verified Google reviews (the reviews section is intentionally absent).
+3. GST: owner confirmed the hourly rate **includes GST** (now stated site-wide). Still unconfirmed: minimum hours, call-out fee, crew/truck inclusions. ABN entity name: owner confirmed it is exactly "MRK Removals Adelaide" (no change needed).
+4. Insurance wording/certificates before any insurance claim returns.
+5. Verified Google reviews (the reviews section is intentionally absent); real MRK photos when available.
 6. Legal review of Privacy/Terms drafts.
 7. Whether to keep a persistent lead record (database/CRM) beyond the runtime log.
 
 ## 10. Production release checklist
 
-- [ ] Owner approvals 1–2 above
+- [ ] Confirm inbox spelling (item 2)
 - [ ] PR #2 reviewed; checks green
 - [ ] Merge to `main` (Vercel auto-deploys production)
-- [ ] Immediately send one owner-authorised enquiry; confirm email arrives
+- [ ] Send one enquiry after deploy to confirm email still arrives
 - [ ] `curl -I` home and `/services`, `robots.txt`, `sitemap.xml` on the custom domain
 - [ ] Confirm production env: `web3form_key` (or `WEB3FORMS_ACCESS_KEY`), `VITE_MRK_PRODUCTION_INDEXING`, `MRK_PRODUCTION_INDEXING`
 

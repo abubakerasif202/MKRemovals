@@ -156,3 +156,63 @@
     transform: none;
   }
 }
+
+/* ------------------------------------------------------------------
+   Motion system. Pure CSS so prerendered HTML is always visible,
+   and everything is disabled under prefers-reduced-motion.
+   ------------------------------------------------------------------ */
+@keyframes mrk-kenburns {
+  from { transform: scale(1.14) translate3d(1.5%, 0, 0); }
+  to   { transform: scale(1) translate3d(0, 0, 0); }
+}
+@keyframes mrk-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -12px, 0); }
+}
+@keyframes mrk-reveal {
+  from { opacity: 0; transform: translate3d(0, 32px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes mrk-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200, 16, 54, 0.0), 0 18px 40px -18px rgba(200, 16, 54, 0.55); }
+  50%      { box-shadow: 0 0 0 6px rgba(200, 16, 54, 0.12), 0 22px 48px -16px rgba(200, 16, 54, 0.8); }
+}
+@keyframes mrk-drive {
+  from { transform: translate3d(-4%, 0, 0) scale(1.08); }
+  to   { transform: translate3d(0, 0, 0) scale(1.08); }
+}
+@keyframes mrk-sheen {
+  from { background-position: -140% 0; }
+  to   { background-position: 240% 0; }
+}
+
+.mrk-kenburns { animation: mrk-kenburns 24s ease-out both; will-change: transform; }
+.mrk-float    { animation: mrk-float 7s ease-in-out infinite; }
+.mrk-glow     { animation: mrk-glow 3.6s ease-in-out infinite; }
+.mrk-drive    { animation: mrk-drive 14s ease-out both; will-change: transform; }
+
+.mrk-photo-zoom img { transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1); }
+.mrk-photo-zoom:hover img { transform: scale(1.05); }
+
+.mrk-sheen-line {
+  background: linear-gradient(100deg, transparent 0%, rgba(201, 210, 220, 0.9) 45%, transparent 60%);
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: mrk-sheen 4.5s ease-in-out infinite;
+}
+
+/* Scroll reveal: progressive enhancement (Chromium). Elsewhere content simply shows. */
+@supports (animation-timeline: view()) {
+  .mrk-reveal {
+    animation: mrk-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mrk-kenburns, .mrk-float, .mrk-glow, .mrk-drive, .mrk-sheen-line, .mrk-reveal {
+    animation: none !important;
+  }
+  .mrk-photo-zoom:hover img { transform: none; }
+}

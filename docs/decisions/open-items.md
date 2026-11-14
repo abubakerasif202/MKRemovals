@@ -6,8 +6,8 @@ These items are tracked for Mubashar Riaz's confirmation prior to production dom
 
 1. **Quote Delivery Provider & Dedicated Inbox**
    - **Current Behaviour:** `/api/quote` is the only submission path. It delivers via Web3Forms (key read from `WEB3FORMS_ACCESS_KEY`, or the existing Vercel production secret `web3form_key`), with optional Resend fallback. The form shows "Quote Sent Successfully" only when the provider confirms delivery; otherwise it keeps the customer's data and offers retry, email and call. Preview deployments have no key, so they report `not_configured` honestly.
-   - **Owner Action Required:** (a) Authorise one live test enquiry to confirm server-side Web3Forms delivery from Vercel (not yet performed). (b) Confirm whether enquiries should go to a dedicated MRK inbox rather than `mkremovalsadelaide@gmail.com` (MK vs MRK spelling is a known point to verify, not changed). (c) Decide whether a persistent lead store is wanted; today the audit trail is a PII-free runtime log line only.
-2. **Rate Inclusions, GST & Minimum Billing Terms**
+   - **Owner Action Required:** (a) Live test enquiry: owner reports done. (b) Confirm whether enquiries should go to a dedicated MRK inbox rather than `mkremovalsadelaide@gmail.com` (MK vs MRK spelling is a known point to verify, not changed). (c) Decide whether a persistent lead store is wanted; today the audit trail is a PII-free runtime log line only.
+2. **Rate Inclusions & Minimum Billing Terms** (GST confirmed by owner: the hourly rate includes GST)
    - **Current Preview Behaviour:** Displays `Indicative hourly rates: $130–$135` with explicit qualification that GST, truck size, crew count, minimum hours, call-out/travel charges, stairs, and heavy-item conditions are confirmed per move quote.
    - **Owner Action Required:** Confirm whether $130/hr and $135/hr correspond to specific crew/truck configurations or weekday/weekend rates, whether rates include GST, and what minimum hours or call-out fees apply.
 

@@ -40,6 +40,16 @@ for (const width of [375, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await page.waitForLoadState('networkidle');
+    // Scroll through the page so lazy images and scroll-reveal animations have run.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += 500) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 120));
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(600);
     fs.mkdirSync(SHOTS, { recursive: true });
     await page.screenshot({ path: path.join(SHOTS, `home-${width}.png`), fullPage: true });
   });

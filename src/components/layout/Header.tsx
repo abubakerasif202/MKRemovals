@@ -46,21 +46,13 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
           onClick={(e) => handleLinkClick(e, '/')}
           className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C81036] select-none"
         >
-          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl overflow-hidden p-0.5 bg-gradient-to-br from-[#C81036] via-[#124FA3]/40 to-[#090D15] border border-[#C9D2DC]/30 shadow-[0_0_15px_rgba(200,16,54,0.35)] shrink-0 flex items-center justify-center transition-transform group-hover:scale-105">
-            <img
-              src={mrkBusiness.brandAssets.badgeConcept}
-              alt="MRK Removals Adelaide Logo"
-              className="w-full h-full object-contain"
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-display text-base sm:text-lg font-extrabold tracking-wider text-platinum-sheen leading-none flex items-center gap-1.5">
-              MRK <span className="text-[#C81036] text-[10px] sm:text-xs font-mono font-bold tracking-widest px-1.5 py-0.5 rounded bg-[#C81036]/15 border border-[#C81036]/30">ADL</span>
-            </span>
-            <span className="text-[9px] sm:text-[10px] font-sans font-medium tracking-[0.22em] uppercase text-[#94A3B8] mt-0.5 group-hover:text-white transition-colors">
-              Removals Adelaide
-            </span>
-          </div>
+          <img
+            src={mrkBusiness.brandAssets.logoWordmark}
+            alt="MRK Removals Adelaide"
+            width={720}
+            height={115}
+            className="h-9 sm:h-10 w-auto select-none transition-transform group-hover:scale-105"
+          />
         </a>
 
         {/* Zone 2: Clean text navigation links (Desktop) */}

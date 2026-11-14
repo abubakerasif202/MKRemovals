@@ -26,6 +26,15 @@ interface HomePageProps {
   onNavigate: (path: string) => void;
 }
 
+const HERO_CONTAINER = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+const HERO_ITEM = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+};
+
 const PROCESS_STEPS = [
   {
     num: '01',
@@ -40,7 +49,7 @@ const PROCESS_STEPS = [
   {
     num: '03',
     title: 'Confirm scope & rate',
-    body: 'Inclusions, minimum hours, travel charges and GST are confirmed in your quote.',
+    body: 'Inclusions, minimum hours and travel charges are confirmed in your quote. The hourly rate includes GST.',
   },
   {
     num: '04',
@@ -79,10 +88,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="relative isolate overflow-hidden" aria-labelledby="hero-heading">
         <ResponsiveImage
           src={mrkBusiness.photographyAssets.adelaideSkylineTwilight}
-          alt="Illustrative image of the Adelaide skyline at twilight"
+          alt="Illustrative image of a moving truck on an Adelaide boulevard at dusk"
           priority
           sizes="100vw"
-          className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          width={1914}
+          height={822}
+          className="mrk-kenburns absolute inset-0 -z-20 h-full w-full object-cover object-center"
         />
         <div
           aria-hidden="true"
@@ -93,19 +104,20 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 sm:pt-20 sm:pb-16 lg:pt-28 lg:pb-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-24 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center">
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-3xl space-y-6"
+            variants={HERO_CONTAINER}
+            initial={reduceMotion ? false : 'hidden'}
+            animate="show"
+            className="lg:col-span-7 space-y-6"
           >
-            <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#090D15]/80 border border-[#C9D2DC]/25 text-xs font-medium text-white">
+            <motion.p variants={HERO_ITEM} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#090D15]/80 border border-[#C9D2DC]/25 text-xs font-medium text-white">
               <span className="w-2 h-2 rounded-full bg-[#C81036]" aria-hidden="true" />
               Adelaide, South Australia · Residential &amp; Commercial Removals
-            </p>
+            </motion.p>
 
-            <h1
+            <motion.h1
+              variants={HERO_ITEM}
               id="hero-heading"
               className="font-display font-extrabold text-white tracking-tight leading-[1.05]"
               style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)' }}
@@ -113,18 +125,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               Adelaide removalists,
               <br />
               <span className="text-platinum-sheen">planned with precision.</span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg text-[#E2E8F0] leading-relaxed max-w-2xl">
+            <motion.p variants={HERO_ITEM} className="text-base sm:text-lg text-[#E2E8F0] leading-relaxed max-w-2xl">
               House, apartment and office moves across Adelaide, coordinated directly with{' '}
               {mrkBusiness.ownerContactName.value}. Tell us about your move and get a clear quote.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-1">
+            <motion.div variants={HERO_ITEM} className="flex flex-col sm:flex-row gap-3 pt-1">
               <button
                 type="button"
                 onClick={scrollToQuote}
-                className="min-h-12 px-7 rounded-xl btn-ruby text-white text-base font-bold inline-flex items-center justify-center gap-2.5 cursor-pointer shadow-lg"
+                className="mrk-glow min-h-12 px-7 rounded-xl btn-ruby text-white text-base font-bold inline-flex items-center justify-center gap-2.5 cursor-pointer shadow-lg"
               >
                 <span>Get a Free Quote</span>
                 <ArrowRight className="w-4 h-4" />
@@ -136,15 +148,33 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 <Phone className="w-4 h-4 text-[#C81036]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
               </a>
-            </div>
+            </motion.div>
 
-            <p className="flex items-start gap-2 text-sm text-[#E2E8F0] max-w-2xl">
+            <motion.p variants={HERO_ITEM} className="flex items-start gap-2 text-sm text-[#E2E8F0] max-w-2xl">
               <Clock className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
               <span>
                 <strong className="text-white">{formatIndicativeRateHeadline()}</strong>{' '}
                 {getMandatoryRateDisclaimer()}
               </span>
-            </p>
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.94, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="hidden lg:block lg:col-span-5"
+          >
+            <div className="mrk-float rounded-3xl overflow-hidden border border-[#C9D2DC]/25 shadow-[0_30px_80px_-30px_rgba(200,16,54,0.55)]">
+              <img
+                src={mrkBusiness.brandAssets.logoFull}
+                alt="MRK Removals Adelaide logo"
+                width={960}
+                height={640}
+                decoding="async"
+                className="w-full h-auto"
+              />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -155,7 +185,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* 3. SERVICES */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8" aria-labelledby="services-heading">
+      <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8" aria-labelledby="services-heading">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <h2
             id="services-heading"
@@ -219,7 +249,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* 4. PRICING & INCLUSIONS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="pricing-heading">
+      <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="pricing-heading">
         <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-6 space-y-4">
             <h2 id="pricing-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
@@ -250,7 +280,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 'What the hourly rate includes',
                 'Minimum booking hours',
                 'Travel / call-out charges',
-                'GST treatment',
+                'Rate includes GST',
                 'Stairs & heavy-item handling',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 bg-[#090D15]/70 rounded-xl p-3 border border-[#C9D2DC]/15">
@@ -264,18 +294,35 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* 5. PROCESS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="process-heading">
+      <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-labelledby="process-heading">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-5 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
-            <ResponsiveImage
-              src={mrkBusiness.photographyAssets.professionalWrapping}
-              alt="Illustrative image of furniture being wrapped for a move"
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="w-full h-64 lg:h-full object-cover"
-            />
-            <p className="absolute bottom-0 inset-x-0 px-3 py-2 text-[11px] text-[#C9D2DC] bg-[#090D15]/80">
-              Illustrative image
-            </p>
+          <div className="lg:col-span-5 grid grid-cols-2 gap-3">
+            <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
+              <ResponsiveImage
+                src={mrkBusiness.photographyAssets.professionalWrapping}
+                alt="Illustrative image of a crew wrapping furniture in moving blankets"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                width={1448}
+                height={1086}
+                className="w-full h-52 sm:h-64 object-cover"
+              />
+              <figcaption className="absolute bottom-0 inset-x-0 px-3 py-1.5 text-[11px] text-[#C9D2DC] bg-[#090D15]/80">
+                Illustrative image
+              </figcaption>
+            </figure>
+            <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
+              <ResponsiveImage
+                src={mrkBusiness.photographyAssets.apartmentRelocation}
+                alt="Illustrative image of a mover carrying a blanket-wrapped armchair through an apartment lobby"
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                width={1086}
+                height={1448}
+                className="w-full h-52 sm:h-64 object-cover object-[50%_30%]"
+              />
+              <figcaption className="absolute bottom-0 inset-x-0 px-3 py-1.5 text-[11px] text-[#C9D2DC] bg-[#090D15]/80">
+                Illustrative image
+              </figcaption>
+            </figure>
           </div>
           <div className="lg:col-span-7 space-y-5">
             <h2 id="process-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
@@ -312,7 +359,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* 7. REVIEWS — intentionally omitted until verified customer reviews are supplied by the owner. */}
 
       {/* 8. COVERAGE */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6" aria-labelledby="coverage-heading">
+      <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6" aria-labelledby="coverage-heading">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <h2 id="coverage-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
             Adelaide coverage
@@ -384,7 +431,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* 9. OPTIONAL INVENTORY BUILDER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Optional inventory list">
+      <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Optional inventory list">
         <MoveScopeBuilder
           onApplyScopeToQuote={(summary, sizeLabel) => {
             setPresetNotes(summary);
@@ -395,7 +442,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       </section>
 
       {/* 10. FAQ + CLOSING CTA */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6" aria-labelledby="faq-heading">
+      <section className="mrk-reveal max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6" aria-labelledby="faq-heading">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <h2 id="faq-heading" className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
             Frequently asked questions
@@ -442,8 +489,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           })}
         </div>
 
-        <div className="mrk-surface-elevated rounded-3xl p-8 sm:p-10 border border-[#C9D2DC]/25 text-center space-y-4">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+        <div className="relative isolate overflow-hidden rounded-3xl px-6 py-16 sm:py-24 border border-[#C9D2DC]/25 text-center space-y-6">
+          <ResponsiveImage
+            src={mrkBusiness.photographyAssets.heroTruckCinematic}
+            alt=""
+            sizes="(min-width: 1024px) 960px, 100vw"
+            width={1672}
+            height={941}
+            className="mrk-drive absolute inset-0 -z-20 h-full w-full object-cover object-[60%_72%]"
+          />
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-[#090D15]/85 via-[#090D15]/35 to-[#090D15]/10" />
+          <h2 className="font-display text-2xl sm:text-4xl font-bold text-white tracking-tight">
             Ready to plan your move?
           </h2>
           <div className="flex flex-col sm:flex-row justify-center gap-3">

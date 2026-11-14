@@ -118,7 +118,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
-                <span>GST treatment &amp; formal tax invoice details</span>
+                <span>Hourly rate includes GST; tax invoice details</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />

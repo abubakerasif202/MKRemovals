@@ -4,7 +4,7 @@ import React from 'react';
 export function photoSrcSet(src: string): string | undefined {
   if (!src.endsWith('-960.webp')) return undefined;
   const base = src.replace(/-960\.webp$/, '');
-  return `${base}-640.webp 640w, ${base}-960.webp 960w, ${base}-1376.webp 1376w`;
+  return `${base}-640.webp 640w, ${base}-960.webp 960w, ${base}-1376.webp 1376w, ${base}-1920.webp 1920w`;
 }
 
 interface ResponsiveImageProps {

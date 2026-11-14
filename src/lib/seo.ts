@@ -286,7 +286,7 @@ export function resolveRouteSeo(
     return {
       title: 'Indicative Hourly Rates ($130–$135/hr) | MRK Removals Adelaide',
       description:
-        'Transparent indicative hourly rates ($130–$135/hr) and what affects your Adelaide moving quote. Confirm inclusions, minimums, travel charges and GST.',
+        'Transparent indicative hourly rates ($130–$135/hr) and what affects your Adelaide moving quote. Rates include GST. Confirm inclusions, minimums and travel charges.',
       canonicalUrl: buildCanonicalUrl('/pricing'),
       robots,
       ogType: 'website',

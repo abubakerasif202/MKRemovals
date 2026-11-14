@@ -59,7 +59,7 @@ export const TermsPage: React.FC<TermsPageProps> = ({ onNavigate }) => {
           <p>
             Any hourly figures shown on this website are general indicative guidance only. Crew
             allocation, truck capacity, minimum booking hours, travel/call-out charges, stair or
-            heavy-item conditions, and GST treatment must be confirmed directly with{' '}
+            heavy-item conditions must be confirmed directly with{' '}
             <strong className="text-white">{mrkBusiness.brandName}</strong> for your specific job.
           </p>
         </section>

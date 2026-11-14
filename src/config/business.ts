@@ -31,7 +31,7 @@ export type MRKBusinessConfig = {
     max: 135;
     currency: 'AUD';
     unit: 'hour';
-    gst: 'unconfirmed';
+    gst: 'included';
     package: 'unconfirmed';
     minimumHours: 'unconfirmed';
     callOutFee: 'unconfirmed';
@@ -50,6 +50,8 @@ export type MRKBusinessConfig = {
   };
   brandAssets: {
     fullLogoConcept: string;
+    logoFull: string;
+    logoWordmark: string;
     compactLogoConcept: string;
     badgeConcept: string;
     roundCrestConcept: string;
@@ -92,7 +94,7 @@ export const mrkBusiness: MRKBusinessConfig = {
       max: 135,
       currency: 'AUD',
       unit: 'hour',
-      gst: 'unconfirmed',
+      gst: 'included',
       package: 'unconfirmed',
       minimumHours: 'unconfirmed',
       callOutFee: 'unconfirmed',
@@ -100,7 +102,7 @@ export const mrkBusiness: MRKBusinessConfig = {
     source: 'owner-brief',
     approvalStatus: 'supplied',
     publicationNote:
-      'Indicative hourly guidance only. Truck size, crew allocation, GST treatment, minimum booking hours, and travel/access charges are confirmed per individual quote.',
+      'Indicative hourly guidance. Owner confirmed the hourly rate includes GST. Truck size, crew allocation, minimum booking hours, and travel/access charges are confirmed per individual quote.',
   },
   enquiryEmail: 'mkremovalsadelaide@gmail.com',
   enquiryEmailHref: 'mailto:mkremovalsadelaide@gmail.com',
@@ -122,16 +124,18 @@ export const mrkBusiness: MRKBusinessConfig = {
     role: 'Brand Architecture, UI/UX & Digital Engineering',
   },
   brandAssets: {
-    fullLogoConcept: '/assets/aistudio/ruby_platinum_full_logo_concept_42543a71.webp',
+    fullLogoConcept: '/assets/brand/mrk-logo-full.webp',
+    logoFull: '/assets/brand/mrk-logo-full.webp',
+    logoWordmark: '/assets/brand/mrk-wordmark.webp',
     compactLogoConcept: '/assets/aistudio/ruby_platinum_compact_logo_concept_cacda257.webp',
     badgeConcept: '/assets/aistudio/ruby_platinum_badge_concept_6a6760d6.webp',
     roundCrestConcept: '/assets/aistudio/ruby_platinum_round_crest_concept_ff67e362.webp',
   },
   photographyAssets: {
-    heroTruckCinematic: '/assets/photography/mrk_cinematic_truck_adelaide-960.webp',
-    adelaideSkylineTwilight: '/assets/photography/adelaide_skyline_twilight-960.webp',
-    professionalWrapping: '/assets/photography/professional_furniture_wrapping-960.webp',
-    apartmentRelocation: '/assets/photography/apartment_relocation_adelaide-960.webp',
+    heroTruckCinematic: '/assets/photography/midnight_delivery_truck-960.webp',
+    adelaideSkylineTwilight: '/assets/photography/boulevard_twilight_truck-960.webp',
+    professionalWrapping: '/assets/photography/crew_protecting_furniture-960.webp',
+    apartmentRelocation: '/assets/photography/mover_wrapped_armchair-960.webp',
     officeRelocation: '/assets/photography/office_commercial_relocation-960.webp',
   },
 };
@@ -156,7 +160,7 @@ export function formatIndicativeRateHeadline(): string {
 }
 
 export function getMandatoryRateDisclaimer(): string {
-  return 'Final pricing depends on your moving requirements; please confirm inclusions, minimums, travel charges and GST.';
+  return 'Rates include GST. Final pricing depends on your moving requirements; please confirm inclusions, minimums and travel charges.';
 }
 
 export type NavItem = {

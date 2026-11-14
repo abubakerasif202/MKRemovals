@@ -38,19 +38,19 @@ test('Owner-supplied ABN 95 685 822 473 is preserved and passes 11-digit checksu
   assert.equal(isValidAbnFormat('12 345 678 901'), false);
 });
 
-test('Indicative hourly rate preserves AUD $130-$135 range with unconfirmed GST and package rules', () => {
+test('Indicative hourly rate preserves AUD $130-$135 range with GST included and package rules unconfirmed', () => {
   const rate = mrkBusiness.indicativeHourlyAUD.value;
   assert.equal(rate.min, 130);
   assert.equal(rate.max, 135);
   assert.equal(rate.currency, 'AUD');
   assert.equal(rate.unit, 'hour');
-  assert.equal(rate.gst, 'unconfirmed');
+  assert.equal(rate.gst, 'included');
   assert.equal(rate.package, 'unconfirmed');
   assert.equal(
     formatIndicativeRateHeadline(),
     'Indicative hourly rates: $130–$135. Request a quote for your move.'
   );
-  assert.ok(getMandatoryRateDisclaimer().includes('confirm inclusions, minimums, travel charges and GST'));
+  assert.ok(getMandatoryRateDisclaimer().includes('Rates include GST'));
 });
 
 test('Zero HF Removals or Noor Removals brand leakage across all content, config, and SEO outputs', () => {

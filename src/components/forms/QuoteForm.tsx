@@ -272,8 +272,8 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               Speak Directly with {mrkBusiness.ownerContactName.value}
             </h4>
             <p className="text-xs text-[#C9D2DC] leading-relaxed">
-              For fast confirmation of truck availability, crew size, minimum hours, and GST
-              inclusions for your move between{' '}
+              For fast confirmation of truck availability, crew size, minimum hours
+              and inclusions for your move between{' '}
               <strong className="text-white">{formData.pickupSuburb}</strong> and{' '}
               <strong className="text-white">{formData.destinationSuburb}</strong>, call directly:
             </p>

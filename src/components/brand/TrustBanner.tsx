@@ -34,7 +34,7 @@ export const TRUST_BANNER_ITEMS: TrustPillar[] = [
     title: 'Transparent Quotes',
     subtitle: 'Quote-only, no instant booking',
     description:
-      'Indicative hourly rates are shown up front. Inclusions, minimums, travel charges and GST are confirmed in your quote before you commit.',
+      'Indicative hourly rates (including GST) are shown up front. Inclusions, minimums and travel charges are confirmed in your quote before you commit.',
     Icon: ShieldCheck,
     accentColor: '#C81036',
   },
