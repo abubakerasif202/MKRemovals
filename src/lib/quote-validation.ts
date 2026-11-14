@@ -92,7 +92,7 @@ export function validateQuoteSubmission(raw: Partial<QuoteFormInput>): QuoteVali
       : 'flexible-3-days';
 
   const serviceType = sanitizeText(raw.serviceType || 'house-removals', 80);
-  const estimatedSize = sanitizeText(raw.estimatedSize || '2–3 Bedroom Home', 80);
+  const estimatedSize = sanitizeText(raw.estimatedSize || 'Not specified', 80);
 
   if (!fullName || fullName.length < 2) {
     errors.fullName = 'Please enter your full name (at least 2 characters).';
@@ -173,7 +173,7 @@ export function formatMoveBriefText(data: QuoteFormInput): string {
     data.inventoryNotes ? `Inventory & Notes: ${data.inventoryNotes}` : null,
     `----------------------------------------`,
     `Direct MRK Phone: 0423 653 342`,
-    `Indicative Rate Note: AUD $130–$135/hr (Subject to confirmation of inclusions, minimums, travel & GST)`,
+    `Indicative Rate Note: AUD $130–$135/hr (includes GST; subject to confirmation of inclusions, minimums & travel)`,
   ].filter(Boolean);
 
   return lines.join('\n');

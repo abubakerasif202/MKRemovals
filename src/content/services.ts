@@ -72,7 +72,7 @@ export const MRK_SERVICES: ServiceItem[] = [
     whatToConfirmWithUs: [
       'Exact pickup and delivery suburbs and whether settlement times constrain keys handover.',
       'Rough inventory of major furniture pieces (e.g., king beds, double-door fridges, outdoor spas or gym gear).',
-      'Applicable hourly rate ($130–$135/hr indicative range), crew allocation, minimum booking hours, and GST/travel terms.',
+      'Applicable hourly rate ($130–$135/hr indicative range), crew allocation, minimum booking hours, and travel terms (rate includes GST).',
     ],
     adelaideLogisticsNote:
       'In established Adelaide suburbs with narrow heritage streets or timed school-zone clearways, early morning positioning helps keep truck loading smooth and uninterrupted.',
@@ -206,7 +206,7 @@ export const MRK_SERVICES: ServiceItem[] = [
     whatToConfirmWithUs: [
       'Preferred move day and whether building management restricts commercial moves to specific hours.',
       'List of oversized items such as 10-seater boardroom tables, commercial printers/copiers, or fireproof safes.',
-      'Tax invoice requirements, ABN details (ABN 95 685 822 473 supplied), GST status, and hourly rate terms.',
+      'Tax invoice requirements, ABN details (ABN 95 685 822 473 supplied), and hourly rate terms (rate includes GST).',
     ],
     adelaideLogisticsNote:
       'For CBD and fringe commercial precincts (Kent Town, Greenhill Road, Unley Road, Mile End), coordinating dock access outside peak commuter windows significantly speeds up turnaround.',

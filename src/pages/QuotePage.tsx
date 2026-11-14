@@ -6,7 +6,7 @@ import {
   getMandatoryRateDisclaimer,
 } from '../config/business';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
-import { QuoteForm } from '../components/forms/QuoteForm';
+import { QuoteForm, SIZE_NOT_SELECTED } from '../components/forms/QuoteForm';
 import { MoveScopeBuilder } from '../components/interactive/MoveScopeBuilder';
 
 interface QuotePageProps {
@@ -20,7 +20,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({ searchQuery = '', onNaviga
   const initialSuburb = params.get('suburb') || '';
 
   const [scopeNotes, setScopeNotes] = useState('');
-  const [scopeSize, setScopeSize] = useState('3–4 Bedroom Home');
+  const [scopeSize, setScopeSize] = useState(SIZE_NOT_SELECTED);
 
   const handleApplyScope = (summary: string, sizeLabel: string) => {
     setScopeNotes(summary);

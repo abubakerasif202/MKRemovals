@@ -82,15 +82,14 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
 
         <section className="space-y-2">
           <h2 className="font-display text-lg font-bold text-white">
-            4. Preview vs Live Quote Delivery Disclosure
+            4. How Quote Requests Are Delivered
           </h2>
           <p>
-            While this website operates in pre-launch preview mode prior to external mail-provider
-            activation, quote submissions are validated on the application server to generate your
-            copyable Move Brief without transmitting data to third-party mail processors. Once the
-            dedicated MRK quote inbox provider is activated by the business owner, this section will
-            specify the designated transactional email processor.
-          </p>
+                     When you submit the quote form, your details are validated on our server and then
+            passed to an email-delivery service provider (currently Web3Forms, with Resend as an
+            optional backup) so that they reach MRK Removals Adelaide by email. A request is only
+            shown as sent once the provider confirms delivery. We do not keep a separate customer
+            database. This section is a draft pending owner and legal review. </p>
         </section>
 
         <section className="space-y-2">

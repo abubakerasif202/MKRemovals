@@ -10,10 +10,9 @@
    - **Risk:** Presenting the owner-supplied `$130–$135/hour` range as an all-inclusive binding package or inventing minimum hours, call-out fees, or GST rules.
    - **Mitigation:** Centralised `formatIndicativeRateDisplay()` and `getRateDisclaimer()` helpers in `src/config/business.ts` ensure every pricing display pairs `$130–$135` per hour with the mandatory disclosure regarding unconfirmed GST, truck/crew inclusions, minimums, and travel charges.
 
-3. **Truthful Quote Submission State (P0 — Mitigated)**
-   - **Risk:** Claiming an enquiry email was delivered to the business when no live email provider is connected in the preview environment.
-   - **Mitigation:** `/api/quote` validates payloads server-side and returns `status: "recorded_preview"` when `MRK_QUOTE_PROVIDER_URL` is not configured. The UI clearly informs the user that their quote details are validated and ready, provides a one-click Copy Move Summary action, and highlights the direct `Call 0423 653 342` button.
-
+3. **Truthful Quote Submission State (P0 — Fixed in repair branch)**
+   - **Risk:** Success was shown for preview recordings and network failures; the browser posted directly to Web3Forms (hard-coded key) and also to `/api/quote` (possible duplicate delivery).
+   - **Mitigation:** Single server-side flow in `src/lib/quote-delivery.ts` used by `api/quote.ts` and `server.ts`: provider-confirmed `delivered` only, first-success-stops fallback chain, per-IP rate limit, idempotency by `attemptId`, honeypot, PII-free audit log. Covered by `src/lib/quote-delivery.test.ts` and Playwright tests.
 ## P1 Design & Usability Safeguards
 
 4. **Brand Artwork & Conceptual Fleet Presentation (P1 — Mitigated)**
