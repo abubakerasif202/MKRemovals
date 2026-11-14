@@ -1,0 +1,6 @@
+{
+  "name": "MRK Removals Adelaide",
+  "description": "Premium residential, apartment, furniture, and commercial removalists in Adelaide, South Australia. Request a tailored moving quote or call 0423 653 342.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

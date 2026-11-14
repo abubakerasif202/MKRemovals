@@ -1,0 +1,113 @@
+import React from 'react';
+import { mrkBusiness } from '../config/business';
+import { Breadcrumbs } from '../components/layout/Breadcrumbs';
+
+interface PrivacyPageProps {
+  onNavigate: (path: string) => void;
+}
+
+export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
+  return (
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+      <div>
+        <Breadcrumbs
+          items={[
+            { name: 'Home', path: '/' },
+            { name: 'Privacy Policy', path: '/privacy' },
+          ]}
+          onNavigate={onNavigate}
+        />
+
+        <div className="mt-4 space-y-3">
+          <p className="text-xs text-[#C5A15C] font-medium">
+            Prepared for Owner &amp; Legal Review · South Australia
+          </p>
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-white">
+            Privacy Policy — {mrkBusiness.brandName}
+          </h1>
+          <p className="text-xs text-[#94A3B8]">
+            Status: Draft prepared for review by {mrkBusiness.ownerContactName.value} (ABN{' '}
+            {mrkBusiness.abn.value} supplied) prior to live commercial publication.
+          </p>
+        </div>
+      </div>
+
+      <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-6 text-sm text-[#C9D2DC] leading-relaxed">
+        <section className="space-y-2">
+          <h2 className="font-display text-lg font-bold text-white">
+            1. Scope &amp; Purpose
+          </h2>
+          <p>
+            This Privacy Policy describes how <strong className="text-white">{mrkBusiness.brandName}</strong>{' '}
+            collects, uses, and protects personal information provided by visitors when requesting a
+            moving quote or contacting us by telephone on{' '}
+            <a href={mrkBusiness.phoneHref} className="text-white underline font-mono">
+              {mrkBusiness.phoneDisplay}
+            </a>
+            .
+          </p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-display text-lg font-bold text-white">
+            2. Information We Collect for Moving Quotes
+          </h2>
+          <p>
+            When you submit a quote enquiry, we request only the information reasonably necessary to
+            assess and coordinate your relocation:
+          </p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Your name, Australian phone number, and optional email address;</li>
+            <li>Pickup and destination suburbs or postcodes and property access characteristics;</li>
+            <li>Preferred moving date, date flexibility, and service category;</li>
+            <li>Furniture inventory notes, stair/lift access details, and packing preferences.</li>
+          </ul>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-display text-lg font-bold text-white">
+            3. How Enquiry Data Is Handled
+          </h2>
+          <p>
+            Enquiry details are used solely to review your moving requirements, communicate quote
+            terms, and schedule agreed services. We do not sell, rent, or trade customer contact
+            details or property addresses to third-party marketing lists.
+          </p>
+          <p>
+            When analytics are active on the production domain, personal telephone numbers, email
+            addresses, full street addresses, and raw free-text inventory notes are excluded from
+            analytics event payloads.
+          </p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-display text-lg font-bold text-white">
+            4. Preview vs Live Quote Delivery Disclosure
+          </h2>
+          <p>
+            While this website operates in pre-launch preview mode prior to external mail-provider
+            activation, quote submissions are validated on the application server to generate your
+            copyable Move Brief without transmitting data to third-party mail processors. Once the
+            dedicated MRK quote inbox provider is activated by the business owner, this section will
+            specify the designated transactional email processor.
+          </p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-display text-lg font-bold text-white">
+            5. Contact &amp; Access Requests
+          </h2>
+          <p>
+            To request access to, correction of, or deletion of any quote enquiry details you have
+            shared with <strong className="text-white">{mrkBusiness.brandName}</strong>, please
+            contact <strong className="text-white">{mrkBusiness.ownerContactName.value}</strong> on{' '}
+            <a href={mrkBusiness.phoneHref} className="text-white underline font-mono">
+              {mrkBusiness.phoneDisplay}
+            </a>
+            .
+          </p>
+        </section>
+      </div>
+    </div>
+  );
+};
