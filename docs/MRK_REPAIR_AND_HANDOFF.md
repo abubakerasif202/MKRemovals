@@ -148,7 +148,7 @@ Test-reliability notes: the axe test initially failed intermittently because of 
 ### 12.4 Remaining issues (not fixed)
 
 - Lighthouse **simulated** mobile LCP is still ≈3.3 s (observed real LCP is ≈0.5 s). The LCP element is the prioritised hero image; further gains would need a smaller/lighter hero for slow connections.
-- **Redis is not provisioned.** Until the owner adds an Upstash (or Vercel KV) database and sets the env vars, deduplication/rate limiting remain per-instance. Delivery honesty is unaffected.
+- ~~Redis is not provisioned.~~ **Resolved:** an Upstash Redis database was provisioned and `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` were set in Vercel (production, sensitive) with a redeploy of `f7a7e6f`. See 14.
 - No source maps on production JS (Lighthouse "valid-source-maps"); intentional, not exposing source.
 - `robots.txt` disallows `/privacy` and `/terms` while they are also `noindex`.
 - Scroll-reveal uses CSS view timelines (Chromium); Safari/Firefox show content without the reveal. Not tested in Safari/Firefox/WebKit, and no manual screen-reader pass.
@@ -197,3 +197,13 @@ Evidence: `docs/screenshots/bright/` (hero 1440/390, full-page sheets at 1440 an
 - The AI-style photos remain; the three darkest (office, midnight truck, old office image) are brightened by filter only. Real MRK photography would lift the brightness further.
 - Not tested in Safari/Firefox; no manual screen-reader pass.
 - Not merged or deployed. This branch is stacked on PR #4 (audit); merge #4 first, or merge this PR into it.
+
+
+## 14. Shared quote store: provisioned and verified live
+
+- Upstash Redis database created by the owner; credentials set as **sensitive, production-only** Vercel variables, then production was redeployed (`dpl_2TaJ1yMcUDvdAXmCgEuxnVzZsyyF`, same commit `f7a7e6f`). Preview deployments intentionally do not get the credentials.
+- Before wiring: the REST commands used by `quote-store.ts` were checked against the database (PING, SET NX EX, second SET NX returns null, INCR pipeline).
+- After deploy, live check with invalid-input requests only (no email possible, the limiter runs before validation): requests 1-6 returned 400 `validation_error`, requests 7-8 returned **429 `rate_limited`**. Redis held one `mrk:rl:<hash>` key (count 8, TTL about 595 s) and the key is a hash of the IP, never the raw IP. The test key was deleted afterwards so the tester's IP was not left blocked.
+- Not re-verified live: the cross-instance idempotency path (`mrk:done:*` / `mrk:claim:*`), because exercising it would send a real enquiry email. It is covered by unit tests against a fake Redis (cross-instance dedupe, in-progress claim, outage fallback).
+- Free-tier note: a database created through the no-signup flow expires after 3 days unless claimed. If the owner used that flow, claim it in the Upstash console. If it expires, the site keeps working (automatic memory fallback) but loses cross-instance protection.
+- Rotating the token: update both Vercel variables and redeploy.
