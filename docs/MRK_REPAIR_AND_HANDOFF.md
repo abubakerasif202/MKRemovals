@@ -65,7 +65,7 @@ Hero: Adelaide skyline image, one dominant "Get a Free Quote" CTA, one click-to-
 | `npm run lint` (tsc) | pass |
 | `npm test` | 37/37 pass (baseline was 20) |
 | `npm run build` + prerender | pass, 24 routes |
-| `npm run test:e2e` (production build, Chrome, quote API mocked) | 26/26 pass before the final fix commit; not re-run after it (the change touched only server imports, covered by the guard unit test) |
+| `npm run test:e2e` (production build, Chrome, quote API mocked) | 26/26 pass (re-run after the final code fix) |
 | Overflow check | 8 routes × 320/360/375/390/430/768/1024/1440/1920 px: no horizontal overflow |
 | Preview | build READY; `/` serves new content; `/robots.txt` noindex; `/api/quote` GET → 405 JSON (function loads) |
 
