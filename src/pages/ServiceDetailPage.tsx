@@ -78,10 +78,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-[#090D15]/40 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
-                <span className="font-semibold flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#C81036]" />
-                  Illustrative image
-                </span>
+                <span aria-hidden="true" />
                 <span className="font-mono text-[11px] text-[#C5A15C]">ADELAIDE SERVICE</span>
               </div>
             </div>

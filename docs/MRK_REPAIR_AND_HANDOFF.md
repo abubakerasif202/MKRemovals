@@ -81,8 +81,8 @@ A real defect was caught by the preview check: the first deploy crashed `/api/qu
 
 1. ~~Live test enquiry~~ Owner states this is done.
 2. Confirm inbox: `mkremovalsadelaide@gmail.com` vs an `mrk…` address (MK/MRK spelling not changed).
-3. GST: owner confirmed the hourly rate **includes GST** (now stated site-wide). Still unconfirmed: minimum hours, call-out fee, crew/truck inclusions. ABN entity name: owner confirmed it is exactly "MRK Removals Adelaide" (no change needed).
-4. Insurance wording/certificates before any insurance claim returns.
+3. Owner confirmed: rate **includes GST**, **3-hour minimum + 1-hour call-out fee**, **$1M insurance coverage** (now published; policy type/insurer not supplied). ABN entity name is "MRK Removals Adelaide". Still open: crew/truck inclusions per rate.
+4. Optional: policy type/insurer wording if you want more than the $1M amount shown.
 5. Verified Google reviews (the reviews section is intentionally absent); real MRK photos when available.
 6. Legal review of Privacy/Terms drafts.
 7. Whether to keep a persistent lead record (database/CRM) beyond the runtime log.

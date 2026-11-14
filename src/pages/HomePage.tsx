@@ -49,7 +49,7 @@ const PROCESS_STEPS = [
   {
     num: '03',
     title: 'Confirm scope & rate',
-    body: 'Inclusions, minimum hours and travel charges are confirmed in your quote. The hourly rate includes GST.',
+    body: 'Inclusions and any other charges are confirmed in your quote. The hourly rate includes GST, with a 3-hour minimum plus a 1-hour call-out fee.',
   },
   {
     num: '04',
@@ -88,7 +88,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="relative isolate overflow-hidden" aria-labelledby="hero-heading">
         <ResponsiveImage
           src={mrkBusiness.photographyAssets.adelaideSkylineTwilight}
-          alt="Illustrative image of a moving truck on an Adelaide boulevard at dusk"
+          alt="MRK moving truck on an Adelaide boulevard at dusk"
           priority
           sizes="100vw"
           width={1914}
@@ -278,8 +278,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               {[
                 'Truck size & crew numbers',
                 'What the hourly rate includes',
-                'Minimum booking hours',
-                'Travel / call-out charges',
+                '3-hour minimum booking',
+                '1-hour call-out fee',
                 'Rate includes GST',
                 'Stairs & heavy-item handling',
               ].map((item) => (
@@ -300,28 +300,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
               <ResponsiveImage
                 src={mrkBusiness.photographyAssets.professionalWrapping}
-                alt="Illustrative image of a crew wrapping furniture in moving blankets"
+                alt="Crew wrapping furniture in moving blankets"
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 width={1448}
                 height={1086}
                 className="w-full h-52 sm:h-64 object-cover"
               />
-              <figcaption className="absolute bottom-0 inset-x-0 px-3 py-1.5 text-[11px] text-[#C9D2DC] bg-[#090D15]/80">
-                Illustrative image
-              </figcaption>
             </figure>
             <figure className="mrk-photo-zoom col-span-2 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20">
               <ResponsiveImage
                 src={mrkBusiness.photographyAssets.apartmentRelocation}
-                alt="Illustrative image of a mover carrying a blanket-wrapped armchair through an apartment lobby"
+                alt="Mover carrying a blanket-wrapped armchair through an apartment lobby"
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 width={1086}
                 height={1448}
                 className="w-full h-52 sm:h-64 object-cover object-[50%_30%]"
               />
-              <figcaption className="absolute bottom-0 inset-x-0 px-3 py-1.5 text-[11px] text-[#C9D2DC] bg-[#090D15]/80">
-                Illustrative image
-              </figcaption>
             </figure>
           </div>
           <div className="lg:col-span-7 space-y-5">

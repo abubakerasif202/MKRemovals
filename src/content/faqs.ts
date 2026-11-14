@@ -13,7 +13,7 @@ export const MRK_FAQS: FaqItem[] = [
     category: 'Pricing & Quotes',
     question: 'What are your hourly rates and what is included in the $130–$135/hr indicative range?',
     answer:
-      'Our owner-supplied indicative hourly rate range is AUD $130–$135 per hour. Because every move differs in volume, truck and crew requirements, stairs, and travel distance across Adelaide, final pricing depends on your specific moving requirements. When we respond to your quote request, we clearly confirm crew inclusions, minimum booking hours and travel/call-out charges before you lock in your move. The hourly rate includes GST.',
+      'Our owner-supplied indicative hourly rate range is AUD $130–$135 per hour. Because every move differs in volume, truck and crew requirements, stairs, and travel distance across Adelaide, final pricing depends on your specific moving requirements. When we respond to your quote request, we clearly confirm crew inclusions and any other charges before you lock in your move. The hourly rate includes GST, with a 3-hour minimum plus a 1-hour call-out fee.',
   },
   {
     id: 'how-to-get-accurate-quote',
