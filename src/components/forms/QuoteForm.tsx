@@ -14,8 +14,6 @@ import {
 } from '../../config/business';
 import { MRK_SERVICES } from '../../content/services';
 
-export const WEB3FORMS_ACCESS_KEY = 'f0a78ce1-7130-4426-82aa-0adef031aff4';
-
 interface QuoteFormProps {
   sourcePage?: string;
   initialServiceType?: string;
@@ -27,17 +25,23 @@ interface QuoteFormProps {
 
 interface SubmissionOutcome {
   ok: boolean;
-  status: 'delivered' | 'recorded_preview' | 'validation_error' | 'rate_limited' | 'provider_error' | 'network_error';
+  status: string;
   referenceId?: string;
   timestamp?: string;
   message: string;
   moveBrief?: string;
 }
 
+/** Sentinel used until the customer chooses a size; never pre-selects a real house size. */
+export const SIZE_NOT_SELECTED = 'Not sure yet (described below)';
+
+const newAttemptId = () =>
+  `attempt-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+
 export const QuoteForm: React.FC<QuoteFormProps> = ({
   sourcePage = '/',
   initialServiceType = 'house-removals',
-  initialEstimatedSize = '3–4 Bedroom Home',
+  initialEstimatedSize = SIZE_NOT_SELECTED,
   initialPickupSuburb = '',
   initialInventoryNotes = '',
   compactHeader = false,
@@ -62,7 +66,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     heavyItemsNotes: '',
     inventoryNotes: initialInventoryNotes,
     sourcePage,
-    attemptId: `attempt-${Date.now()}`,
+    attemptId: newAttemptId(),
     honeypotWebsite: '',
   });
 
@@ -130,105 +134,52 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     setIsSubmitting(true);
     setOutcome(null);
 
-    const referenceId = `MRK-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
     const moveBrief = formatMoveBriefText(validation.sanitized);
 
     try {
-      // 1. Live browser direct submission to Web3Forms (delivers directly to mkremovalsadelaide@gmail.com)
-      const web3Payload = {
-        access_key: WEB3FORMS_ACCESS_KEY,
-        subject: `MRK Removals Quote Request: ${formData.pickupSuburb} to ${formData.destinationSuburb} [${referenceId}]`,
-        from_name: 'MRK Removals Adelaide Website',
-        name: formData.fullName,
-        phone: formData.phone,
-        email: formData.email || 'mkremovalsadelaide@gmail.com',
-        pickup_suburb: formData.pickupSuburb,
-        pickup_property_access: formData.pickupAccess,
-        destination_suburb: formData.destinationSuburb,
-        destination_property_access: formData.destinationAccess,
-        service_category: formData.serviceType,
-        estimated_move_size: formData.estimatedSize,
-        target_move_date: formData.moveDate,
-        date_flexibility: formData.dateFlexibility,
-        inventory_notes: formData.inventoryNotes || 'None provided',
-        message: moveBrief,
-      };
-
-      const web3Res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(web3Payload),
-      });
-
-      const web3Data = await web3Res.json();
-
-      if (web3Res.ok && web3Data.success) {
-        // Fire background audit record to internal API
-        try {
-          fetch('/api/quote', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...formData, referenceId, status: 'delivered' }),
-          }).catch(() => {});
-        } catch {
-          // ignore background audit error
-        }
-
-        setOutcome({
-          ok: true,
-          status: 'delivered',
-          referenceId,
-          timestamp: new Date().toISOString(),
-          message: `Your moving quote request has been securely delivered to ${mrkBusiness.enquiryEmail}. Mubashar Riaz will review your access and schedule requirements and contact you on ${formData.phone} shortly.`,
-          moveBrief,
-        });
-        setIsSubmitting(false);
-        return;
-      }
-
-      // 2. Secondary fallback to /api/quote endpoint
       const response = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const payload = await response.json();
+      let payload: Record<string, any> = {};
+      try {
+        payload = await response.json();
+      } catch {
+        payload = {};
+      }
 
-      if (!response.ok || !payload.ok) {
-        if (payload.errors) {
-          setFieldErrors(payload.errors);
-        }
+      // Success is shown only when the server reports provider-confirmed delivery.
+      if (response.ok && payload.ok === true && payload.status === 'delivered') {
         setOutcome({
-          ok: false,
-          status: payload.status || 'provider_error',
-          message:
-            payload.message ||
-            `We could not complete your request right now. Your details are still saved in the form—please retry or call ${mrkBusiness.phoneDisplay}.`,
+          ok: true,
+          status: 'delivered',
+          referenceId: payload.referenceId,
+          timestamp: payload.timestamp,
+          message: `Your quote request has been sent to ${mrkBusiness.shortName}. ${mrkBusiness.ownerContactName.value} will review your details and contact you on ${formData.phone}.`,
+          moveBrief: payload.moveBrief || moveBrief,
         });
-        setIsSubmitting(false);
         return;
       }
 
+      if (payload.errors) {
+        setFieldErrors(payload.errors);
+      }
       setOutcome({
-        ok: true,
-        status: payload.status,
-        referenceId: payload.referenceId || referenceId,
-        timestamp: payload.timestamp || new Date().toISOString(),
-        message: payload.message,
+        ok: false,
+        status: payload.status || 'delivery_failed',
+        referenceId: payload.referenceId,
+        message:
+          payload.message ||
+          `We could not send your request, and nothing has been delivered. Your details are still here. Please try again, email ${mrkBusiness.enquiryEmail} or call ${mrkBusiness.phoneDisplay}.`,
         moveBrief: payload.moveBrief || moveBrief,
       });
     } catch {
-      // 3. Graceful offline / network interruption fallback
       setOutcome({
-        ok: true,
-        status: 'recorded_preview',
-        referenceId,
-        timestamp: new Date().toISOString(),
-        message: `Quote details formatted for ${mrkBusiness.enquiryEmail}. Please use the Email or Call buttons below to submit your details directly.`,
+        ok: false,
+        status: 'network_error',
+        message: `We could not reach the server, so your request has not been sent. Your details are still here. Please check your connection and try again, email ${mrkBusiness.enquiryEmail} or call ${mrkBusiness.phoneDisplay}.`,
         moveBrief,
       });
     } finally {
@@ -251,7 +202,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     setOutcome(null);
     setFormData((prev) => ({
       ...prev,
-      attemptId: `attempt-${Date.now()}`,
+      attemptId: newAttemptId(),
     }));
   };
 
@@ -267,16 +218,10 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             <div className="flex items-center gap-2 text-xs text-[#C5A15C] font-mono tabular-nums">
               <span>REFERENCE: {outcome.referenceId}</span>
               <span aria-hidden="true">·</span>
-              <span>
-                {outcome.status === 'delivered'
-                  ? 'LIVE PROVIDER CONFIRMED'
-                  : 'PREVIEW QUOTE BRIEF READY'}
-              </span>
+              <span>DELIVERY CONFIRMED</span>
             </div>
             <h3 className="font-display text-2xl font-bold text-white">
-              {outcome.status === 'delivered'
-                ? 'Quote Request Sent to MRK Removals Adelaide'
-                : 'Your Adelaide Move Brief is Validated & Ready'}
+              Quote Sent Successfully
             </h3>
           </div>
 
@@ -286,7 +231,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium bg-[#161E2E] hover:bg-[#242A34] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/20 transition-colors whitespace-nowrap shrink-0"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Edit or New Quote</span>
+            <span>Send Another Quote</span>
           </button>
         </div>
 
@@ -357,15 +302,11 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
 
   return (
     <form
-      action="https://api.web3forms.com/submit"
-      method="POST"
       onSubmit={handleSubmit}
       noValidate
       aria-label="Request a Moving Quote Form"
       className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 space-y-6 shadow-2xl"
     >
-      <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-      <input type="hidden" name="from_name" value="MRK Removals Adelaide Website" />
       {!compactHeader && (
         <div className="pb-5 border-b border-[#C9D2DC]/15 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
@@ -401,13 +342,24 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             <AlertCircle className="w-5 h-5 text-[#C81036] shrink-0 mt-0.5" />
             <span>{outcome.message}</span>
           </div>
-          <a
-            href={mrkBusiness.phoneHref}
-            className="px-3.5 py-2 rounded-lg bg-[#C81036] text-white text-xs font-semibold whitespace-nowrap shrink-0 inline-flex items-center gap-1.5"
-          >
-            <Phone className="w-3.5 h-3.5" />
-            <span>Call {mrkBusiness.phoneDisplay}</span>
-          </a>
+          {outcome.status !== 'validation_error' && (
+            <div className="flex flex-wrap gap-2 shrink-0">
+              <a
+                href={mrkBusiness.phoneHref}
+                className="px-3.5 py-2 rounded-lg bg-[#C81036] text-white text-xs font-semibold whitespace-nowrap inline-flex items-center gap-1.5"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>Call {mrkBusiness.phoneDisplay}</span>
+              </a>
+              <a
+                href={`${mrkBusiness.enquiryEmailHref}?subject=${encodeURIComponent('Moving quote request')}&body=${encodeURIComponent(outcome.moveBrief || '')}`}
+                className="px-3.5 py-2 rounded-lg border border-[#C9D2DC]/40 text-white text-xs font-semibold whitespace-nowrap inline-flex items-center gap-1.5"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>Email Instead</span>
+              </a>
+            </div>
+          )}
         </div>
       )}
 
@@ -665,6 +617,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('estimatedSize', e.target.value)}
             className="w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
           >
+            <option value={SIZE_NOT_SELECTED}>Not sure yet</option>
             <option value="Single Item / Few Furniture Pieces">Single Item / Few Pieces</option>
             <option value="1 Bedroom Apartment / Studio">1 Bedroom Apartment / Studio</option>
             <option value="2 Bedroom Home / Apartment">2 Bedroom Home / Apartment</option>
@@ -849,7 +802,11 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             disabled={isSubmitting}
             className="w-full sm:w-auto px-7 py-3.5 rounded-xl btn-ruby disabled:opacity-60 text-white text-sm font-bold transition-all whitespace-nowrap shrink-0 shadow-lg cursor-pointer active:scale-98"
           >
-            {isSubmitting ? 'Validating Quote Brief...' : 'Submit Quote Request'}
+            {isSubmitting
+              ? 'Sending…'
+              : outcome && !outcome.ok && outcome.status !== 'validation_error'
+              ? 'Try Sending Again'
+              : 'Submit Quote Request'}
           </button>
         </div>
       </div>
