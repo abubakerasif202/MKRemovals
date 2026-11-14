@@ -37,3 +37,7 @@ const bg = await sharp('assets-src/photography/boulevard_twilight_truck.png').re
 const logoBuf = await sharp(logo).resize({ height: 470 }).png().toBuffer();
 await sharp(bg).composite([{ input: logoBuf, gravity: 'centre' }]).jpeg({ quality: 82, mozjpeg: true }).toFile(path.join(OUT_BRAND, 'og-image.jpg'));
 await sharp(logo).extract({ left: 268, top: 0, width: 1000, height: 1000 }).resize(180, 180).png({ compressionLevel: 9 }).toFile(path.join(OUT_BRAND, 'apple-touch-icon.png'));
+
+// AB Web Studio monogram for the footer credit (supplied by the studio; transparent background).
+await sharp('assets-src/ab-web-studio-logo.webp').resize({ height: 192, withoutEnlargement: true })
+  .webp({ quality: 88, alphaQuality: 95, effort: 5 }).toFile(path.join(OUT_BRAND, 'ab-web-studio-logo.webp'));

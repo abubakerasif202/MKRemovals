@@ -257,6 +257,11 @@ test('footer credits AB Web Studio with a safe, readable link', async ({ page })
   await expect(link).toBeVisible();
   await expect(link).toHaveAttribute('href', 'https://abwebstudio.com.au/');
   await expect(link).toHaveAttribute('rel', /noopener/);
+  // The AB monogram inside the link is a real, loaded image and part of the clickable area.
+  const logo = link.locator('img');
+  await logo.scrollIntoViewIfNeeded();
+  await expect(logo).toBeVisible();
+  await expect.poll(() => logo.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBeGreaterThan(0);
 });
 
 test('homepage image payload stays within budget and only the hero is eager', async ({ page }) => {

@@ -140,17 +140,24 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <p>
                 &copy; {new Date().getFullYear()} {mrkBusiness.brandName}. All rights reserved.
               </p>
-              <p className="text-xs text-[#C9D2DC]">
-                Website by{' '}
-                <a
-                  href="https://abwebstudio.com.au/"
-                  target="_blank"
-                  rel="noopener"
-                  className="font-semibold text-white underline decoration-[#C81036] decoration-2 underline-offset-4 hover:text-[#FDA4AF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                >
-                  {mrkBusiness.creativeAgency.name}
-                </a>
-              </p>
+              <a
+                href="https://abwebstudio.com.au/"
+                target="_blank"
+                rel="noopener"
+                className="group inline-flex items-center gap-2.5 rounded-lg px-1 py-1 text-xs text-[#C9D2DC] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                <span>Website by</span>
+                <img
+                  src="/assets/brand/ab-web-studio-logo.webp"
+                  alt=""
+                  width={230}
+                  height={192}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-10 w-auto transition-transform duration-300 group-hover:scale-110"
+                />
+                <span className="font-semibold text-white">{mrkBusiness.creativeAgency.name}</span>
+              </a>
             </div>
           </div>
         </div>
