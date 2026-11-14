@@ -112,7 +112,7 @@ export default function App({ initialPath }: AppProps = {}): React.ReactElement 
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#090D15] text-[#F5F7FA]">
+    <div className="min-h-screen flex flex-col bg-white text-[#0B1B33]">
       <SeoHead pathname={cleanPath} />
       <ScrollProgressBar pathname={cleanPath} />
 

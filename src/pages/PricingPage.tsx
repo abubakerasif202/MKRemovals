@@ -36,14 +36,14 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
         />
 
         <div className="mt-4 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC]">
-            <Sparkles className="w-3.5 h-3.5 text-[#38BDF8]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/10 border border-[#124FA3]/25 text-xs text-[#33445C]">
+            <Sparkles className="w-3.5 h-3.5 text-[#124FA3]" />
             <span>Transparent Rate Guidance · No Hidden Calculators</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1B33] tracking-tight">
             Indicative Hourly Rates &amp; Quote Scoping
           </h1>
-          <p className="text-base text-[#C9D2DC] leading-relaxed">
+          <p className="text-base text-[#33445C] leading-relaxed">
             Every household and commercial relocation across Adelaide differs in inventory volume,
             truck access, stairs, and travel distance. We publish our owner-supplied indicative
             hourly rate range clearly and confirm all applicable terms before you book.
@@ -52,19 +52,19 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Primary Rate Display Card */}
-      <section className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#C9D2DC]/25 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
+      <section className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 lg:p-12 border border-[#D7E0EC] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-2xl">
         <div className="lg:col-span-7 space-y-5">
-          <div className="flex flex-wrap items-center gap-2 text-xs text-[#C9D2DC]">
-            <span className="text-[#C5A15C] font-semibold uppercase tracking-wider">Owner-Supplied Guidance</span>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-[#33445C]">
+            <span className="text-[#8A6414] font-semibold uppercase tracking-wider">Owner-Supplied Guidance</span>
             <span aria-hidden="true">·</span>
             <span>Adelaide Metropolitan Relocations</span>
           </div>
 
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B1B33] tracking-tight">
             {formatIndicativeRateHeadline()}
           </h2>
 
-          <p className="text-sm sm:text-base text-[#C9D2DC] leading-relaxed">
+          <p className="text-sm sm:text-base text-[#33445C] leading-relaxed">
             {getMandatoryRateDisclaimer()}
           </p>
 
@@ -78,50 +78,50 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
             </a>
             <a
               href={mrkBusiness.phoneHref}
-              className="px-6 py-3.5 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2 transition-all"
+              className="px-6 py-3.5 rounded-xl btn-secondary text-[#0B1B33] text-xs sm:text-sm font-semibold inline-flex items-center gap-2 transition-all"
             >
-              <Phone className="w-4 h-4 text-[#F2536F]" />
+              <Phone className="w-4 h-4 text-[#C81036]" />
               <span>Call {mrkBusiness.phoneDisplay}</span>
             </a>
           </div>
         </div>
 
-        <div className="lg:col-span-5 bg-[#090D15] rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-4 shadow-xl">
+        <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 border border-[#D7E0EC] space-y-4 shadow-xl">
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs font-mono text-[#C5A15C] font-bold uppercase tracking-wider">
+            <p className="text-xs font-mono text-[#8A6414] font-bold uppercase tracking-wider">
               INDICATIVE HOURLY GUIDANCE
             </p>
-            <Clock className="w-4 h-4 text-[#F2536F]" />
+            <Clock className="w-4 h-4 text-[#C81036]" />
           </div>
 
           <div className="flex items-baseline gap-2">
-            <span className="font-display text-4xl sm:text-5xl font-extrabold text-white font-mono tabular-nums text-platinum-sheen">
+            <span className="font-display text-4xl sm:text-5xl font-extrabold text-[#0B1B33] font-mono tabular-nums text-platinum-sheen">
               $130–$135
             </span>
-            <span className="text-sm text-[#C9D2DC] font-medium">AUD / hour</span>
+            <span className="text-sm text-[#33445C] font-medium">AUD / hour</span>
           </div>
 
-          <div className="pt-3 border-t border-[#C9D2DC]/15 space-y-2 text-xs text-[#C9D2DC]">
-            <p className="font-semibold text-white">Confirmed per quote before you commit:</p>
-            <ul className="space-y-1.5 text-[#94A3B8]">
+          <div className="pt-3 border-t border-[#D7E0EC] space-y-2 text-xs text-[#33445C]">
+            <p className="font-semibold text-[#0B1B33]">Confirmed per quote before you commit:</p>
+            <ul className="space-y-1.5 text-[#5B6B80]">
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
                 <span>Applicable crew size &amp; truck suitability for your inventory</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
                 <span>3-hour minimum booking</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
                 <span>1-hour call-out fee</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
                 <span>Hourly rate includes GST; tax invoice details</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
                 <span>Any heavy-item, multi-flight stair, or weekend conditions</span>
               </li>
             </ul>
@@ -132,8 +132,8 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
       {/* What Determines Your Total Moving Time & Cost */}
       <section className="space-y-6">
         <div className="space-y-1">
-          <p className="text-xs text-[#C5A15C] font-semibold uppercase tracking-wider">Practical Cost Drivers</p>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <p className="text-xs text-[#8A6414] font-semibold uppercase tracking-wider">Practical Cost Drivers</p>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0B1B33] tracking-tight">
             What Influences Your Moving Time &amp; Quote
           </h2>
         </div>
@@ -158,13 +158,13 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
           ].map((driver) => (
             <div
               key={driver.num}
-              className="mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/15 space-y-2.5 shadow-md hover:border-[#C81036]/40 transition-colors"
+              className="mrk-surface rounded-2xl p-6 border border-[#D7E0EC] space-y-2.5 shadow-md hover:border-[#C81036]/40 transition-colors"
             >
-              <span className="font-mono text-xs text-[#F2536F] font-bold tabular-nums">
+              <span className="font-mono text-xs text-[#C81036] font-bold tabular-nums">
                 DRIVER {driver.num}
               </span>
-              <h3 className="font-display text-lg font-bold text-white">{driver.title}</h3>
-              <p className="text-sm text-[#C9D2DC] leading-relaxed">{driver.desc}</p>
+              <h3 className="font-display text-lg font-bold text-[#0B1B33]">{driver.title}</h3>
+              <p className="text-sm text-[#33445C] leading-relaxed">{driver.desc}</p>
             </div>
           ))}
         </div>

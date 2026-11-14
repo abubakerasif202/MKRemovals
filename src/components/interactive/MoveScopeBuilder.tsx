@@ -119,24 +119,24 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
   const totalBoxes = (counts['moving-cartons-10'] || 0) * 10;
 
   return (
-    <div className="mrk-surface-elevated rounded-3xl p-5 sm:p-8 border border-[#C9D2DC]/25 space-y-6">
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-[#C9D2DC]/15">
+    <div className="mrk-surface-elevated rounded-3xl p-5 sm:p-8 border border-[#D7E0EC] space-y-6">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-[#D7E0EC]">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#C5A15C] mb-1">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[#8A6414] mb-1">
             Optional — for a more accurate quote
           </p>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0B1B33] tracking-tight">
             List Your Items
           </h2>
         </div>
-        <p className="text-sm text-[#C9D2DC] max-w-md leading-relaxed">
+        <p className="text-sm text-[#33445C] max-w-md leading-relaxed">
           Start from nothing, or pick a typical size and adjust. Only what you select is added to
           your quote.
         </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Optional size presets">
-        <span className="text-xs text-[#94A3B8] mr-1">Start from:</span>
+        <span className="text-xs text-[#5B6B80] mr-1">Start from:</span>
         {SIZE_PRESETS.map((p) => (
           <button
             key={p.label}
@@ -146,7 +146,7 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
             className={`min-h-11 px-4 rounded-xl text-xs font-semibold border transition-colors cursor-pointer ${
               presetSize === p.sizeLabel
                 ? 'bg-[#124FA3] text-white border-[#38BDF8]/40'
-                : 'bg-[#090D15] text-[#C9D2DC] border-[#C9D2DC]/20 hover:text-white'
+                : 'bg-white text-[#33445C] border-[#D7E0EC] hover:text-[#C81036]'
             }`}
           >
             {p.label}
@@ -156,7 +156,7 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
           type="button"
           onClick={reset}
           disabled={!hasSelection}
-          className="min-h-11 px-4 rounded-xl text-xs font-semibold border border-[#C9D2DC]/20 text-[#C9D2DC] hover:text-white disabled:opacity-40 inline-flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
+          className="min-h-11 px-4 rounded-xl text-xs font-semibold border border-[#D7E0EC] text-[#33445C] hover:text-[#C81036] disabled:opacity-40 inline-flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Clear all</span>
@@ -167,11 +167,11 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
         {INVENTORY_ITEMS.map((item) => (
           <div
             key={item.id}
-            className="bg-[#090D15]/90 rounded-2xl p-4 border border-[#C9D2DC]/15 flex items-center justify-between gap-3"
+            className="bg-white/90 rounded-2xl p-4 border border-[#D7E0EC] flex items-center justify-between gap-3"
           >
             <div>
-              <p className="text-sm font-semibold text-white">{item.label}</p>
-              <p className="text-[11px] text-[#94A3B8]">{item.category}</p>
+              <p className="text-sm font-semibold text-[#0B1B33]">{item.label}</p>
+              <p className="text-[11px] text-[#5B6B80]">{item.category}</p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <button
@@ -179,12 +179,12 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
                 onClick={() => updateItemCount(item.id, -1)}
                 disabled={counts[item.id] === 0}
                 aria-label={`Decrease ${item.label}`}
-                className="w-11 h-11 rounded-lg bg-[#161E2E] hover:bg-[#242A34] disabled:opacity-40 text-white inline-flex items-center justify-center border border-[#C9D2DC]/20 cursor-pointer disabled:cursor-not-allowed"
+                className="w-11 h-11 rounded-lg bg-[#E8EEF7] hover:bg-[#DCE5F2] disabled:opacity-40 text-[#0B1B33] inline-flex items-center justify-center border border-[#D7E0EC] cursor-pointer disabled:cursor-not-allowed"
               >
                 <Minus className="w-4 h-4" />
               </button>
               <span
-                className="w-7 text-center font-mono text-sm font-bold text-white tabular-nums"
+                className="w-7 text-center font-mono text-sm font-bold text-[#0B1B33] tabular-nums"
                 aria-live="polite"
               >
                 {counts[item.id]}
@@ -193,7 +193,7 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
                 type="button"
                 onClick={() => updateItemCount(item.id, 1)}
                 aria-label={`Increase ${item.label}`}
-                className="w-11 h-11 rounded-lg bg-[#161E2E] hover:bg-[#C81036] text-white inline-flex items-center justify-center border border-[#C9D2DC]/20 cursor-pointer"
+                className="w-11 h-11 rounded-lg bg-[#E8EEF7] hover:bg-[#C81036] text-white inline-flex items-center justify-center border border-[#D7E0EC] cursor-pointer hover:text-[#C81036]"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -203,7 +203,7 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
       </div>
 
       <div className="space-y-2.5">
-        <p className="text-xs font-semibold text-white uppercase tracking-wider">
+        <p className="text-xs font-semibold text-[#0B1B33] uppercase tracking-wider">
           Access &amp; handling (tick any that apply)
         </p>
         <div className="flex flex-wrap gap-2">
@@ -218,7 +218,7 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
                 className={`min-h-11 px-4 rounded-xl text-xs font-medium transition-colors border cursor-pointer ${
                   active
                     ? 'bg-[#124FA3] text-white border-[#38BDF8]/40 font-semibold'
-                    : 'bg-[#090D15] text-[#C9D2DC] border-[#C9D2DC]/20 hover:text-white'
+                    : 'bg-white text-[#33445C] border-[#D7E0EC] hover:text-[#C81036]'
                 }`}
               >
                 {factor}
@@ -228,14 +228,14 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({ onApplyScope
         </div>
       </div>
 
-      <div className="bg-[#090D15] rounded-2xl p-5 border border-[#C9D2DC]/20 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-5 border border-[#D7E0EC] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div className="space-y-1.5">
-          <p className="text-xs font-mono tabular-nums text-[#C9D2DC]">
+          <p className="text-xs font-mono tabular-nums text-[#33445C]">
             {hasSelection
               ? `${selectedCount} item type${selectedCount === 1 ? '' : 's'} · ~${totalBoxes} boxes · ${presetSize}`
               : 'Nothing selected yet'}
           </p>
-          <p className="text-[11px] text-[#94A3B8] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
+          <p className="text-[11px] text-[#5B6B80] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
         </div>
         <button
           type="button"
