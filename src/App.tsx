@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { SeoHead } from './components/layout/SeoHead';
+import { ScrollProgressBar } from './components/layout/ScrollProgressBar';
 import { HomePage } from './pages/HomePage';
 import { ServicesPage } from './pages/ServicesPage';
 import { ServiceDetailPage } from './pages/ServiceDetailPage';
@@ -98,6 +99,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#090D15] text-[#F5F7FA]">
       <SeoHead pathname={cleanPath} />
+      <ScrollProgressBar pathname={cleanPath} />
 
       {/* Accessible Skip Link */}
       <a

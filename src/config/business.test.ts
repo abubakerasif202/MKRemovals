@@ -14,7 +14,10 @@ import {
   generateSitemapXml,
   generateRobotsTxt,
   buildMovingCompanyJsonLd,
+  buildFaqPageJsonLd,
+  calculateScrollProgress,
 } from '../lib/seo';
+import { TRUST_BANNER_ITEMS } from '../components/brand/TrustBanner';
 
 test('MRK business identity matches exact owner-supplied specification', () => {
   assert.equal(mrkBusiness.brandName, 'MRK Removals Adelaide');
@@ -102,3 +105,35 @@ test('All service and service-area slugs are unique and resolve valid SEO metada
     assert.equal(seo.canonicalUrl, `https://mrkremovalsadelaide.com.au/services/${service.slug}`);
   }
 });
+
+test('FAQPage JSON-LD structured data maps all MRK FAQs accurately with Question and Answer entities', () => {
+  const faqSchema = buildFaqPageJsonLd();
+  assert.equal(faqSchema['@context'], 'https://schema.org');
+  assert.equal(faqSchema['@type'], 'FAQPage');
+  assert.equal(faqSchema.mainEntity.length, MRK_FAQS.length);
+  assert.equal(faqSchema.mainEntity[0]['@type'], 'Question');
+  assert.equal(faqSchema.mainEntity[0].name, MRK_FAQS[0].question);
+  assert.equal(faqSchema.mainEntity[0].acceptedAnswer['@type'], 'Answer');
+  assert.equal(faqSchema.mainEntity[0].acceptedAnswer.text, MRK_FAQS[0].answer);
+});
+
+test('calculateScrollProgress computes clamped reading progress percentage [0..100]', () => {
+  assert.equal(calculateScrollProgress(0, 2000, 1000), 0);
+  assert.equal(calculateScrollProgress(500, 2000, 1000), 50);
+  assert.equal(calculateScrollProgress(1000, 2000, 1000), 100);
+  assert.equal(calculateScrollProgress(1200, 2000, 1000), 100);
+  assert.equal(calculateScrollProgress(0, 800, 1000), 0);
+});
+
+test('TRUST_BANNER_ITEMS defines the 4 core confidence pillars with icons', () => {
+  assert.equal(TRUST_BANNER_ITEMS.length, 4);
+  assert.deepEqual(
+    TRUST_BANNER_ITEMS.map((item) => item.title),
+    ['Licensed & Insured', 'Adelaide Local', 'Professional Team', 'Secure Handling']
+  );
+  for (const item of TRUST_BANNER_ITEMS) {
+    assert.ok(typeof item.Icon === 'function' || typeof item.Icon === 'object');
+    assert.ok(item.description.length > 20);
+  }
+});
+

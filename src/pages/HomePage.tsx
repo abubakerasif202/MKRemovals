@@ -9,6 +9,7 @@ import { MRK_SERVICES } from '../content/services';
 import { MRK_SERVICE_AREAS } from '../content/service-areas';
 import { MRK_FAQS } from '../content/faqs';
 import { CinematicTruckScene } from '../components/brand/CinematicTruckScene';
+import { TrustBanner } from '../components/brand/TrustBanner';
 import { MoveScopeBuilder } from '../components/interactive/MoveScopeBuilder';
 import { QuoteForm } from '../components/forms/QuoteForm';
 
@@ -129,42 +130,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* 2. FULL-WIDTH PRACTICAL TRUST & PROCESS STRIP BELOW HERO SPLIT */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              {
-                index: '01',
-                title: 'Direct Operator Contact',
-                detail: `Speak directly with ${mrkBusiness.ownerContactName.value} on ${mrkBusiness.phoneDisplay} to discuss your inventory, access, and timing.`,
-              },
-              {
-                index: '02',
-                title: 'Indicative $130–$135/hr Range',
-                detail:
-                  'Clear hourly guidance upfront. We confirm crew size, truck suitability, minimum hours, travel, and GST in your quote.',
-              },
-              {
-                index: '03',
-                title: 'Adelaide Access Planning',
-                detail:
-                  'We plan around CBD apartment lift lock-offs, narrow North Adelaide laneways, and steep foothills driveways.',
-              },
-              {
-                index: '04',
-                title: 'Careful Load Sequencing',
-                detail:
-                  'Padded wrapping, upright whitegoods strapping, and room-labelled unloading so furniture arrives cleanly.',
-              },
-            ].map((item) => (
-              <div
-                key={item.index}
-                className="mrk-surface rounded-xl p-5 border border-[#C9D2DC]/15 space-y-2"
-              >
-                <p className="font-mono text-xs text-[#C5A15C] tabular-nums">{item.index}</p>
-                <h2 className="font-display text-base font-bold text-white">{item.title}</h2>
-                <p className="text-xs text-[#C9D2DC] leading-relaxed">{item.detail}</p>
-              </div>
-            ))}
+          {/* 2. TRUST BANNER BELOW HERO SPLIT */}
+          <div className="mt-10">
+            <TrustBanner />
           </div>
         </div>
       </section>

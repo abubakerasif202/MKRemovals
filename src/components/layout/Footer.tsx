@@ -137,25 +137,43 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         </div>
       </footer>
 
-      {/* Mobile Sticky Action Bar (Height: 56px, well within the 15% mobile sticky cap alongside Header) */}
+      {/* Mobile Persistent Floating Actions (Bottom-right 'Get a Quote' FAB + Bottom-left Click-to-Call) */}
       <div
         role="region"
-        aria-label="Quick Contact Actions"
-        className="md:hidden fixed bottom-0 inset-x-0 z-40 h-14 bg-[#090D15]/95 backdrop-blur-md border-t border-[#C9D2DC]/20 px-3 flex items-center gap-2.5"
+        aria-label="Mobile Quick Conversion Actions"
+        className="md:hidden fixed bottom-4 inset-x-3 z-40 pointer-events-none flex items-center justify-between gap-2"
       >
         <a
           href={mrkBusiness.phoneHref}
-          className="flex-1 h-10 inline-flex items-center justify-center gap-2 rounded-lg bg-[#161E2E] text-[#F5F7FA] border border-[#C9D2DC]/25 text-xs font-semibold whitespace-nowrap"
+          aria-label={`Call ${mrkBusiness.brandName} on ${mrkBusiness.phoneDisplay}`}
+          className="pointer-events-auto min-h-[44px] px-3.5 py-2.5 inline-flex items-center justify-center gap-2 rounded-xl bg-[#090D15]/95 backdrop-blur-md text-[#F5F7FA] border border-[#C9D2DC]/25 shadow-[0_8px_24px_rgba(0,0,0,0.65)] text-xs font-semibold whitespace-nowrap shrink-0 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          <Phone className="w-3.5 h-3.5 text-[#C81036]" />
-          <span>Call {mrkBusiness.phoneDisplay}</span>
+          <Phone className="w-3.5 h-3.5 text-[#C81036] shrink-0" />
+          <span>{mrkBusiness.phoneDisplay}</span>
         </a>
+
         <a
           href="/quote"
-          onClick={(e) => handleLinkClick(e, '/quote')}
-          className="flex-1 h-10 inline-flex items-center justify-center rounded-lg bg-[#C81036] text-white text-xs font-semibold whitespace-nowrap"
+          data-testid="mobile-floating-quote-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            const localForm =
+              document.getElementById('quote-section') ||
+              document.getElementById('service-quote-form') ||
+              document.getElementById('area-quote-form') ||
+              document.getElementById('pricing-quote-form') ||
+              document.getElementById('dedicated-quote-form');
+            if (localForm) {
+              localForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              const nameInput = document.getElementById('quote-fullName') as HTMLInputElement | null;
+              nameInput?.focus({ preventScroll: true });
+            } else {
+              onNavigate('/quote');
+            }
+          }}
+          className="pointer-events-auto min-h-[44px] px-4 py-2.5 inline-flex items-center justify-center gap-2 rounded-xl bg-[#C81036] hover:bg-[#DF143E] text-white border border-white/20 shadow-[0_10px_28px_rgba(200,16,54,0.5)] text-xs font-bold tracking-wide whitespace-nowrap shrink-0 transition-all active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          Request a Quote
+          <span>Get a Quote</span>
         </a>
       </div>
     </>

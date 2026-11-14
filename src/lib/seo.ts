@@ -59,6 +59,36 @@ export function buildBreadcrumbJsonLd(breadcrumbs: { name: string; path: string 
   };
 }
 
+export function buildFaqPageJsonLd(faqs = MRK_FAQS) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${mrkBusiness.canonicalOrigin}/faq#faqpage`,
+    mainEntity: faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+/**
+ * Pure helper computing reading progress percentage [0..100] from scroll metrics.
+ */
+export function calculateScrollProgress(
+  scrollTop: number,
+  scrollHeight: number,
+  clientHeight: number
+): number {
+  const scrollableDistance = scrollHeight - clientHeight;
+  if (scrollableDistance <= 0) return 0;
+  const ratio = (scrollTop / scrollableDistance) * 100;
+  return Math.max(0, Math.min(100, Number(ratio.toFixed(2))));
+}
+
 export function resolveRouteSeo(pathname: string): RouteSeoMeta {
   const cleanPath = pathname.split('?')[0].replace(/\/+$/, '') || '/';
   const baseOrg = buildMovingCompanyJsonLd();
@@ -240,18 +270,6 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       { name: 'Home', path: '/' },
       { name: 'FAQs', path: '/faq' },
     ];
-    const faqSchema = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: MRK_FAQS.map((item) => ({
-        '@type': 'Question',
-        name: item.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: item.answer,
-        },
-      })),
-    };
     return {
       title: 'Moving FAQs — Rates, Access & Preparation | MRK Removals Adelaide',
       description:
@@ -260,7 +278,7 @@ export function resolveRouteSeo(pathname: string): RouteSeoMeta {
       robots: 'noindex, nofollow',
       ogType: 'website',
       breadcrumbs,
-      jsonLd: [baseOrg, faqSchema, buildBreadcrumbJsonLd(breadcrumbs)],
+      jsonLd: [baseOrg, buildBreadcrumbJsonLd(breadcrumbs)],
     };
   }
 

@@ -6,6 +6,7 @@ import {
   formatIndicativeRateHeadline,
   getMandatoryRateDisclaimer,
 } from '../config/business';
+import { buildFaqPageJsonLd } from '../lib/seo';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 
 interface FaqPageProps {
@@ -29,8 +30,15 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
       ? MRK_FAQS
       : MRK_FAQS.filter((f) => f.category === selectedCategory);
 
+  const faqJsonLd = buildFaqPageJsonLd(MRK_FAQS);
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
+      <script
+        id="mrk-faq-jsonld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <div>
         <Breadcrumbs
           items={[

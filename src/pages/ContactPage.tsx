@@ -6,6 +6,7 @@ import {
   getMandatoryRateDisclaimer,
 } from '../config/business';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
+import { TrustBanner } from '../components/brand/TrustBanner';
 import { QuoteForm } from '../components/forms/QuoteForm';
 
 interface ContactPageProps {
@@ -14,7 +15,7 @@ interface ContactPageProps {
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10">
       <div>
         <Breadcrumbs
           items={[
@@ -38,6 +39,9 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
           </p>
         </div>
       </div>
+
+      {/* Trust Banner */}
+      <TrustBanner variant="compact" />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Contact Channels Panel */}
