@@ -13,43 +13,41 @@ export interface TrustPillar {
 
 export const TRUST_BANNER_ITEMS: TrustPillar[] = [
   {
-    id: 'licensed-insured',
-    title: 'Licensed & Insured',
-    subtitle: `ABN ${mrkBusiness.abn.value}`,
-    description:
-      'Registered South Australian operator with scope, transit terms, and coverage details confirmed transparently before moving day.',
-    Icon: ShieldCheck,
-    accentColor: '#C81036',
+    id: 'owner-led',
+    title: 'Owner-Led Service',
+    subtitle: `Direct: ${mrkBusiness.ownerContactName.value}`,
+    description: `Enquiries are handled directly by ${mrkBusiness.ownerContactName.value}. Call ${mrkBusiness.phoneDisplay} to talk through your move.`,
+    Icon: Users,
+    accentColor: '#C5A15C',
   },
   {
     id: 'adelaide-local',
     title: 'Adelaide Local',
-    subtitle: 'Metro, CBD & Hills Routes',
+    subtitle: 'Metro, CBD & Hills',
     description:
       'Local knowledge of Adelaide CBD apartment lift windows, narrow inner-suburb streets, and steep foothills driveways.',
     Icon: MapPin,
     accentColor: '#124FA3',
   },
   {
-    id: 'professional-team',
-    title: 'Professional Team',
-    subtitle: `Direct Contact: ${mrkBusiness.ownerContactName.value}`,
+    id: 'transparent-quotes',
+    title: 'Transparent Quotes',
+    subtitle: 'Quote-only, no instant booking',
     description:
-      'Methodical, punctual moving crew coordinated directly with clear arrival windows and straightforward communication.',
-    Icon: Users,
-    accentColor: '#C5A15C',
+      'Indicative hourly rates are shown up front. Inclusions, minimums, travel charges and GST are confirmed in your quote before you commit.',
+    Icon: ShieldCheck,
+    accentColor: '#C81036',
   },
   {
-    id: 'secure-handling',
-    title: 'Secure Handling',
-    subtitle: 'Wrapped & Tie-Rail Strapped',
+    id: 'careful-handling',
+    title: 'Careful Handling',
+    subtitle: 'Access reviewed first',
     description:
-      'Protective padded blankets, upright appliance strapping, and balanced tier loading to safeguard furniture and walls.',
+      'Stairs, lifts, parking distance and heavy items are reviewed with you before moving day so the plan fits your property.',
     Icon: PackageCheck,
     accentColor: '#C81036',
   },
 ];
-
 interface TrustBannerProps {
   variant?: 'default' | 'compact';
   className?: string;
@@ -79,11 +77,11 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-xs bg-[#C81036] shrink-0" aria-hidden="true" />
             <p className="text-xs font-semibold uppercase tracking-wider text-[#C5A15C]">
-              Why Adelaide Households &amp; Offices Choose MRK Removals
+              Why customers get in touch with MRK Removals
             </p>
           </div>
           <p className="text-xs text-[#94A3B8] font-mono tabular-nums">
-            Direct Enquiries: {mrkBusiness.phoneDisplay} · ABN {mrkBusiness.abn.value}
+            Direct enquiries: {mrkBusiness.phoneDisplay}
           </p>
         </div>
 

@@ -131,7 +131,7 @@ test('TRUST_BANNER_ITEMS defines the 4 core confidence pillars with icons', () =
   assert.equal(TRUST_BANNER_ITEMS.length, 4);
   assert.deepEqual(
     TRUST_BANNER_ITEMS.map((item) => item.title),
-    ['Licensed & Insured', 'Adelaide Local', 'Professional Team', 'Secure Handling']
+    ['Owner-Led Service', 'Adelaide Local', 'Transparent Quotes', 'Careful Handling']
   );
   for (const item of TRUST_BANNER_ITEMS) {
     assert.ok(typeof item.Icon === 'function' || typeof item.Icon === 'object');

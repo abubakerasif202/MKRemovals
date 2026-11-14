@@ -122,17 +122,17 @@ export const mrkBusiness: MRKBusinessConfig = {
     role: 'Brand Architecture, UI/UX & Digital Engineering',
   },
   brandAssets: {
-    fullLogoConcept: '/assets/aistudio/ruby_platinum_full_logo_concept_42543a71.png',
-    compactLogoConcept: '/assets/aistudio/ruby_platinum_compact_logo_concept_cacda257.png',
-    badgeConcept: '/assets/aistudio/ruby_platinum_badge_concept_6a6760d6.png',
-    roundCrestConcept: '/assets/aistudio/ruby_platinum_round_crest_concept_ff67e362.png',
+    fullLogoConcept: '/assets/aistudio/ruby_platinum_full_logo_concept_42543a71.webp',
+    compactLogoConcept: '/assets/aistudio/ruby_platinum_compact_logo_concept_cacda257.webp',
+    badgeConcept: '/assets/aistudio/ruby_platinum_badge_concept_6a6760d6.webp',
+    roundCrestConcept: '/assets/aistudio/ruby_platinum_round_crest_concept_ff67e362.webp',
   },
   photographyAssets: {
-    heroTruckCinematic: '/assets/photography/mrk_cinematic_truck_adelaide.jpg',
-    adelaideSkylineTwilight: '/assets/photography/adelaide_skyline_twilight.jpg',
-    professionalWrapping: '/assets/photography/professional_furniture_wrapping.jpg',
-    apartmentRelocation: '/assets/photography/apartment_relocation_adelaide.jpg',
-    officeRelocation: '/assets/photography/office_commercial_relocation.jpg',
+    heroTruckCinematic: '/assets/photography/mrk_cinematic_truck_adelaide-960.webp',
+    adelaideSkylineTwilight: '/assets/photography/adelaide_skyline_twilight-960.webp',
+    professionalWrapping: '/assets/photography/professional_furniture_wrapping-960.webp',
+    apartmentRelocation: '/assets/photography/apartment_relocation_adelaide-960.webp',
+    officeRelocation: '/assets/photography/office_commercial_relocation-960.webp',
   },
 };
 
