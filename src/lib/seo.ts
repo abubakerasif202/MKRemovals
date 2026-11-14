@@ -21,12 +21,16 @@ export interface RouteSeoMeta {
  */
 export function isProductionIndexingEnabled(): boolean {
   if (typeof process !== 'undefined' && process.env) {
+    if (process.env.MRK_PREVIEW_ONLY === 'true') return false;
     if (process.env.MRK_PRODUCTION_INDEXING === 'true') return true;
     if (process.env.VITE_MRK_PRODUCTION_INDEXING === 'true') return true;
+    if (process.env.VERCEL_ENV === 'production') return true;
   }
   if (typeof import.meta !== 'undefined' && (import.meta as any).env) {
+    if ((import.meta as any).env.VITE_MRK_PREVIEW_ONLY === 'true') return false;
     if ((import.meta as any).env.VITE_MRK_PRODUCTION_INDEXING === 'true') return true;
     if ((import.meta as any).env.MRK_PRODUCTION_INDEXING === 'true') return true;
+    if ((import.meta as any).env.VERCEL_ENV === 'production') return true;
   }
   return false;
 }
