@@ -80,7 +80,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
               href={mrkBusiness.phoneHref}
               className="px-6 py-3.5 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2 transition-all"
             >
-              <Phone className="w-4 h-4 text-[#C81036]" />
+              <Phone className="w-4 h-4 text-[#F2536F]" />
               <span>Call {mrkBusiness.phoneDisplay}</span>
             </a>
           </div>
@@ -91,7 +91,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
             <p className="text-xs font-mono text-[#C5A15C] font-bold uppercase tracking-wider">
               INDICATIVE HOURLY GUIDANCE
             </p>
-            <Clock className="w-4 h-4 text-[#C81036]" />
+            <Clock className="w-4 h-4 text-[#F2536F]" />
           </div>
 
           <div className="flex items-baseline gap-2">
@@ -105,23 +105,23 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
             <p className="font-semibold text-white">Confirmed per quote before you commit:</p>
             <ul className="space-y-1.5 text-[#94A3B8]">
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                 <span>Applicable crew size &amp; truck suitability for your inventory</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                 <span>3-hour minimum booking</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                 <span>1-hour call-out fee</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                 <span>Hourly rate includes GST; tax invoice details</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                 <span>Any heavy-item, multi-flight stair, or weekend conditions</span>
               </li>
             </ul>
@@ -160,7 +160,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({ onNavigate }) => {
               key={driver.num}
               className="mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/15 space-y-2.5 shadow-md hover:border-[#C81036]/40 transition-colors"
             >
-              <span className="font-mono text-xs text-[#C81036] font-bold tabular-nums">
+              <span className="font-mono text-xs text-[#F2536F] font-bold tabular-nums">
                 DRIVER {driver.num}
               </span>
               <h3 className="font-display text-lg font-bold text-white">{driver.title}</h3>

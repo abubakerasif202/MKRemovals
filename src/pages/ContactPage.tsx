@@ -86,7 +86,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 <span className="text-[#94A3B8]">Direct Email</span>
                 <a
                   href={mrkBusiness.enquiryEmailHref}
-                  className="text-[#F5F7FA] hover:text-[#C81036] font-mono underline"
+                  className="text-[#F5F7FA] hover:text-[#F2536F] font-mono underline"
                 >
                   {mrkBusiness.enquiryEmail}
                 </a>
@@ -103,7 +103,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
             <div className="pt-4 border-t border-[#C9D2DC]/15 space-y-1.5">
               <p className="text-xs font-bold text-white flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-[#C81036]" />
+                <Clock className="w-3.5 h-3.5 text-[#F2536F]" />
                 <span>{formatIndicativeRateHeadline()}</span>
               </p>
               <p className="text-[11px] text-[#94A3B8] leading-relaxed">
@@ -114,20 +114,20 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
 
           <div className="bg-[#0E1420] rounded-2xl p-5 border border-[#C9D2DC]/18 space-y-2.5 shadow-md">
             <h3 className="font-display text-sm font-bold text-white flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#C81036]" />
+              <ShieldCheck className="w-4 h-4 text-[#F2536F]" />
               <span>Fastest Way to Get an Accurate Quote</span>
             </h3>
             <ul className="space-y-2 text-xs text-[#C9D2DC]">
               <li className="flex items-start gap-2">
-                <span className="text-[#C81036] font-bold">1.</span>
+                <span className="text-[#F2536F] font-bold">1.</span>
                 <span>Share both your pickup and destination suburbs or postcodes.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#C81036] font-bold">2.</span>
+                <span className="text-[#F2536F] font-bold">2.</span>
                 <span>Let us know if either property has stairs, a lift, or a steep driveway.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-[#C81036] font-bold">3.</span>
+                <span className="text-[#F2536F] font-bold">3.</span>
                 <span>List your largest furniture items and rough moving box count.</span>
               </li>
             </ul>

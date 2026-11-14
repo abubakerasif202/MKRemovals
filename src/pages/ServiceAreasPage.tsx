@@ -96,7 +96,7 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
             placeholder="Search suburb or postcode (e.g. 5067)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-[#090D15] text-xs text-white placeholder-[#64748B] border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036] shadow-inner"
+            className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-[#090D15] text-xs text-white placeholder-[#94A3B8] border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036] shadow-inner"
           />
         </div>
       </div>
@@ -181,7 +181,7 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
       <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/25 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl">
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 text-xs text-[#C5A15C] font-semibold">
-            <ShieldCheck className="w-4 h-4 text-[#C81036]" />
+            <ShieldCheck className="w-4 h-4 text-[#F2536F]" />
             <span>Adelaide Hills &amp; Regional SA Routes</span>
           </div>
           <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
@@ -197,7 +197,7 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
           href={mrkBusiness.phoneHref}
           className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2 shrink-0 shadow-md"
         >
-          <Phone className="w-4 h-4 text-[#C81036]" />
+          <Phone className="w-4 h-4 text-[#F2536F]" />
           <span>Call {mrkBusiness.phoneDisplay} to Discuss</span>
         </a>
       </div>

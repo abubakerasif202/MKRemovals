@@ -10,7 +10,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 text-center space-y-6">
       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C81036]/15 border border-[#C81036]/30 text-xs text-white font-medium">
-        <MapPin className="w-3.5 h-3.5 text-[#C81036]" />
+        <MapPin className="w-3.5 h-3.5 text-[#F2536F]" />
         <span className="font-mono text-xs text-[#C5A15C] tracking-widest uppercase">ERROR 404 · ROUTE NOT FOUND</span>
       </div>
 
@@ -52,7 +52,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
           href={mrkBusiness.phoneHref}
           className="px-5 py-3.5 rounded-xl bg-[#0E1420] hover:bg-[#161E2E] text-[#F5F7FA] border border-[#C9D2DC]/20 text-xs sm:text-sm font-semibold inline-flex items-center gap-2 transition-all"
         >
-          <Phone className="w-4 h-4 text-[#C81036]" />
+          <Phone className="w-4 h-4 text-[#F2536F]" />
           <span>Call {mrkBusiness.phoneDisplay}</span>
         </a>
       </div>

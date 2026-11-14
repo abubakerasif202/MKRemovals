@@ -50,6 +50,14 @@ async function prerender() {
 
   const template = fs.readFileSync(templatePath, 'utf-8');
 
+  // Preload the two fonts used above the fold (self-hosted, same-origin) so text paints in the final face.
+  const assetFiles = fs.readdirSync(path.join(distDir, 'assets'));
+  const fontPreloads = [/^outfit-latin-700-normal.*\.woff2$/, /^plus-jakarta-sans-latin-400-normal.*\.woff2$/]
+    .map((re) => assetFiles.find((name) => re.test(name)))
+    .filter((name): name is string => Boolean(name))
+    .map((name) => `\n    <link rel="preload" href="/assets/${name}" as="font" type="font/woff2" crossorigin />`)
+    .join('');
+
   // 1. Write robots.txt and sitemap.xml to both dist/ and public/
   const robotsContent = generateRobotsTxt(isProdAuthorized);
   const sitemapContent = generateSitemapXml();
@@ -129,7 +137,7 @@ async function prerender() {
     );
 
     // Inject Route JSON-LD structured data before </head>
-    const jsonLdTag = `\n    <script type="application/ld+json">${JSON.stringify(
+    const jsonLdTag = `${fontPreloads}\n    <script type="application/ld+json">${JSON.stringify(
       seo.jsonLd
     )}</script>\n  </head>`;
     pageHtml = pageHtml.replace(/<\/head>/i, jsonLdTag);

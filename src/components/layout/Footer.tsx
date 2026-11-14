@@ -49,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   <span className="text-[#94A3B8]">Direct Phone: </span>
                   <a
                     href={mrkBusiness.phoneHref}
-                    className="font-mono font-semibold text-white hover:text-[#C81036] transition-colors tabular-nums"
+                    className="font-mono font-semibold text-white hover:text-[#F2536F] transition-colors tabular-nums"
                   >
                     {mrkBusiness.phoneDisplay}
                   </a>
@@ -58,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   <span className="text-[#94A3B8]">Email: </span>
                   <a
                     href={mrkBusiness.enquiryEmailHref}
-                    className="font-mono text-xs sm:text-sm text-white hover:text-[#C81036] transition-colors"
+                    className="font-mono text-xs sm:text-sm text-white hover:text-[#F2536F] transition-colors"
                   >
                     {mrkBusiness.enquiryEmail}
                   </a>
@@ -140,8 +140,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <p>
                 &copy; {new Date().getFullYear()} {mrkBusiness.brandName}. All rights reserved.
               </p>
-              <p className="text-[11px] text-[#64748B]">
-                Digital experience by {mrkBusiness.creativeAgency.name}
+              <p className="text-xs text-[#C9D2DC]">
+                Website by{' '}
+                <a
+                  href="https://abwebstudio.com.au/"
+                  target="_blank"
+                  rel="noopener"
+                  className="font-semibold text-white underline decoration-[#C81036] decoration-2 underline-offset-4 hover:text-[#FDA4AF] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  {mrkBusiness.creativeAgency.name}
+                </a>
               </p>
             </div>
           </div>
@@ -159,7 +167,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           aria-label={`Call ${mrkBusiness.brandName} on ${mrkBusiness.phoneDisplay}`}
           className="pointer-events-auto min-h-[44px] px-3.5 py-2.5 inline-flex items-center justify-center gap-2 rounded-xl bg-[#090D15]/95 backdrop-blur-md text-[#F5F7FA] border border-[#C9D2DC]/25 shadow-[0_8px_24px_rgba(0,0,0,0.65)] text-xs font-semibold whitespace-nowrap shrink-0 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          <Phone className="w-3.5 h-3.5 text-[#C81036] shrink-0" />
+          <Phone className="w-3.5 h-3.5 text-[#F2536F] shrink-0" />
           <span>{mrkBusiness.phoneDisplay}</span>
         </a>
 

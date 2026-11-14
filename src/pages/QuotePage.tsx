@@ -58,13 +58,13 @@ export const QuotePage: React.FC<QuotePageProps> = ({ searchQuery = '', onNaviga
 
           <div className="mrk-surface-elevated rounded-2xl p-5 border border-[#C9D2DC]/25 space-y-2.5 shrink-0 max-w-sm shadow-xl">
             <p className="text-xs font-bold text-white flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-[#C81036]" />
+              <Clock className="w-4 h-4 text-[#F2536F]" />
               <span>{formatIndicativeRateHeadline()}</span>
             </p>
             <p className="text-[11px] text-[#94A3B8] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
             <a
               href={mrkBusiness.phoneHref}
-              className="inline-flex items-center gap-2 text-xs font-bold text-[#C81036] hover:text-white pt-1 transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-bold text-[#F2536F] hover:text-white pt-1 transition-colors"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>Call {mrkBusiness.phoneDisplay} Directly</span>

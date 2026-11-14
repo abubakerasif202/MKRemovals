@@ -76,9 +76,9 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-5 mb-5 border-b border-[#C9D2DC]/12">
           <div className="flex items-center gap-2.5">
             <span className="w-2 h-2 rounded-xs bg-[#C81036] shrink-0" aria-hidden="true" />
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#C5A15C]">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#C5A15C]">
               Why customers get in touch with MRK Removals
-            </p>
+            </h2>
           </div>
           <p className="text-xs text-[#94A3B8] font-mono tabular-nums">
             Direct enquiries: {mrkBusiness.phoneDisplay}

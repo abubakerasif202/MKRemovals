@@ -90,7 +90,7 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
               <p className="text-xs font-semibold text-[#C5A15C] uppercase tracking-wider">
                 Moving to or from {area.shortName}?
               </p>
-              <Clock className="w-4 h-4 text-[#C81036]" />
+              <Clock className="w-4 h-4 text-[#F2536F]" />
             </div>
             <p className="text-sm sm:text-base font-bold text-white">{formatIndicativeRateHeadline()}</p>
             <p className="text-xs text-[#94A3B8] leading-relaxed">
@@ -107,7 +107,7 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
                 href={mrkBusiness.phoneHref}
                 className="w-full py-2.5 px-4 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-all"
               >
-                <Phone className="w-4 h-4 text-[#C81036]" />
+                <Phone className="w-4 h-4 text-[#F2536F]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
               </a>
             </div>
@@ -124,7 +124,7 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
           <ul className="space-y-3 text-sm text-[#C9D2DC]">
             {area.accessAndParkingConsiderations.map((item) => (
               <li key={item} className="flex items-start gap-2.5">
-                <span className="text-[#C81036] font-bold" aria-hidden="true">
+                <span className="text-[#F2536F] font-bold" aria-hidden="true">
                   —
                 </span>
                 <span>{item}</span>
@@ -141,7 +141,7 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
             <ul className="space-y-2 text-xs text-[#C9D2DC]">
               {area.commonPropertyTypes.map((prop) => (
                 <li key={prop} className="flex items-start gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                   <span>{prop}</span>
                 </li>
               ))}
@@ -182,7 +182,7 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
                 e.preventDefault();
                 onNavigate(`/service-areas/${other.slug}`);
               }}
-              className="mrk-surface-interactive rounded-2xl p-5 border border-[#C9D2DC]/15 flex items-center justify-between gap-3 text-xs font-semibold text-white hover:text-[#C81036] shadow-md"
+              className="mrk-surface-interactive rounded-2xl p-5 border border-[#C9D2DC]/15 flex items-center justify-between gap-3 text-xs font-semibold text-white hover:text-[#F2536F] shadow-md"
             >
               <span>{other.title}</span>
               <ArrowRight className="w-4 h-4 shrink-0" />

@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   Clock,
 } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '../lib/useReducedMotion';
 import {
   mrkBusiness,
   formatIndicativeRateHeadline,
@@ -25,15 +25,6 @@ import { ResponsiveImage } from '../components/ui/ResponsiveImage';
 interface HomePageProps {
   onNavigate: (path: string) => void;
 }
-
-const HERO_CONTAINER = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
-};
-const HERO_ITEM = {
-  hidden: { opacity: 0, y: 22 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
-};
 
 const PROCESS_STEPS = [
   {
@@ -64,6 +55,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [presetNotes, setPresetNotes] = useState<string>('');
   const [activeAreaSlug, setActiveAreaSlug] = useState<string>(MRK_SERVICE_AREAS[0].slug);
   const [openFaqId, setOpenFaqId] = useState<string>('');
+  const [showInventory, setShowInventory] = useState<boolean>(false);
   const reduceMotion = useReducedMotion();
 
   const quoteSectionRef = useRef<HTMLElement>(null);
@@ -105,34 +97,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-24 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center">
-          <motion.div
-            variants={HERO_CONTAINER}
-            initial={reduceMotion ? false : 'hidden'}
-            animate="show"
-            className="lg:col-span-7 space-y-6"
-          >
-            <motion.p variants={HERO_ITEM} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#090D15]/80 border border-[#C9D2DC]/25 text-xs font-medium text-white">
+          <div className="lg:col-span-7 space-y-6">
+            <p
+              style={{ '--d': '0.05s' } as React.CSSProperties}
+              className="mrk-rise inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#090D15]/80 border border-[#C9D2DC]/25 text-xs font-medium text-white"
+            >
               <span className="w-2 h-2 rounded-full bg-[#C81036]" aria-hidden="true" />
               Adelaide, South Australia · Residential &amp; Commercial Removals
-            </motion.p>
+            </p>
 
-            <motion.h1
-              variants={HERO_ITEM}
+            <h1
               id="hero-heading"
-              className="font-display font-extrabold text-white tracking-tight leading-[1.05]"
-              style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)' }}
+              style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)', '--d': '0.12s' } as React.CSSProperties}
+              className="mrk-rise font-display font-extrabold text-white tracking-tight leading-[1.05]"
             >
               Adelaide removalists,
               <br />
               <span className="text-platinum-sheen">planned with precision.</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p variants={HERO_ITEM} className="text-base sm:text-lg text-[#E2E8F0] leading-relaxed max-w-2xl">
+            <p
+              style={{ '--d': '0.22s' } as React.CSSProperties}
+              className="mrk-rise text-base sm:text-lg text-[#E2E8F0] leading-relaxed max-w-2xl"
+            >
               House, apartment and office moves across Adelaide, coordinated directly with{' '}
               {mrkBusiness.ownerContactName.value}. Tell us about your move and get a clear quote.
-            </motion.p>
+            </p>
 
-            <motion.div variants={HERO_ITEM} className="flex flex-col sm:flex-row gap-3 pt-1">
+            <div
+              style={{ '--d': '0.32s' } as React.CSSProperties}
+              className="mrk-rise flex flex-col sm:flex-row gap-3 pt-1"
+            >
               <button
                 type="button"
                 onClick={scrollToQuote}
@@ -145,39 +140,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 href={mrkBusiness.phoneHref}
                 className="min-h-12 px-7 rounded-xl btn-secondary text-[#F5F7FA] text-base font-semibold inline-flex items-center justify-center gap-2.5"
               >
-                <Phone className="w-4 h-4 text-[#C81036]" />
+                <Phone className="w-4 h-4 text-[#F2536F]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
               </a>
-            </motion.div>
+            </div>
 
-            <motion.p variants={HERO_ITEM} className="flex items-start gap-2 text-sm text-[#E2E8F0] max-w-2xl">
-              <Clock className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
+            <p
+              style={{ '--d': '0.42s' } as React.CSSProperties}
+              className="mrk-rise flex items-start gap-2 text-sm text-[#E2E8F0] max-w-2xl"
+            >
+              <Clock className="w-4 h-4 text-[#F2536F] shrink-0 mt-0.5" aria-hidden="true" />
               <span>
                 <strong className="text-white">{formatIndicativeRateHeadline()}</strong>{' '}
                 {getMandatoryRateDisclaimer()}
               </span>
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.94, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden lg:block lg:col-span-5"
-          >
+          <div className="mrk-pop hidden lg:block lg:col-span-5">
             <div className="mrk-float rounded-3xl overflow-hidden border border-[#C9D2DC]/25 shadow-[0_30px_80px_-30px_rgba(200,16,54,0.55)]">
               <img
                 src={mrkBusiness.brandAssets.logoFull}
                 alt="MRK Removals Adelaide logo"
                 width={960}
                 height={640}
+                loading="lazy"
                 decoding="async"
                 className="w-full h-auto"
               />
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </div>      </section>
 
       {/* 2. TRUST */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-10">
@@ -199,7 +192,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             className="text-sm font-semibold text-[#C9D2DC] hover:text-white inline-flex items-center gap-1.5 whitespace-nowrap group"
           >
             <span>All services</span>
-            <ArrowRight className="w-4 h-4 text-[#C81036] transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-4 h-4 text-[#F2536F] transition-transform group-hover:translate-x-1" />
           </a>
         </div>
 
@@ -217,7 +210,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 <ul className="space-y-1.5 text-xs text-[#C9D2DC]">
                   {service.idealFor.slice(0, 3).map((point) => (
                     <li key={point} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{point}</span>
                     </li>
                   ))}
@@ -229,7 +222,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   onClick={go(`/services/${service.slug}`)}
                   className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-[#FDA4AF]"
                 >
-                  <span>Learn more</span>
+                  <span>Explore {service.shortTitle}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
                 <button
@@ -267,7 +260,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-white hover:text-[#FDA4AF]"
             >
               <span>How pricing works</span>
-              <ArrowRight className="w-4 h-4 text-[#C81036]" />
+              <ArrowRight className="w-4 h-4 text-[#F2536F]" />
             </a>
           </div>
           <div className="lg:col-span-6">
@@ -284,7 +277,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 'Stairs & heavy-item handling',
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2 bg-[#090D15]/70 rounded-xl p-3 border border-[#C9D2DC]/15">
-                  <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
+                  <CheckCircle2 className="w-4 h-4 text-[#F2536F] shrink-0 mt-0.5" aria-hidden="true" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -325,7 +318,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {PROCESS_STEPS.map((step) => (
                 <li key={step.num} className="mrk-surface rounded-2xl p-5 border border-[#C9D2DC]/15 space-y-1.5">
-                  <span className="font-mono text-xs text-[#C81036] font-bold tabular-nums">STEP {step.num}</span>
+                  <span className="font-mono text-xs text-[#F2536F] font-bold tabular-nums">STEP {step.num}</span>
                   <h3 className="font-display text-base font-bold text-white">{step.title}</h3>
                   <p className="text-sm text-[#C9D2DC] leading-relaxed">{step.body}</p>
                 </li>
@@ -364,7 +357,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#C9D2DC] hover:text-white"
           >
             <span>All service areas</span>
-            <ArrowRight className="w-4 h-4 text-[#C81036]" />
+            <ArrowRight className="w-4 h-4 text-[#F2536F]" />
           </a>
         </div>
 
@@ -426,13 +419,36 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* 9. OPTIONAL INVENTORY BUILDER */}
       <section className="mrk-reveal max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Optional inventory list">
-        <MoveScopeBuilder
-          onApplyScopeToQuote={(summary, sizeLabel) => {
-            setPresetNotes(summary);
-            setPresetSize(sizeLabel);
-            scrollToQuote();
-          }}
-        />
+        <button
+          type="button"
+          onClick={() => setShowInventory((v) => !v)}
+          aria-expanded={showInventory}
+          aria-controls="inventory-panel"
+          className="w-full min-h-14 px-5 py-4 rounded-2xl mrk-surface border border-[#C9D2DC]/20 hover:border-[#C9D2DC]/40 flex items-center justify-between gap-4 text-left cursor-pointer"
+        >
+          <span>
+            <span className="block text-xs font-semibold uppercase tracking-wider text-[#C5A15C]">Optional</span>
+            <span className="block font-display text-base sm:text-lg font-bold text-white">
+              Add an item list for a more accurate quote
+            </span>
+          </span>
+          {showInventory ? (
+            <ChevronUp className="w-5 h-5 text-[#F2536F] shrink-0" aria-hidden="true" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-[#C9D2DC] shrink-0" aria-hidden="true" />
+          )}
+        </button>
+        {showInventory && (
+          <div id="inventory-panel" className="mt-4">
+            <MoveScopeBuilder
+              onApplyScopeToQuote={(summary, sizeLabel) => {
+                setPresetNotes(summary);
+                setPresetSize(sizeLabel);
+                scrollToQuote();
+              }}
+            />
+          </div>
+        )}
       </section>
 
       {/* 10. FAQ + CLOSING CTA */}
@@ -446,8 +462,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             onClick={go('/faq')}
             className="min-h-11 inline-flex items-center gap-1.5 text-sm font-semibold text-[#C9D2DC] hover:text-white"
           >
-            <span>View all {MRK_FAQS.length}</span>
-            <ArrowRight className="w-3.5 h-3.5 text-[#C81036]" />
+            <span>View all {MRK_FAQS.length} questions</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#F2536F]" />
           </a>
         </div>
 
@@ -465,7 +481,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 >
                   <span className="font-display text-base font-semibold text-white">{faq.question}</span>
                   {isOpen ? (
-                    <ChevronUp className="w-4 h-4 text-[#C81036] shrink-0" aria-hidden="true" />
+                    <ChevronUp className="w-4 h-4 text-[#F2536F] shrink-0" aria-hidden="true" />
                   ) : (
                     <ChevronDown className="w-4 h-4 text-[#C9D2DC] shrink-0" aria-hidden="true" />
                   )}
@@ -508,7 +524,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               href={mrkBusiness.phoneHref}
               className="min-h-12 px-7 rounded-xl btn-secondary text-[#F5F7FA] font-semibold inline-flex items-center justify-center gap-2"
             >
-              <Phone className="w-4 h-4 text-[#C81036]" />
+              <Phone className="w-4 h-4 text-[#F2536F]" />
               <span>Call {mrkBusiness.phoneDisplay}</span>
             </a>
           </div>

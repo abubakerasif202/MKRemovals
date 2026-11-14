@@ -10,6 +10,7 @@ const SERVERLESS_GRAPH = [
   'api/quote.ts',
   'src/lib/quote-delivery.ts',
   'src/lib/quote-validation.ts',
+  'src/lib/quote-store.ts',
   'src/config/business.ts',
 ];
 

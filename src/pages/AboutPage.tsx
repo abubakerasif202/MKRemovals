@@ -27,7 +27,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C81036]/15 border border-[#C81036]/30 text-xs text-white font-medium">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#C81036]" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#F2536F]" />
               <span>Adelaide Local Removalists · Direct Operator Accountability</span>
             </div>
 
@@ -81,7 +81,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               <div className="flex justify-between gap-4">
                 <dt className="text-[#94A3B8]">Direct Telephone</dt>
                 <dd className="font-mono text-white font-semibold text-right tabular-nums">
-                  <a href={mrkBusiness.phoneHref} className="hover:text-[#C81036] underline">
+                  <a href={mrkBusiness.phoneHref} className="hover:text-[#F2536F] underline">
                     {mrkBusiness.phoneDisplay}
                   </a>
                 </dd>
@@ -89,7 +89,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               <div className="flex justify-between gap-4">
                 <dt className="text-[#94A3B8]">Direct Email</dt>
                 <dd className="font-mono text-white text-right text-xs sm:text-sm">
-                  <a href={mrkBusiness.enquiryEmailHref} className="hover:text-[#C81036] underline">
+                  <a href={mrkBusiness.enquiryEmailHref} className="hover:text-[#F2536F] underline">
                     {mrkBusiness.enquiryEmail}
                   </a>
                 </dd>
@@ -126,7 +126,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-transparent to-transparent" />
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
             <span className="font-semibold flex items-center gap-1.5">
-              <Truck className="w-4 h-4 text-[#C81036]" />
+              <Truck className="w-4 h-4 text-[#F2536F]" />
               Heavy-Duty Enclosed Pantechnicon Fleet
             </span>
             <span className="font-mono text-[10px] text-[#C5A15C]">ADELAIDE REGISTERED</span>
@@ -150,15 +150,15 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
           <ul className="space-y-2 text-xs text-[#C9D2DC] pt-1">
             <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-[#F2536F] shrink-0 mt-0.5" />
               <span>Full weather sealing protects your furniture from rain and road dust during transit.</span>
             </li>
             <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-[#F2536F] shrink-0 mt-0.5" />
               <span>Hydraulic tailgate lifts reduce manual strain and prevent drops during heavy loading.</span>
             </li>
             <li className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-[#F2536F] shrink-0 mt-0.5" />
               <span>Neoprene floor runners keep your hallway floorboards and carpets clean.</span>
             </li>
           </ul>
@@ -196,7 +196,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               key={item.index}
               className="mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/15 space-y-2.5 hover:border-[#C81036]/40 transition-colors shadow-md"
             >
-              <span className="font-mono text-xs text-[#C81036] font-bold tabular-nums">{item.index}</span>
+              <span className="font-mono text-xs text-[#F2536F] font-bold tabular-nums">{item.index}</span>
               <h3 className="font-display text-lg font-bold text-white">{item.title}</h3>
               <p className="text-sm text-[#C9D2DC] leading-relaxed">{item.body}</p>
             </div>
@@ -289,7 +289,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             href={mrkBusiness.phoneHref}
             className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
           >
-            <Phone className="w-4 h-4 text-[#C81036]" />
+            <Phone className="w-4 h-4 text-[#F2536F]" />
             <span>Call {mrkBusiness.phoneDisplay}</span>
           </a>
         </div>

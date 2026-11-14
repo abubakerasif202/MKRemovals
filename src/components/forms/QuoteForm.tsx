@@ -322,7 +322,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               Or call directly:{' '}
               <a
                 href={mrkBusiness.phoneHref}
-                className="font-mono text-[#F5F7FA] underline hover:text-[#C81036]"
+                className="font-mono text-[#F5F7FA] underline hover:text-[#F2536F]"
               >
                 {mrkBusiness.phoneDisplay}
               </a>
@@ -338,7 +338,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           className="rounded-xl bg-[#C81036]/15 border border-[#C81036] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm text-white"
         >
           <div className="flex items-start gap-2.5">
-            <AlertCircle className="w-5 h-5 text-[#C81036] shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-[#F2536F] shrink-0 mt-0.5" />
             <span>{outcome.message}</span>
           </div>
           {outcome.status !== 'validation_error' && (
@@ -382,7 +382,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             htmlFor="quote-fullName"
             className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
           >
-            Full Name <span className="text-[#C81036]">*</span>
+            Full Name <span className="text-[#F2536F]">*</span>
           </label>
           <input
             id="quote-fullName"
@@ -395,7 +395,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('fullName', e.target.value)}
             aria-invalid={Boolean(fieldErrors.fullName)}
             aria-describedby={fieldErrors.fullName ? 'err-fullName' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
+            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#94A3B8] border ${
               fieldErrors.fullName ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
             } focus:outline-none focus:border-[#C81036]`}
           />
@@ -411,7 +411,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             htmlFor="quote-phone"
             className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
           >
-            Australian Phone Number <span className="text-[#C81036]">*</span>
+            Australian Phone Number <span className="text-[#F2536F]">*</span>
           </label>
           <input
             id="quote-phone"
@@ -424,7 +424,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('phone', e.target.value)}
             aria-invalid={Boolean(fieldErrors.phone)}
             aria-describedby={fieldErrors.phone ? 'err-phone' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] font-mono tabular-nums border ${
+            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#94A3B8] font-mono tabular-nums border ${
               fieldErrors.phone ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
             } focus:outline-none focus:border-[#C81036]`}
           />
@@ -453,7 +453,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             onChange={(e) => updateField('email', e.target.value)}
             aria-invalid={Boolean(fieldErrors.email)}
             aria-describedby={fieldErrors.email ? 'err-email' : undefined}
-            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
+            className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#94A3B8] border ${
               fieldErrors.email ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
             } focus:outline-none focus:border-[#C81036]`}
           />
@@ -473,7 +473,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               htmlFor="quote-pickupSuburb"
               className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
             >
-              Pickup Suburb or Postcode <span className="text-[#C81036]">*</span>
+              Pickup Suburb or Postcode <span className="text-[#F2536F]">*</span>
             </label>
             <input
               id="quote-pickupSuburb"
@@ -485,7 +485,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               onChange={(e) => updateField('pickupSuburb', e.target.value)}
               aria-invalid={Boolean(fieldErrors.pickupSuburb)}
               aria-describedby={fieldErrors.pickupSuburb ? 'err-pickupSuburb' : undefined}
-              className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
+              className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#94A3B8] border ${
                 fieldErrors.pickupSuburb ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
               } focus:outline-none focus:border-[#C81036]`}
             />
@@ -528,7 +528,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               htmlFor="quote-destinationSuburb"
               className="block text-xs font-semibold text-[#F5F7FA] mb-1.5"
             >
-              Destination Suburb or Postcode <span className="text-[#C81036]">*</span>
+              Destination Suburb or Postcode <span className="text-[#F2536F]">*</span>
             </label>
             <input
               id="quote-destinationSuburb"
@@ -542,7 +542,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
               aria-describedby={
                 fieldErrors.destinationSuburb ? 'err-destinationSuburb' : undefined
               }
-              className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border ${
+              className={`w-full rounded-lg bg-[#090D15] px-3.5 py-2.5 text-sm text-white placeholder-[#94A3B8] border ${
                 fieldErrors.destinationSuburb ? 'border-[#C81036]' : 'border-[#C9D2DC]/25'
               } focus:outline-none focus:border-[#C81036]`}
             />
@@ -633,7 +633,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           >
             Target Move Date{' '}
             {formData.dateFlexibility !== 'planning-ahead' && (
-              <span className="text-[#C81036]">*</span>
+              <span className="text-[#F2536F]">*</span>
             )}
           </label>
           <input
@@ -687,9 +687,9 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           className="inline-flex items-center gap-2 text-xs font-semibold text-[#C9D2DC] hover:text-white transition-colors"
         >
           {showExtendedDetails ? (
-            <ChevronUp className="w-4 h-4 text-[#C81036]" />
+            <ChevronUp className="w-4 h-4 text-[#F2536F]" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-[#C81036]" />
+            <ChevronDown className="w-4 h-4 text-[#F2536F]" />
           )}
           <span>
             {showExtendedDetails
@@ -742,7 +742,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                   placeholder="e.g. Lift booked 9am–12pm, or 14 internal stairs"
                   value={formData.stairsOrLiftDetails}
                   onChange={(e) => updateField('stairsOrLiftDetails', e.target.value)}
-                  className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2 text-sm text-white placeholder-[#64748B] border border-[#C9D2DC]/20"
+                  className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2 text-sm text-white placeholder-[#94A3B8] border border-[#C9D2DC]/20"
                 />
               </div>
             </div>
@@ -753,7 +753,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                   type="checkbox"
                   checked={Boolean(formData.packingRequired)}
                   onChange={(e) => updateField('packingRequired', e.target.checked)}
-                  className="rounded border-[#C9D2DC]/30 bg-[#090D15] text-[#C81036] focus:ring-[#C81036]"
+                  className="rounded border-[#C9D2DC]/30 bg-[#090D15] text-[#F2536F] focus:ring-[#C81036]"
                 />
                 <span>Include packing / carton preparation discussion</span>
               </label>
@@ -763,7 +763,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                   type="checkbox"
                   checked={Boolean(formData.disassemblyRequired)}
                   onChange={(e) => updateField('disassemblyRequired', e.target.checked)}
-                  className="rounded border-[#C9D2DC]/30 bg-[#090D15] text-[#C81036] focus:ring-[#C81036]"
+                  className="rounded border-[#C9D2DC]/30 bg-[#090D15] text-[#F2536F] focus:ring-[#C81036]"
                 />
                 <span>Bed frame / dining table disassembly required</span>
               </label>
@@ -782,7 +782,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
                 placeholder="List major items (e.g. 2 queen beds, L-shape sofa, double-door fridge, washing machine, 6-seater dining table, ~30 boxes) and any heavy or fragile pieces..."
                 value={formData.inventoryNotes}
                 onChange={(e) => updateField('inventoryNotes', e.target.value)}
-                className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2.5 text-sm text-white placeholder-[#64748B] border border-[#C9D2DC]/20 focus:outline-none focus:border-[#C81036]"
+                className="w-full rounded-lg bg-[#0E1420] px-3.5 py-2.5 text-sm text-white placeholder-[#94A3B8] border border-[#C9D2DC]/20 focus:outline-none focus:border-[#C81036]"
               />
             </div>
           </div>

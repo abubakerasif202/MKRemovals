@@ -87,7 +87,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
           <div className="lg:col-span-4 mrk-surface-elevated rounded-2xl p-6 border border-[#C9D2DC]/25 space-y-4 shadow-xl">
             <div className="flex items-center justify-between gap-2">
               <p className="text-xs font-semibold text-[#C5A15C] uppercase tracking-wider">Rate Guidance</p>
-              <Clock className="w-4 h-4 text-[#C81036]" />
+              <Clock className="w-4 h-4 text-[#F2536F]" />
             </div>
             <p className="text-base font-bold text-white">{formatIndicativeRateHeadline()}</p>
             <p className="text-xs text-[#94A3B8] leading-relaxed">
@@ -104,7 +104,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                 href={mrkBusiness.phoneHref}
                 className="w-full py-2.5 px-4 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-all"
               >
-                <Phone className="w-4 h-4 text-[#C81036]" />
+                <Phone className="w-4 h-4 text-[#F2536F]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
               </a>
             </div>
@@ -127,7 +127,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
               key={item.factor}
               className="mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/15 space-y-2 hover:border-[#C81036]/40 transition-colors shadow-md"
             >
-              <p className="font-mono text-xs text-[#C81036] font-bold tabular-nums">
+              <p className="font-mono text-xs text-[#F2536F] font-bold tabular-nums">
                 FACTOR 0{idx + 1}
               </p>
               <h3 className="font-display text-lg font-bold text-white">{item.factor}</h3>
@@ -141,13 +141,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-6 mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/18 space-y-4 shadow-md">
           <h2 className="font-display text-xl font-bold text-white flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5 text-[#C81036]" />
+            <CheckCircle2 className="w-5 h-5 text-[#F2536F]" />
             <span>Pre-Move Preparation Checklist</span>
           </h2>
           <ul className="space-y-3 text-sm text-[#C9D2DC]">
             {service.preparationChecklist.map((step) => (
               <li key={step} className="flex items-start gap-2.5">
-                <span className="text-[#C81036] font-bold" aria-hidden="true">
+                <span className="text-[#F2536F] font-bold" aria-hidden="true">
                   —
                 </span>
                 <span>{step}</span>
@@ -214,7 +214,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
                   e.preventDefault();
                   onNavigate(`/services/${rel.slug}`);
                 }}
-                className="mrk-surface-interactive rounded-xl p-5 border border-[#C9D2DC]/15 flex items-center justify-between gap-3 text-xs font-semibold text-white hover:text-[#C81036]"
+                className="mrk-surface-interactive rounded-xl p-5 border border-[#C9D2DC]/15 flex items-center justify-between gap-3 text-xs font-semibold text-white hover:text-[#F2536F]"
               >
                 <span>{rel.title}</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />

@@ -88,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
             href={mrkBusiness.phoneHref}
             className="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#161E2E] hover:bg-[#242A34] text-xs font-semibold text-[#F5F7FA] border border-[#C9D2DC]/20 transition-all hover:border-[#C81036]/50 whitespace-nowrap"
           >
-            <Phone className="w-3.5 h-3.5 text-[#C81036]" />
+            <Phone className="w-3.5 h-3.5 text-[#F2536F]" />
             <span>{mrkBusiness.phoneDisplay}</span>
           </a>
 
@@ -171,7 +171,7 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
               href={mrkBusiness.phoneHref}
               className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-[#161E2E] text-[#F5F7FA] border border-[#C9D2DC]/25 text-sm font-semibold"
             >
-              <Phone className="w-4 h-4 text-[#C81036]" />
+              <Phone className="w-4 h-4 text-[#F2536F]" />
               <span>Call {mrkBusiness.phoneDisplay}</span>
             </a>
             <p className="text-xs text-[#C9D2DC] text-center">

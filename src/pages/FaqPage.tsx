@@ -103,7 +103,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
                   </h2>
                 </div>
                 {isOpen ? (
-                  <ChevronUp className="w-5 h-5 text-[#C81036] shrink-0" />
+                  <ChevronUp className="w-5 h-5 text-[#F2536F] shrink-0" />
                 ) : (
                   <ChevronDown className="w-5 h-5 text-[#C9D2DC] shrink-0" />
                 )}
@@ -144,7 +144,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
             href={mrkBusiness.phoneHref}
             className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
           >
-            <Phone className="w-4 h-4 text-[#C81036]" />
+            <Phone className="w-4 h-4 text-[#F2536F]" />
             <span>Call {mrkBusiness.phoneDisplay}</span>
           </a>
         </div>

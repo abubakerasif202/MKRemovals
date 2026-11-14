@@ -96,7 +96,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                     <ul className="space-y-1.5 text-xs text-[#C9D2DC]">
                       {service.idealFor.map((item) => (
                         <li key={item} className="flex items-start gap-2">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#F2536F] shrink-0 mt-0.5" />
                           <span>{item}</span>
                         </li>
                       ))}
@@ -138,7 +138,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
       <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#C9D2DC]/25 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl">
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 text-xs text-[#C5A15C] font-semibold">
-            <ShieldCheck className="w-4 h-4 text-[#C81036]" />
+            <ShieldCheck className="w-4 h-4 text-[#F2536F]" />
             <span>Indicative Rate Qualification</span>
           </div>
           <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
@@ -164,7 +164,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
             href={mrkBusiness.phoneHref}
             className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2 whitespace-nowrap"
           >
-            <Phone className="w-4 h-4 text-[#C81036]" />
+            <Phone className="w-4 h-4 text-[#F2536F]" />
             <span>Call {mrkBusiness.phoneDisplay}</span>
           </a>
         </div>
