@@ -54,7 +54,7 @@ export const ScrollProgressBar: React.FC<ScrollProgressBarProps> = ({ pathname }
       className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-[#090D15]/40 pointer-events-none overflow-hidden"
     >
       <div
-        className="h-full w-full origin-left bg-gradient-to-r from-[#124FA3] via-[#1D68CE] to-[#C9D2DC] transition-transform duration-75 ease-out"
+        className="h-full w-full origin-left bg-gradient-to-r from-[#124FA3] via-[#C81036] to-[#C5A15C] transition-transform duration-75 ease-out shadow-[0_0_10px_rgba(200,16,54,0.5)]"
         style={{ transform: `scaleX(${progress / 100})` }}
       />
     </div>

@@ -92,7 +92,7 @@ export const TrustBanner: React.FC<TrustBannerProps> = ({
             <div
               key={id}
               data-testid={`trust-pillar-${id}`}
-              className="bg-[#090D15]/85 rounded-xl p-5 border border-[#C9D2DC]/15 hover:border-[#C9D2DC]/35 transition-colors flex flex-col justify-between space-y-3"
+              className="bg-[#090D15]/90 rounded-2xl p-5 sm:p-6 border border-[#C9D2DC]/15 hover:border-[#C81036]/40 transition-all shadow-md hover:-translate-y-1 flex flex-col justify-between space-y-3"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-3">

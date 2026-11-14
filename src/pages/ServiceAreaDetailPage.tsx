@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, ArrowRight } from 'lucide-react';
+import { Phone, ArrowRight, MapPin, ShieldCheck, CheckCircle2, Clock } from 'lucide-react';
 import { getServiceAreaBySlug, MRK_SERVICE_AREAS } from '../content/service-areas';
 import { MRK_SERVICES } from '../content/services';
 import {
@@ -43,9 +43,9 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-4">
             <div className="flex flex-wrap items-center gap-2 text-xs text-[#C9D2DC]">
-              <span className="text-[#C5A15C] font-semibold">{area.regionGroup}</span>
+              <span className="text-[#C5A15C] font-semibold uppercase tracking-wider">{area.regionGroup}</span>
               <span aria-hidden="true">·</span>
-              <span className="font-mono tabular-nums">
+              <span className="font-mono tabular-nums text-white">
                 Postcodes: {area.postcodes.join(', ')}
               </span>
             </div>
@@ -58,8 +58,25 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
               {area.localMovingProfile}
             </p>
 
+            {/* Contextual Adelaide Photography Banner */}
+            <div className="relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20 h-56 sm:h-72 my-4 shadow-xl group">
+              <img
+                src={mrkBusiness.photographyAssets.adelaideSkylineTwilight}
+                alt={`${area.title} Adelaide local moving corridor`}
+                className="w-full h-full object-cover object-center filter brightness-[0.92] transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-[#090D15]/40 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
+                <span className="font-semibold flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#38BDF8]" />
+                  Adelaide Local Route Knowledge: {area.shortName}
+                </span>
+                <span className="font-mono text-[11px] text-[#C5A15C]">METRO CORRIDOR</span>
+              </div>
+            </div>
+
             <div className="pt-2">
-              <p className="text-xs font-semibold text-white mb-1.5">
+              <p className="text-xs font-semibold text-white mb-1.5 uppercase tracking-wider">
                 Suburbs Frequently Serviced in This Corridor:
               </p>
               <p className="text-xs sm:text-sm text-[#C9D2DC] leading-relaxed">
@@ -68,24 +85,27 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
             </div>
           </div>
 
-          <div className="lg:col-span-4 mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/20 space-y-4">
-            <p className="text-xs font-semibold text-[#C5A15C]">
-              Moving to or from {area.shortName}?
-            </p>
-            <p className="text-sm font-bold text-white">{formatIndicativeRateHeadline()}</p>
+          <div className="lg:col-span-4 mrk-surface-elevated rounded-3xl p-6 sm:p-7 border border-[#C9D2DC]/25 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-xs font-semibold text-[#C5A15C] uppercase tracking-wider">
+                Moving to or from {area.shortName}?
+              </p>
+              <Clock className="w-4 h-4 text-[#C81036]" />
+            </div>
+            <p className="text-sm sm:text-base font-bold text-white">{formatIndicativeRateHeadline()}</p>
             <p className="text-xs text-[#94A3B8] leading-relaxed">
               {getMandatoryRateDisclaimer()}
             </p>
             <div className="pt-2 flex flex-col gap-2.5">
               <a
                 href="#area-quote-form"
-                className="w-full py-3 px-4 rounded-lg bg-[#C81036] hover:bg-[#DF143E] text-white text-xs sm:text-sm font-semibold text-center transition-colors"
+                className="w-full py-3.5 px-4 rounded-xl btn-ruby text-white text-xs sm:text-sm font-bold text-center transition-all shadow-md cursor-pointer"
               >
                 Quote Move in {area.shortName}
               </a>
               <a
                 href={mrkBusiness.phoneHref}
-                className="w-full py-2.5 px-4 rounded-lg bg-[#161E2E] hover:bg-[#242A34] text-white border border-[#C9D2DC]/25 text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-2.5 px-4 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-all"
               >
                 <Phone className="w-4 h-4 text-[#C81036]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
@@ -97,8 +117,8 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
 
       {/* Local Access, Parking & Property Considerations */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-7 mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/18 space-y-4">
-          <h2 className="font-display text-xl font-bold text-white">
+        <div className="lg:col-span-7 mrk-surface rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-4 shadow-md">
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
             Access, Parking &amp; Loading Considerations in {area.shortName}
           </h2>
           <ul className="space-y-3 text-sm text-[#C9D2DC]">
@@ -113,75 +133,46 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
           </ul>
         </div>
 
-        <div className="lg:col-span-5 mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/18 space-y-5 flex flex-col justify-between">
+        <div className="lg:col-span-5 mrk-surface rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-5 flex flex-col justify-between shadow-md">
           <div className="space-y-3">
-            <h2 className="font-display text-xl font-bold text-white">
+            <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
               Typical Property Profiles
             </h2>
-            <ul className="space-y-2.5 text-sm text-[#C9D2DC]">
+            <ul className="space-y-2 text-xs text-[#C9D2DC]">
               {area.commonPropertyTypes.map((prop) => (
                 <li key={prop} className="flex items-start gap-2">
-                  <span className="text-[#C5A15C] font-bold" aria-hidden="true">
-                    ·
-                  </span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C81036] shrink-0 mt-0.5" />
                   <span>{prop}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="bg-[#090D15] rounded-xl p-4 border border-[#C9D2DC]/15 space-y-2">
-            <p className="text-xs font-semibold text-white">Main Road Corridors Used</p>
-            <p className="text-xs text-[#94A3B8]">{area.arterialCorridors.join(' · ')}</p>
+          <div className="bg-[#090D15] rounded-2xl p-4 border border-[#C9D2DC]/15 space-y-1 text-xs">
+            <p className="font-semibold text-white">Primary Arterial Corridors:</p>
+            <p className="text-[#94A3B8] leading-relaxed">{area.arterialCorridors.join(' · ')}</p>
           </div>
         </div>
       </section>
 
-      {/* Applicable Services for This Corridor */}
-      <section className="space-y-4">
-        <h2 className="font-display text-2xl font-bold text-white">
-          Services Available Across {area.shortName}
+      {/* Planning Tips for this area */}
+      <section className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/25 space-y-4 shadow-md">
+        <h2 className="font-display text-xl font-bold text-white">
+          Planning Tips for Moving Day in {area.shortName}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {MRK_SERVICES.slice(0, 3).map((service) => (
-            <a
-              key={service.id}
-              href={`/services/${service.slug}`}
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate(`/services/${service.slug}`);
-              }}
-              className="mrk-surface-interactive rounded-xl p-5 flex flex-col justify-between space-y-3"
-            >
-              <div>
-                <p className="text-xs font-mono text-[#C5A15C]">{service.indexNumber}</p>
-                <h3 className="font-display text-base font-bold text-white mt-1">
-                  {service.title}
-                </h3>
-                <p className="text-xs text-[#C9D2DC] mt-1">{service.summary}</p>
-              </div>
-              <span className="text-xs font-semibold text-white inline-flex items-center gap-1">
-                <span>View Service Details</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#C81036]" />
-              </span>
-            </a>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-[#C9D2DC]">
+          {area.planningTips.map((tip, idx) => (
+            <div key={idx} className="bg-[#090D15]/80 rounded-2xl p-4 border border-[#C9D2DC]/15 space-y-1">
+              <span className="font-mono text-xs text-[#C5A15C] font-semibold">TIP 0{idx + 1}</span>
+              <p className="text-xs sm:text-sm text-[#C9D2DC] leading-relaxed">{tip}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Embedded Corridor Quote Form */}
-      <section id="area-quote-form" className="scroll-mt-20">
-        <QuoteForm
-          sourcePage={`/service-areas/${area.slug}`}
-          initialPickupSuburb={`${area.keySuburbs[0]} (${area.postcodes[0]})`}
-        />
-      </section>
-
       {/* Other Adelaide Corridors */}
-      <section className="space-y-4 pt-4 border-t border-[#C9D2DC]/15">
-        <h2 className="font-display text-xl font-bold text-white">
-          Explore Other Adelaide Service Corridors
-        </h2>
+      <section className="space-y-4">
+        <h2 className="font-display text-xl font-bold text-white">Other Adelaide Moving Corridors</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {otherAreas.map((other) => (
             <a
@@ -191,24 +182,21 @@ export const ServiceAreaDetailPage: React.FC<ServiceAreaDetailPageProps> = ({
                 e.preventDefault();
                 onNavigate(`/service-areas/${other.slug}`);
               }}
-              className="mrk-surface-interactive rounded-xl p-5 flex flex-col justify-between space-y-3"
+              className="mrk-surface-interactive rounded-2xl p-5 border border-[#C9D2DC]/15 flex items-center justify-between gap-3 text-xs font-semibold text-white hover:text-[#C81036] shadow-md"
             >
-              <div>
-                <p className="text-xs text-[#C5A15C]">{other.regionGroup}</p>
-                <h3 className="font-display text-base font-bold text-white mt-1">
-                  {other.title}
-                </h3>
-                <p className="text-xs text-[#94A3B8] mt-1">
-                  {other.keySuburbs.slice(0, 4).join(' · ')}
-                </p>
-              </div>
-              <span className="text-xs font-semibold text-white inline-flex items-center gap-1">
-                <span>Read Corridor Guide</span>
-                <ArrowRight className="w-3.5 h-3.5 text-[#C81036]" />
-              </span>
+              <span>{other.title}</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </a>
           ))}
         </div>
+      </section>
+
+      {/* Embedded Quote Form on Service Area Detail */}
+      <section id="area-quote-form" className="scroll-mt-24 pt-4">
+        <QuoteForm
+          sourcePage={`/service-areas/${area.slug}`}
+          initialPickupSuburb={area.keySuburbs[0] || area.shortName}
+        />
       </section>
     </div>
   );

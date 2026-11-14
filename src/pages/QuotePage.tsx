@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone } from 'lucide-react';
+import { Phone, Sparkles, Clock, ShieldCheck } from 'lucide-react';
 import {
   mrkBusiness,
   formatIndicativeRateHeadline,
@@ -42,35 +42,39 @@ export const QuotePage: React.FC<QuotePageProps> = ({ searchQuery = '', onNaviga
 
         <div className="mt-4 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-2xl space-y-3">
-            <p className="text-xs text-[#C5A15C] font-medium">
-              Tailored Adelaide Relocation Quotes
-            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC]">
+              <Sparkles className="w-3.5 h-3.5 text-[#38BDF8]" />
+              <span>Tailored Adelaide Relocation Quotes</span>
+            </div>
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
               Request a Moving Quote
             </h1>
             <p className="text-sm sm:text-base text-[#C9D2DC] leading-relaxed">
-              Provide your pickup and destination suburbs, access details, and key furniture items
-              below, or call <strong className="text-white">{mrkBusiness.phoneDisplay}</strong> to
-              discuss your move directly.
+              Provide your pickup and destination suburbs, property access details, and key furniture items
+              below, or call <strong className="text-white font-mono font-semibold">{mrkBusiness.phoneDisplay}</strong> to
+              discuss your move directly with Mubashar.
             </p>
           </div>
 
-          <div className="bg-[#0E1420] rounded-xl p-4 border border-[#C9D2DC]/20 space-y-2 shrink-0 max-w-sm">
-            <p className="text-xs font-semibold text-white">{formatIndicativeRateHeadline()}</p>
-            <p className="text-[11px] text-[#94A3B8]">{getMandatoryRateDisclaimer()}</p>
+          <div className="mrk-surface-elevated rounded-2xl p-5 border border-[#C9D2DC]/25 space-y-2.5 shrink-0 max-w-sm shadow-xl">
+            <p className="text-xs font-bold text-white flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-[#C81036]" />
+              <span>{formatIndicativeRateHeadline()}</span>
+            </p>
+            <p className="text-[11px] text-[#94A3B8] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
             <a
               href={mrkBusiness.phoneHref}
-              className="inline-flex items-center gap-2 text-xs font-semibold text-[#C81036] hover:text-white pt-1"
+              className="inline-flex items-center gap-2 text-xs font-bold text-[#C81036] hover:text-white pt-1 transition-colors"
             >
               <Phone className="w-3.5 h-3.5" />
-              <span>Call {mrkBusiness.phoneDisplay}</span>
+              <span>Call {mrkBusiness.phoneDisplay} Directly</span>
             </a>
           </div>
         </div>
       </div>
 
       {/* Quote Form */}
-      <div id="dedicated-quote-form" className="scroll-mt-20">
+      <div id="dedicated-quote-form" className="scroll-mt-24">
         <QuoteForm
           sourcePage="/quote"
           initialServiceType={initialService}
@@ -81,7 +85,7 @@ export const QuotePage: React.FC<QuotePageProps> = ({ searchQuery = '', onNaviga
         />
       </div>
 
-      {/* Optional Inventory Builder */}
+      {/* Interactive Inventory Scope Builder */}
       <div className="pt-4">
         <MoveScopeBuilder onApplyScopeToQuote={handleApplyScope} />
       </div>

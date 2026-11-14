@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, ArrowRight } from 'lucide-react';
+import { Phone, ArrowRight, ShieldCheck, MapPin, Truck, CheckCircle2, Sparkles } from 'lucide-react';
 import {
   mrkBusiness,
   formatIndicativeRateHeadline,
@@ -26,34 +26,44 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
         <div className="mt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-4">
-            <p className="text-xs text-[#C5A15C] font-medium">
-              Adelaide Local Removalists · Direct Operator Accountability
-            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C81036]/15 border border-[#C81036]/30 text-xs text-white font-medium">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#C81036]" />
+              <span>Adelaide Local Removalists · Direct Operator Accountability</span>
+            </div>
+
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
               About {mrkBusiness.brandName}
             </h1>
+
             <p className="text-base sm:text-lg text-[#C9D2DC] leading-relaxed">
               Led by <strong className="text-white">{mrkBusiness.ownerContactName.value}</strong>,{' '}
               <strong className="text-white">{mrkBusiness.brandName}</strong> is built around a
-              straightforward principle: moving house, apartment, or office works best when the
+              straightforward principle: moving house, apartment, or commercial workspace works best when the
               person quoting your job understands your property access, respects your furniture, and
               communicates clearly from the first phone call.
             </p>
+
             <p className="text-sm text-[#C9D2DC] leading-relaxed">
-              Rather than relying on generic automated booking calculators that ignore Adelaide’s
-              steep foothills driveways, narrow heritage hallways, or strict apartment lift windows,
+              Rather than relying on generic automated booking engines that ignore Adelaide’s
+              steep foothills driveways, narrow heritage lanes, or strict apartment lift windows,
               we review every move enquiry individually so moving day runs smoothly.
             </p>
           </div>
 
-          <div className="lg:col-span-5 mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/20 space-y-4">
+          <div className="lg:col-span-5 mrk-surface-elevated rounded-3xl p-6 sm:p-7 border border-[#C9D2DC]/25 space-y-4 shadow-xl">
             <div className="flex items-center gap-3 pb-4 border-b border-[#C9D2DC]/15">
-              <MRKVectorEmblem className="w-12 h-12 shrink-0" />
+              <div className="w-12 h-12 rounded-xl overflow-hidden p-1 bg-gradient-to-br from-[#C81036]/40 via-[#124FA3]/30 to-[#090D15] border border-[#C9D2DC]/25 shadow-md shrink-0 flex items-center justify-center">
+                <img
+                  src={mrkBusiness.brandAssets.badgeConcept}
+                  alt="MRK Removals Adelaide Emblem"
+                  className="w-full h-full object-contain"
+                />
+              </div>
               <div>
                 <h2 className="font-display text-lg font-bold text-white">
                   Verified Business Profile
                 </h2>
-                <p className="text-xs text-[#C9D2DC]">{mrkBusiness.locationLabel}</p>
+                <p className="text-xs text-[#C5A15C] font-medium">{mrkBusiness.locationLabel}</p>
               </div>
             </div>
 
@@ -97,11 +107,61 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* Commercial Fleet & Care Standards Feature */}
+      <section className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-xl">
+        <div className="lg:col-span-6 relative rounded-2xl overflow-hidden border border-[#C9D2DC]/20 h-64 sm:h-80 shadow-2xl group">
+          <img
+            src={mrkBusiness.photographyAssets.heroTruckCinematic}
+            alt="MRK Removals Adelaide commercial pantechnicon moving truck on North Terrace"
+            className="w-full h-full object-cover object-center filter brightness-[0.92] transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-transparent to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
+            <span className="font-semibold flex items-center gap-1.5">
+              <Truck className="w-4 h-4 text-[#C81036]" />
+              Heavy-Duty Enclosed Pantechnicon Fleet
+            </span>
+            <span className="font-mono text-[10px] text-[#C5A15C]">ADELAIDE REGISTERED</span>
+          </div>
+        </div>
+
+        <div className="lg:col-span-6 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC]">
+            <Sparkles className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Operational Rigour</span>
+          </div>
+
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            Realistic Fleet Capabilities, Padded Cargo Care
+          </h2>
+
+          <p className="text-sm text-[#C9D2DC] leading-relaxed">
+            Our pantechnicon moving trucks are equipped specifically for Australian domestic and commercial relocations:
+            hydraulic tailgate platforms for heavy appliances and upright pianos, full-height E-track internal tie-rails, and an extensive supply of heavy-duty quilted moving blankets.
+          </p>
+
+          <ul className="space-y-2 text-xs text-[#C9D2DC] pt-1">
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" />
+              <span>Full weather sealing protects your furniture from rain and road dust during transit.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" />
+              <span>Hydraulic tailgate lifts reduce manual strain and prevent drops during heavy loading.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" />
+              <span>Neoprene floor runners keep your hallway floorboards and carpets clean.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       {/* Core Operating Principles */}
       <section className="space-y-6">
         <div className="space-y-1">
-          <p className="text-xs text-[#C5A15C] font-medium">How We Work</p>
-          <h2 className="font-display text-2xl font-bold text-white">
+          <p className="text-xs text-[#C5A15C] font-semibold uppercase tracking-wider">How We Work</p>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
             What You Can Expect From MRK Removals Adelaide
           </h2>
         </div>
@@ -126,9 +186,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           ].map((item) => (
             <div
               key={item.index}
-              className="mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/15 space-y-2.5"
+              className="mrk-surface rounded-2xl p-6 border border-[#C9D2DC]/15 space-y-2.5 hover:border-[#C81036]/40 transition-colors shadow-md"
             >
-              <span className="font-mono text-xs text-[#C81036] tabular-nums">{item.index}</span>
+              <span className="font-mono text-xs text-[#C81036] font-bold tabular-nums">{item.index}</span>
               <h3 className="font-display text-lg font-bold text-white">{item.title}</h3>
               <p className="text-sm text-[#C9D2DC] leading-relaxed">{item.body}</p>
             </div>
@@ -140,10 +200,10 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       <section className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-1 max-w-2xl">
-            <p className="text-xs text-[#C5A15C] font-medium">
+            <p className="text-xs text-[#C5A15C] font-semibold uppercase tracking-wider">
               Brand Architecture by {mrkBusiness.creativeAgency.name}
             </p>
-            <h2 className="font-display text-2xl font-bold text-white">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
               MRK Removals Adelaide — Brand &amp; Concept Gallery
             </h2>
             <p className="text-xs sm:text-sm text-[#C9D2DC]">
@@ -178,13 +238,12 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           ].map((asset) => (
             <figure
               key={asset.title}
-              className="mrk-surface rounded-2xl p-4 border border-[#C9D2DC]/15 flex flex-col justify-between space-y-3"
+              className="mrk-surface rounded-2xl p-4 border border-[#C9D2DC]/15 flex flex-col justify-between space-y-3 shadow-md"
             >
               <div className="aspect-square rounded-xl bg-[#090D15] border border-[#C9D2DC]/10 p-3 flex items-center justify-center overflow-hidden">
                 <img
                   src={asset.src}
                   alt={`MRK Removals Adelaide — ${asset.title}`}
-                  referrerPolicy="no-referrer"
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -198,7 +257,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* Final CTA */}
-      <section className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <section className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl">
         <div className="space-y-1.5 max-w-2xl">
           <h2 className="font-display text-2xl font-bold text-white">
             Planning a Move in Adelaide?
@@ -213,14 +272,14 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               e.preventDefault();
               onNavigate('/quote');
             }}
-            className="px-5 py-3 rounded-lg bg-[#C81036] hover:bg-[#DF143E] text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
+            className="px-5 py-3 rounded-xl btn-ruby text-white text-xs sm:text-sm font-bold inline-flex items-center gap-2 shadow-lg"
           >
             <span>Request a Quote</span>
             <ArrowRight className="w-4 h-4" />
           </a>
           <a
             href={mrkBusiness.phoneHref}
-            className="px-5 py-3 rounded-lg bg-[#161E2E] hover:bg-[#242A34] text-white border border-[#C9D2DC]/25 text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
+            className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
           >
             <Phone className="w-4 h-4 text-[#C81036]" />
             <span>Call {mrkBusiness.phoneDisplay}</span>

@@ -28,12 +28,18 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             {/* Brand & Direct Contact Column */}
             <div className="lg:col-span-4 space-y-4">
               <div className="flex items-center gap-3">
-                <MRKVectorEmblem className="w-10 h-10 shrink-0" />
+                <div className="w-11 h-11 rounded-xl overflow-hidden p-1 bg-gradient-to-br from-[#C81036]/40 via-[#124FA3]/30 to-[#090D15] border border-[#C9D2DC]/25 shadow-[0_0_15px_rgba(200,16,54,0.3)] shrink-0 flex items-center justify-center">
+                  <img
+                    src={mrkBusiness.brandAssets.badgeConcept}
+                    alt="MRK Removals Adelaide Emblem"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
                 <div>
-                  <p className="font-display text-lg font-bold text-[#F5F7FA]">
+                  <p className="font-display text-lg font-bold text-[#F5F7FA] tracking-tight">
                     {mrkBusiness.brandName}
                   </p>
-                  <p className="text-xs text-[#C9D2DC]">{mrkBusiness.locationLabel}</p>
+                  <p className="text-xs text-[#C5A15C] font-medium">{mrkBusiness.locationLabel}</p>
                 </div>
               </div>
 

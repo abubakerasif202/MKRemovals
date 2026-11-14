@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Phone, ArrowRight } from 'lucide-react';
+import { ChevronDown, ChevronUp, Phone, ArrowRight, HelpCircle, Sparkles } from 'lucide-react';
 import { MRK_FAQS, type FaqCategory } from '../content/faqs';
 import {
   mrkBusiness,
@@ -49,9 +49,10 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
         />
 
         <div className="mt-4 max-w-3xl space-y-4">
-          <p className="text-xs text-[#C5A15C] font-medium">
-            Honest Moving Guidance · Adelaide, South Australia
-          </p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC]">
+            <HelpCircle className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Honest Moving Guidance · Adelaide, South Australia</span>
+          </div>
           <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
             Frequently Asked Questions
           </h1>
@@ -69,10 +70,10 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
             key={category}
             type="button"
             onClick={() => setSelectedCategory(category)}
-            className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
               selectedCategory === category
-                ? 'bg-[#C81036] text-white'
-                : 'bg-[#0E1420] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/15'
+                ? 'bg-[#C81036] text-white shadow-md'
+                : 'bg-[#0E1420] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/20'
             }`}
           >
             {category}
@@ -81,22 +82,22 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Accordion List */}
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         {visibleFaqs.map((faq) => {
           const isOpen = openId === faq.id;
           return (
             <div
               key={faq.id}
-              className="mrk-surface rounded-xl border border-[#C9D2DC]/15 overflow-hidden"
+              className="mrk-surface rounded-2xl border border-[#C9D2DC]/15 overflow-hidden transition-colors hover:border-[#C9D2DC]/30 shadow-md"
             >
               <button
                 type="button"
                 onClick={() => setOpenId(isOpen ? '' : faq.id)}
                 aria-expanded={isOpen}
-                className="w-full px-6 py-4 text-left flex items-center justify-between gap-4 hover:bg-[#161E2E]/50 transition-colors cursor-pointer"
+                className="w-full px-6 py-4.5 text-left flex items-center justify-between gap-4 hover:bg-[#161E2E]/50 transition-colors cursor-pointer"
               >
                 <div className="space-y-1">
-                  <p className="text-[11px] text-[#C5A15C] font-medium">{faq.category}</p>
+                  <p className="text-[11px] text-[#C5A15C] font-semibold uppercase tracking-wider">{faq.category}</p>
                   <h2 className="font-display text-base sm:text-lg font-bold text-white">
                     {faq.question}
                   </h2>
@@ -118,13 +119,13 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Bottom CTA */}
-      <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#C9D2DC]/25 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl">
         <div className="space-y-1.5 max-w-xl">
-          <h2 className="font-display text-xl font-bold text-white">
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
             Still Have a Question About Your Adelaide Move?
           </h2>
-          <p className="text-xs text-[#C9D2DC]">{formatIndicativeRateHeadline()}</p>
-          <p className="text-[11px] text-[#94A3B8]">{getMandatoryRateDisclaimer()}</p>
+          <p className="text-xs sm:text-sm text-[#C9D2DC]">{formatIndicativeRateHeadline()}</p>
+          <p className="text-[11px] text-[#94A3B8] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 shrink-0">
@@ -134,14 +135,14 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
               e.preventDefault();
               onNavigate('/quote');
             }}
-            className="px-5 py-3 rounded-lg bg-[#C81036] hover:bg-[#DF143E] text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
+            className="px-5 py-3 rounded-xl btn-ruby text-white text-xs sm:text-sm font-bold inline-flex items-center gap-2 shadow-lg"
           >
             <span>Request a Quote</span>
             <ArrowRight className="w-4 h-4" />
           </a>
           <a
             href={mrkBusiness.phoneHref}
-            className="px-5 py-3 rounded-lg bg-[#161E2E] hover:bg-[#242A34] text-white border border-[#C9D2DC]/25 text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
+            className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2"
           >
             <Phone className="w-4 h-4 text-[#C81036]" />
             <span>Call {mrkBusiness.phoneDisplay}</span>

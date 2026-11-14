@@ -287,7 +287,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       onSubmit={handleSubmit}
       noValidate
       aria-label="Request a Moving Quote Form"
-      className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-6"
+      className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 space-y-6 shadow-2xl"
     >
       {!compactHeader && (
         <div className="pb-5 border-b border-[#C9D2DC]/15 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -770,7 +770,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full sm:w-auto px-6 py-3 rounded-lg bg-[#C81036] hover:bg-[#DF143E] disabled:opacity-60 text-white text-sm font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-xl btn-ruby disabled:opacity-60 text-white text-sm font-bold transition-all whitespace-nowrap shrink-0 shadow-lg cursor-pointer active:scale-98"
           >
             {isSubmitting ? 'Validating Quote Brief...' : 'Submit Quote Request'}
           </button>

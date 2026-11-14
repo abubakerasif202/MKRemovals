@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Minus, ArrowRight } from 'lucide-react';
+import { Plus, Minus, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import {
   formatIndicativeRateHeadline,
   getMandatoryRateDisclaimer,
@@ -84,17 +84,18 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({
   };
 
   return (
-    <div className="mrk-surface rounded-2xl p-6 sm:p-8 border border-[#C9D2DC]/20 space-y-6">
+    <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#C9D2DC]/25 space-y-6 shadow-xl">
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-5 border-b border-[#C9D2DC]/15">
         <div>
-          <p className="text-xs text-[#C5A15C] font-medium mb-1">
-            Interactive Move Preparation Tool
-          </p>
-          <h3 className="font-display text-2xl font-bold text-white">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC] mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Interactive Move Preparation Tool</span>
+          </div>
+          <h3 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">
             Build Your Adelaide Move Inventory &amp; Access Checklist
           </h3>
         </div>
-        <p className="text-xs text-[#C9D2DC] max-w-md">
+        <p className="text-xs sm:text-sm text-[#C9D2DC] max-w-md leading-relaxed">
           Select your major furniture items and access conditions below, then send your list
           straight to the Quote Form—no guesswork required.
         </p>
@@ -105,10 +106,10 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({
         {items.map((item) => (
           <div
             key={item.id}
-            className="bg-[#090D15]/90 rounded-xl p-3.5 border border-[#C9D2DC]/15 flex items-center justify-between gap-3"
+            className="bg-[#090D15]/90 rounded-2xl p-4 border border-[#C9D2DC]/15 flex items-center justify-between gap-3 hover:border-[#C9D2DC]/30 transition-colors shadow-sm"
           >
             <div>
-              <p className="text-xs font-medium text-white">{item.label}</p>
+              <p className="text-xs font-semibold text-white">{item.label}</p>
               <p className="text-[11px] text-[#94A3B8]">{item.category}</p>
             </div>
 
@@ -117,18 +118,18 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({
                 type="button"
                 onClick={() => updateItemCount(item.id, -1)}
                 aria-label={`Decrease ${item.label}`}
-                className="w-8 h-8 rounded-lg bg-[#161E2E] hover:bg-[#242A34] text-white inline-flex items-center justify-center border border-[#C9D2DC]/20 transition-colors"
+                className="w-8 h-8 rounded-lg bg-[#161E2E] hover:bg-[#242A34] text-white inline-flex items-center justify-center border border-[#C9D2DC]/20 transition-colors cursor-pointer"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="w-6 text-center font-mono text-sm font-semibold text-white tabular-nums">
+              <span className="w-6 text-center font-mono text-sm font-bold text-white tabular-nums">
                 {item.count}
               </span>
               <button
                 type="button"
                 onClick={() => updateItemCount(item.id, 1)}
                 aria-label={`Increase ${item.label}`}
-                className="w-8 h-8 rounded-lg bg-[#161E2E] hover:bg-[#C81036] text-white inline-flex items-center justify-center border border-[#C9D2DC]/20 transition-colors"
+                className="w-8 h-8 rounded-lg bg-[#161E2E] hover:bg-[#C81036] text-white inline-flex items-center justify-center border border-[#C9D2DC]/20 transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
               </button>
@@ -139,7 +140,7 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({
 
       {/* Access & Property Condition Toggles */}
       <div className="pt-2 space-y-2.5">
-        <p className="text-xs font-semibold text-[#C9D2DC]">
+        <p className="text-xs font-semibold text-white uppercase tracking-wider">
           Select Applicable Access &amp; Handling Factors:
         </p>
         <div className="flex flex-wrap gap-2">
@@ -157,9 +158,9 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({
                 key={factor}
                 type="button"
                 onClick={() => toggleAccessFactor(factor)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap shrink-0 border ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all whitespace-nowrap shrink-0 border cursor-pointer ${
                   active
-                    ? 'bg-[#124FA3] text-white border-[#38BDF8]/40'
+                    ? 'bg-[#124FA3] text-white border-[#38BDF8]/40 shadow-md font-semibold'
                     : 'bg-[#090D15] text-[#C9D2DC] border-[#C9D2DC]/20 hover:text-white'
                 }`}
               >
@@ -170,26 +171,26 @@ export const MoveScopeBuilder: React.FC<MoveScopeBuilderProps> = ({
         </div>
       </div>
 
-      {/* Summary & Action Bar (No Fake Calculator — Honest Rate Guidance Only) */}
-      <div className="bg-[#090D15] rounded-xl p-5 border border-[#C9D2DC]/20 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      {/* Summary & Action Bar */}
+      <div className="bg-[#090D15] rounded-2xl p-5 sm:p-6 border border-[#C9D2DC]/20 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-md">
         <div className="space-y-1.5">
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono tabular-nums text-[#C9D2DC]">
-            <span className="text-white font-semibold">{inferredSizeLabel}</span>
+            <span className="text-white font-bold">{inferredSizeLabel}</span>
             <span aria-hidden="true">·</span>
-            <span>{selectedItems.length} furniture categories</span>
+            <span>{selectedItems.length} categories</span>
             <span aria-hidden="true">·</span>
-            <span>~{totalBoxes} boxes</span>
+            <span>~{totalBoxes} moving boxes</span>
           </div>
-          <p className="text-xs text-[#F5F7FA] font-medium">
+          <p className="text-xs text-[#F5F7FA] font-semibold">
             {formatIndicativeRateHeadline()}
           </p>
-          <p className="text-[11px] text-[#94A3B8]">{getMandatoryRateDisclaimer()}</p>
+          <p className="text-[11px] text-[#94A3B8] leading-relaxed">{getMandatoryRateDisclaimer()}</p>
         </div>
 
         <button
           type="button"
           onClick={() => onApplyScopeToQuote(buildSummaryText(), inferredSizeLabel)}
-          className="px-5 py-3 rounded-lg bg-[#C81036] hover:bg-[#DF143E] text-white text-xs sm:text-sm font-semibold inline-flex items-center justify-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+          className="px-6 py-3.5 rounded-xl btn-ruby text-white text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 transition-all whitespace-nowrap shrink-0 cursor-pointer shadow-lg active:scale-98"
         >
           <span>Attach Scope to Quote Request</span>
           <ArrowRight className="w-4 h-4" />

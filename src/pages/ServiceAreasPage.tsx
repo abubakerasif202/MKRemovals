@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Search, Phone } from 'lucide-react';
+import { ArrowRight, Search, Phone, MapPin, Sparkles, ShieldCheck } from 'lucide-react';
 import {
   MRK_SERVICE_AREAS,
   ADELAIDE_REGION_GROUPS,
@@ -40,29 +40,30 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
         />
 
         <div className="mt-4 max-w-3xl space-y-4">
-          <p className="text-xs text-[#C5A15C] font-medium">
-            Adelaide Metropolitan &amp; Hills Route Coverage
-          </p>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#124FA3]/20 border border-[#124FA3]/35 text-xs text-[#C9D2DC]">
+            <MapPin className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Adelaide Metropolitan &amp; Hills Route Coverage</span>
+          </div>
           <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
             Adelaide Service-Area Directory &amp; Local Access Guides
           </h1>
           <p className="text-base text-[#C9D2DC] leading-relaxed">
             Every Adelaide corridor has unique access, parking, and property characteristics—from
             CBD apartment service lifts and North Adelaide heritage lanes to steep foothills
-            driveways. Browse your region below to plan a smooth move.
+            driveways. Browse your region below to plan a smooth, well-sequenced move.
           </p>
         </div>
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="mrk-surface rounded-2xl p-5 border border-[#C9D2DC]/20 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter by Adelaide region">
+      <div className="mrk-surface-elevated rounded-2xl p-5 sm:p-6 border border-[#C9D2DC]/25 flex flex-col lg:flex-row lg:items-center justify-between gap-4 shadow-xl">
+        <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by Adelaide region">
           <button
             type="button"
             onClick={() => setSelectedRegion('All')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
               selectedRegion === 'All'
-                ? 'bg-[#C81036] text-white'
+                ? 'bg-[#C81036] text-white shadow-md'
                 : 'bg-[#090D15] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/15'
             }`}
           >
@@ -73,9 +74,9 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
               key={region}
               type="button"
               onClick={() => setSelectedRegion(region)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 selectedRegion === region
-                  ? 'bg-[#C81036] text-white'
+                  ? 'bg-[#C81036] text-white shadow-md'
                   : 'bg-[#090D15] text-[#C9D2DC] hover:text-white border border-[#C9D2DC]/15'
               }`}
             >
@@ -84,7 +85,7 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
           ))}
         </div>
 
-        <div className="relative w-full lg:w-72 shrink-0">
+        <div className="relative w-full lg:w-80 shrink-0">
           <label htmlFor="suburb-search" className="sr-only">
             Search suburb or postcode
           </label>
@@ -95,20 +96,20 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
             placeholder="Search suburb or postcode (e.g. 5067)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 rounded-lg bg-[#090D15] text-xs text-white placeholder-[#64748B] border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036]"
+            className="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-[#090D15] text-xs text-white placeholder-[#64748B] border border-[#C9D2DC]/25 focus:outline-none focus:border-[#C81036] shadow-inner"
           />
         </div>
       </div>
 
       {/* Directory Cards */}
       {filteredAreas.length === 0 ? (
-        <div className="mrk-surface rounded-2xl p-8 text-center space-y-3 border border-[#C9D2DC]/20">
-          <p className="text-base font-semibold text-white">
+        <div className="mrk-surface-elevated rounded-3xl p-10 text-center space-y-4 border border-[#C9D2DC]/20 shadow-xl">
+          <p className="text-lg font-bold text-white">
             No matching suburb corridor found for &ldquo;{searchQuery}&rdquo;
           </p>
-          <p className="text-xs text-[#C9D2DC] max-w-md mx-auto">
-            We coordinate moves across greater Adelaide. Submit your exact pickup and destination
-            postcodes in our quote form or call {mrkBusiness.phoneDisplay} to confirm availability.
+          <p className="text-xs sm:text-sm text-[#C9D2DC] max-w-md mx-auto leading-relaxed">
+            We coordinate moves across metropolitan Adelaide and the Hills. Submit your exact pickup and destination
+            postcodes in our quote form or call {mrkBusiness.phoneDisplay} to discuss your access directly.
           </p>
           <button
             type="button"
@@ -116,7 +117,7 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
               setSearchQuery('');
               setSelectedRegion('All');
             }}
-            className="px-4 py-2 rounded-lg bg-[#161E2E] text-xs font-semibold text-white border border-[#C9D2DC]/25"
+            className="px-5 py-2.5 rounded-xl btn-secondary text-xs font-semibold text-white shadow-md cursor-pointer"
           >
             Reset Directory Filter
           </button>
@@ -126,63 +127,47 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
           {filteredAreas.map((area) => (
             <article
               key={area.id}
-              className="mrk-surface-interactive rounded-2xl p-6 sm:p-8 flex flex-col justify-between space-y-6"
+              className="mrk-surface-interactive rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xl"
             >
               <div className="space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#C9D2DC]">
-                  <span className="text-[#C5A15C] font-semibold">{area.regionGroup}</span>
-                  <span className="font-mono tabular-nums">
+                  <span className="text-[#C5A15C] font-semibold uppercase tracking-wider">{area.regionGroup}</span>
+                  <span className="font-mono tabular-nums text-white px-2 py-0.5 rounded bg-[#161E2E] border border-[#C9D2DC]/20">
                     Postcodes: {area.postcodes.join(', ')}
                   </span>
                 </div>
 
-                <h2 className="font-display text-2xl font-bold text-white">{area.title}</h2>
+                <h2 className="font-display text-2xl font-bold text-white tracking-tight">{area.title}</h2>
                 <p className="text-sm text-[#C9D2DC] leading-relaxed">{area.summary}</p>
 
-                <div className="space-y-1.5 pt-1">
-                  <p className="text-xs font-semibold text-white">Suburbs Covered in Corridor:</p>
+                <div className="space-y-2 pt-2">
+                  <p className="text-xs font-semibold text-white uppercase tracking-wider">Key Suburbs:</p>
                   <p className="text-xs text-[#C9D2DC] leading-relaxed">
                     {area.keySuburbs.join(' · ')}
                   </p>
                 </div>
-
-                <div className="space-y-1.5 pt-1">
-                  <p className="text-xs font-semibold text-white">
-                    Key Local Access Considerations:
-                  </p>
-                  <ul className="space-y-1 text-xs text-[#94A3B8]">
-                    {area.accessAndParkingConsiderations.slice(0, 2).map((note) => (
-                      <li key={note} className="flex items-start gap-2">
-                        <span className="text-[#C81036] font-bold" aria-hidden="true">
-                          —
-                        </span>
-                        <span>{note}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>
 
-              <div className="pt-5 border-t border-[#C9D2DC]/15 flex flex-wrap items-center justify-between gap-4">
+              <div className="pt-5 border-t border-[#C9D2DC]/15 flex flex-wrap items-center justify-between gap-3">
                 <a
                   href={`/service-areas/${area.slug}`}
                   onClick={(e) => {
                     e.preventDefault();
                     onNavigate(`/service-areas/${area.slug}`);
                   }}
-                  className="px-4 py-2.5 rounded-lg bg-[#C81036] hover:bg-[#DF143E] text-white text-xs font-semibold inline-flex items-center gap-2 transition-colors whitespace-nowrap"
+                  className="px-4 py-2.5 rounded-xl btn-ruby text-white text-xs font-semibold inline-flex items-center gap-2 transition-all shadow-md cursor-pointer"
                 >
-                  <span>Open {area.shortName} Guide</span>
+                  <span>View Corridor Guide</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
 
                 <a
-                  href={`/quote?suburb=${encodeURIComponent(area.keySuburbs[0])}`}
+                  href={`/quote?suburb=${encodeURIComponent(area.shortName)}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    onNavigate(`/quote?suburb=${encodeURIComponent(area.keySuburbs[0])}`);
+                    onNavigate(`/quote?suburb=${encodeURIComponent(area.shortName)}`);
                   }}
-                  className="text-xs font-semibold text-[#C9D2DC] hover:text-white underline whitespace-nowrap"
+                  className="text-xs font-semibold text-[#C9D2DC] hover:text-white underline"
                 >
                   Quote Move in {area.shortName}
                 </a>
@@ -192,20 +177,28 @@ export const ServiceAreasPage: React.FC<ServiceAreasPageProps> = ({ onNavigate }
         </div>
       )}
 
-      {/* Honest Coverage Note (No fake suburb offices per AGENT.md Section 9) */}
-      <div className="bg-[#0E1420] rounded-2xl p-6 border border-[#C9D2DC]/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-[#94A3B8]">
-        <p className="max-w-3xl leading-relaxed">
-          <strong className="text-white">Service Coverage Disclosure:</strong> MRK Removals Adelaide
-          operates as a mobile Adelaide removalist service coordinating pickups and deliveries across
-          the corridors above. Suburb guides describe local moving logistics and access planning, not
-          separate physical branch offices.
-        </p>
+      {/* Regional SA & Direct Call Notice */}
+      <div className="mrk-surface-elevated rounded-3xl p-6 sm:p-8 border border-[#C9D2DC]/25 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-xl">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center gap-2 text-xs text-[#C5A15C] font-semibold">
+            <ShieldCheck className="w-4 h-4 text-[#C81036]" />
+            <span>Adelaide Hills &amp; Regional SA Routes</span>
+          </div>
+          <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
+            Moving Outside the Core Adelaide Metropolitan Corridors?
+          </h2>
+          <p className="text-xs sm:text-sm text-[#C9D2DC] leading-relaxed">
+            Moves to Victor Harbor, the Barossa Valley, Murray Bridge, or regional South Australia are
+            reviewed case-by-case based on route transit time, truck capacity, and scheduling.
+          </p>
+        </div>
+
         <a
           href={mrkBusiness.phoneHref}
-          className="px-4 py-2.5 rounded-lg bg-[#161E2E] text-white font-semibold inline-flex items-center gap-2 border border-[#C9D2DC]/20 whitespace-nowrap shrink-0"
+          className="px-5 py-3 rounded-xl btn-secondary text-white text-xs sm:text-sm font-semibold inline-flex items-center gap-2 shrink-0 shadow-md"
         >
-          <Phone className="w-3.5 h-3.5 text-[#C81036]" />
-          <span>Call {mrkBusiness.phoneDisplay}</span>
+          <Phone className="w-4 h-4 text-[#C81036]" />
+          <span>Call {mrkBusiness.phoneDisplay} to Discuss</span>
         </a>
       </div>
     </div>
