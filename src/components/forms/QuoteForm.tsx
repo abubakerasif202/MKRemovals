@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Phone, Check, Copy, AlertCircle, RotateCcw, ChevronDown, ChevronUp, Mail } from 'lucide-react';
 import {
   validateQuoteSubmission,
+  formatMoveBriefText,
   type QuoteFormInput,
   type PropertyAccessType,
   type DateFlexibility,
@@ -12,6 +13,8 @@ import {
   getMandatoryRateDisclaimer,
 } from '../../config/business';
 import { MRK_SERVICES } from '../../content/services';
+
+export const WEB3FORMS_ACCESS_KEY = 'f0a78ce1-7130-4426-82aa-0adef031aff4';
 
 interface QuoteFormProps {
   sourcePage?: string;
@@ -113,7 +116,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     if (isSubmitting) return;
 
     const validation = validateQuoteSubmission(formData);
-    if (!validation.valid) {
+    if (!validation.valid || !validation.sanitized) {
       setFieldErrors(validation.errors);
       setOutcome({
         ok: false,
@@ -127,7 +130,66 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     setIsSubmitting(true);
     setOutcome(null);
 
+    const referenceId = `MRK-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const moveBrief = formatMoveBriefText(validation.sanitized);
+
     try {
+      // 1. Live browser direct submission to Web3Forms (delivers directly to mkremovalsadelaide@gmail.com)
+      const web3Payload = {
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: `MRK Removals Quote Request: ${formData.pickupSuburb} to ${formData.destinationSuburb} [${referenceId}]`,
+        from_name: 'MRK Removals Adelaide Website',
+        name: formData.fullName,
+        phone: formData.phone,
+        email: formData.email || 'mkremovalsadelaide@gmail.com',
+        pickup_suburb: formData.pickupSuburb,
+        pickup_property_access: formData.pickupAccess,
+        destination_suburb: formData.destinationSuburb,
+        destination_property_access: formData.destinationAccess,
+        service_category: formData.serviceType,
+        estimated_move_size: formData.estimatedSize,
+        target_move_date: formData.moveDate,
+        date_flexibility: formData.dateFlexibility,
+        inventory_notes: formData.inventoryNotes || 'None provided',
+        message: moveBrief,
+      };
+
+      const web3Res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(web3Payload),
+      });
+
+      const web3Data = await web3Res.json();
+
+      if (web3Res.ok && web3Data.success) {
+        // Fire background audit record to internal API
+        try {
+          fetch('/api/quote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...formData, referenceId, status: 'delivered' }),
+          }).catch(() => {});
+        } catch {
+          // ignore background audit error
+        }
+
+        setOutcome({
+          ok: true,
+          status: 'delivered',
+          referenceId,
+          timestamp: new Date().toISOString(),
+          message: `Your moving quote request has been securely delivered to ${mrkBusiness.enquiryEmail}. Mubashar Riaz will review your access and schedule requirements and contact you on ${formData.phone} shortly.`,
+          moveBrief,
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 2. Secondary fallback to /api/quote endpoint
       const response = await fetch('/api/quote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -154,16 +216,20 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
       setOutcome({
         ok: true,
         status: payload.status,
-        referenceId: payload.referenceId,
-        timestamp: payload.timestamp,
+        referenceId: payload.referenceId || referenceId,
+        timestamp: payload.timestamp || new Date().toISOString(),
         message: payload.message,
-        moveBrief: payload.moveBrief,
+        moveBrief: payload.moveBrief || moveBrief,
       });
     } catch {
+      // 3. Graceful offline / network interruption fallback
       setOutcome({
-        ok: false,
-        status: 'network_error',
-        message: `Network connection interrupted. Your form entries have been retained—please retry or call ${mrkBusiness.phoneDisplay} directly.`,
+        ok: true,
+        status: 'recorded_preview',
+        referenceId,
+        timestamp: new Date().toISOString(),
+        message: `Quote details formatted for ${mrkBusiness.enquiryEmail}. Please use the Email or Call buttons below to submit your details directly.`,
+        moveBrief,
       });
     } finally {
       setIsSubmitting(false);
@@ -291,11 +357,15 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
 
   return (
     <form
+      action="https://api.web3forms.com/submit"
+      method="POST"
       onSubmit={handleSubmit}
       noValidate
       aria-label="Request a Moving Quote Form"
       className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#C9D2DC]/25 space-y-6 shadow-2xl"
     >
+      <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+      <input type="hidden" name="from_name" value="MRK Removals Adelaide Website" />
       {!compactHeader && (
         <div className="pb-5 border-b border-[#C9D2DC]/15 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
