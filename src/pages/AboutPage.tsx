@@ -224,23 +224,23 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {[
             {
-              title: 'Official MRK Logo',
-              subtitle: 'Truck, house & Adelaide skyline lockup',
+              title: 'Primary Logo',
+              subtitle: 'Horizontal lockup: house, truck and wordmark',
               src: mrkBusiness.brandAssets.fullLogoConcept,
             },
             {
-              title: 'Compact Horizontal Concept',
-              subtitle: 'Metallic MRK Wordmark & Roofline',
+              title: 'Stacked Logo',
+              subtitle: 'Compact lockup for tight spaces',
               src: mrkBusiness.brandAssets.compactLogoConcept,
             },
             {
-              title: 'Shield Badge Concept',
-              subtitle: 'Emblem Crest for Fleet & Apparel',
+              title: 'Shield Emblem',
+              subtitle: 'Crest for fleet and uniforms',
               src: mrkBusiness.brandAssets.badgeConcept,
             },
             {
-              title: 'Circular Medallion Concept',
-              subtitle: 'Round Crest with Adelaide Silhouette',
+              title: 'Round Emblem',
+              subtitle: 'Medallion with Adelaide skyline',
               src: mrkBusiness.brandAssets.roundCrestConcept,
             },
           ].map((asset) => (

@@ -157,7 +157,9 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
           status: 'delivered',
           referenceId: payload.referenceId,
           timestamp: payload.timestamp,
-          message: `Your quote request has been sent to ${mrkBusiness.shortName}. ${mrkBusiness.ownerContactName.value} will review your details and contact you on ${formData.phone}.`,
+          // Provider acceptance is NOT proof the email reached the inbox, so we say exactly what we know
+          // and give a clear fallback if the customer does not hear back.
+          message: `Your request was accepted by our email delivery service${payload.referenceId ? ` (reference ${payload.referenceId})` : ''}. ${mrkBusiness.ownerContactName.value} will review it and contact you on ${formData.phone}. This page cannot see the inbox itself, so if you have not heard from us within one business day, please call ${mrkBusiness.phoneDisplay}.`,
           moveBrief: payload.moveBrief || moveBrief,
         });
         return;
@@ -218,7 +220,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
             <div className="flex items-center gap-2 text-xs text-[#8A6414] font-mono tabular-nums">
               <span>REFERENCE: {outcome.referenceId}</span>
               <span aria-hidden="true">·</span>
-              <span>DELIVERY CONFIRMED</span>
+              <span>ACCEPTED BY EMAIL PROVIDER</span>
             </div>
             <h3 className="font-display text-2xl font-bold text-[#0B1B33]">
               Quote Sent Successfully

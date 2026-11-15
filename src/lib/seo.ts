@@ -104,7 +104,7 @@ export function buildMovingCompanyJsonLd() {
     url: mrkBusiness.canonicalOrigin,
     telephone: mrkBusiness.phoneInternational,
     email: mrkBusiness.enquiryEmail,
-    logo: `/assets/brand/mrk-logo-full.webp`,
+    logo: `/assets/brand/mrk-logo-circle.webp`,
     image: `/assets/brand/og-image.jpg`,
     areaServed: {
       '@type': 'City',

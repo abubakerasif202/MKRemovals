@@ -12,8 +12,9 @@
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
     "test:e2e": "playwright test",
+    "test:redis": "tsx --test src/lib/quote-store.integration.test.ts src/lib/quote-honesty.test.ts",
     "images": "node scripts/optimize-images.mjs",
-    "test": "tsx --test src/config/business.test.ts src/lib/quote-validation.test.ts src/lib/seo.test.ts src/lib/quote-delivery.test.ts src/lib/serverless-imports.test.ts src/components/interactive/MoveScopeBuilder.test.ts"
+    "test": "tsx --test src/config/business.test.ts src/lib/quote-validation.test.ts src/lib/seo.test.ts src/lib/quote-delivery.test.ts src/lib/serverless-imports.test.ts src/lib/quote-store.integration.test.ts src/lib/quote-honesty.test.ts src/components/interactive/MoveScopeBuilder.test.ts"
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.3.0",

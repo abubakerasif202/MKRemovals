@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Phone } from 'lucide-react';
 import {
   mrkBusiness,
@@ -14,7 +14,20 @@ interface FooterProps {
   onNavigate: (path: string) => void;
 }
 
+/** Mobile quick-action bar appears only after the visitor scrolls past the hero, so it never covers the rate notice. */
+function useScrolledPast(px: number): boolean {
+  const [past, setPast] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setPast(window.scrollY > px);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [px]);
+  return past;
+}
+
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const showQuickActions = useScrolledPast(520);
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     onNavigate(path);
@@ -28,16 +41,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             {/* Brand & Direct Contact Column */}
             <div className="lg:col-span-4 space-y-4">
               <div className="space-y-2">
-                <span className="mrk-logo-badge inline-flex items-center rounded-2xl px-3.5 py-2">
-                  <img
-                    src={mrkBusiness.brandAssets.logoWordmark}
-                    alt="MRK Removals Adelaide"
-                    width={720}
-                    height={115}
-                    loading="lazy"
-                    className="h-12 w-auto"
-                  />
-                </span>
+                <img
+                  src={mrkBusiness.brandAssets.logoWordmark}
+                  alt="MRK Removals Adelaide"
+                  width={720}
+                  height={251}
+                  loading="lazy"
+                  className="h-16 w-auto drop-shadow-[0_6px_10px_rgba(11,27,51,0.16)]"
+                />
                 <p className="text-xs text-[#8A6414] font-medium">{mrkBusiness.locationLabel}</p>
               </div>
 
@@ -169,7 +180,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       <div
         role="region"
         aria-label="Mobile Quick Conversion Actions"
-        className="md:hidden fixed bottom-4 inset-x-3 z-40 pointer-events-none flex items-center justify-between gap-2"
+        className={`md:hidden fixed bottom-4 inset-x-3 z-40 pointer-events-none flex items-center justify-between gap-2 transition-all duration-300 ${showQuickActions ? "opacity-100 translate-y-0 visible" : "opacity-0 translate-y-6 invisible"}`}
       >
         <a
           href={mrkBusiness.phoneHref}

@@ -132,12 +132,13 @@ export const mrkBusiness: MRKBusinessConfig = {
     role: 'Brand Architecture, UI/UX & Digital Engineering',
   },
   brandAssets: {
-    fullLogoConcept: '/assets/brand/mrk-logo-full.webp',
-    logoFull: '/assets/brand/mrk-logo-full.webp',
-    logoWordmark: '/assets/brand/mrk-wordmark.webp',
-    compactLogoConcept: '/assets/aistudio/ruby_platinum_compact_logo_concept_cacda257.webp',
-    badgeConcept: '/assets/aistudio/ruby_platinum_badge_concept_6a6760d6.webp',
-    roundCrestConcept: '/assets/aistudio/ruby_platinum_round_crest_concept_ff67e362.webp',
+    // Owner-supplied transparent logos: legible directly on the bright page (no dark badge needed).
+    fullLogoConcept: '/assets/brand/mrk-logo-horizontal.webp',
+    logoFull: '/assets/brand/mrk-logo-circle.webp',
+    logoWordmark: '/assets/brand/mrk-logo-horizontal.webp',
+    compactLogoConcept: '/assets/brand/mrk-logo-stacked.webp',
+    badgeConcept: '/assets/brand/mrk-logo-shield.webp',
+    roundCrestConcept: '/assets/brand/mrk-logo-circle.webp',
   },
   photographyAssets: {
     heroTruckCinematic: '/assets/photography/midnight_delivery_truck-960.webp',
