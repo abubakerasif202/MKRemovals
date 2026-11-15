@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { submitBrowserQuote } from '../../lib/quote-browser-client';
 import { Phone, Check, Copy, AlertCircle, RotateCcw, ChevronDown, ChevronUp, Mail } from 'lucide-react';
 import {
   validateQuoteSubmission,
@@ -75,6 +76,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
   );
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof QuoteFormInput, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitting = useRef(false);
   const [outcome, setOutcome] = useState<SubmissionOutcome | null>(null);
   const [copiedBrief, setCopiedBrief] = useState(false);
 
@@ -117,7 +119,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting) return;
+    if (submitting.current) return;
 
     const validation = validateQuoteSubmission(formData);
     if (!validation.valid || !validation.sanitized) {
@@ -131,6 +133,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
     }
 
     setFieldErrors({});
+    submitting.current = true;
     setIsSubmitting(true);
     setOutcome(null);
 
@@ -150,8 +153,21 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         payload = {};
       }
 
-      // Success is shown only when the server reports provider-confirmed delivery.
-      if (response.ok && payload.ok === true && payload.status === 'delivered') {
+      let accepted = response.ok && payload.ok === true && payload.status === 'delivered';
+      if (response.ok && payload.status === 'browser_delivery_required') {
+        const browserResult = await submitBrowserQuote(payload.browserDelivery);
+        accepted = browserResult.confirmed;
+        payload.referenceId = browserResult.referenceId;
+        payload.timestamp = browserResult.timestamp;
+        if (!accepted) {
+          payload.status = browserResult.uncertain ? 'delivery_unconfirmed' : 'delivery_failed';
+          payload.message = browserResult.uncertain
+            ? `We could not confirm whether your request was accepted. Your details are still here. Please call ${mrkBusiness.phoneDisplay} before retrying to avoid sending a duplicate, or use Email Instead.`
+            : `Your request was not accepted by the email service. Your details are still here. Please try again, email ${mrkBusiness.enquiryEmail} or call ${mrkBusiness.phoneDisplay}.`;
+        }
+      }
+      // Success requires a positive acknowledgement from the active transport's provider.
+      if (accepted) {
         setOutcome({
           ok: true,
           status: 'delivered',
@@ -185,6 +201,7 @@ export const QuoteForm: React.FC<QuoteFormProps> = ({
         moveBrief,
       });
     } finally {
+      submitting.current = false;
       setIsSubmitting(false);
     }
   };

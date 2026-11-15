@@ -266,3 +266,86 @@ test('redis keys never contain the raw client IP', async () => {
   await store.rateLimit('203.0.113.77', Date.now());
   for (const key of redis.kv.keys()) assert.ok(!key.includes('203.0.113.77'));
 });
+
+// Browser transport is required for Web3Forms public/free access keys.
+const noProviderFetch = (async () => { throw new Error('Unexpected server provider call'); }) as typeof fetch;
+const browserEnv: QuoteEnv = {
+  WEB3FORMS_ACCESS_KEY: '00000000-0000-4000-8000-000000000001',
+  WEB3FORMS_DELIVERY_MODE: 'browser',
+  QUOTE_BROWSER_SIGNING_SECRET: 'test-signing-secret-with-at-least-32-characters',
+};
+
+test('browser preparation validates and reserves an attempt without sending email or claiming success', async () => {
+  const store = createQuoteStore();
+  const { impl, calls } = mockFetch(() => { throw new Error('Server must not contact Web3Forms'); });
+  const result = await handleQuoteRequest({ body: validBody, ip: 'browser-1', env: browserEnv, fetchImpl: impl, store, log: silent });
+  assert.equal(result.statusCode, 200);
+  assert.equal(result.body.status, 'browser_delivery_required');
+  assert.equal(result.body.ok, false);
+  assert.equal(calls.length, 0);
+  const dispatch = result.body.browserDelivery as { ticket: string; payload: { access_key: string; message: string } };
+  assert.equal(dispatch.payload.access_key, browserEnv.WEB3FORMS_ACCESS_KEY);
+  assert.match(dispatch.payload.message, /Norwood/);
+  assert.ok(dispatch.ticket);
+  assert.equal(await store.getDelivered(validBody.attemptId), null);
+  const concurrent = await handleQuoteRequest({ body: validBody, ip: 'browser-1', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  assert.equal(concurrent.statusCode, 409);
+});
+
+test('browser receipt deduplicates a reported acceptance without calling it server-confirmed delivery', async () => {
+  const store = createQuoteStore();
+  const prepare = await handleQuoteRequest({ body: validBody, ip: 'browser-2', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  const { ticket } = prepare.body.browserDelivery as { ticket: string };
+  const result = await handleQuoteRequest({ body: { action: 'browser-result', ticket, accepted: true }, ip: 'browser-2', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  assert.equal(result.body.status, 'browser_report_recorded');
+  assert.equal(result.body.acceptance, 'browser_reported');
+  assert.equal((await store.getDelivered(validBody.attemptId))?.provider, 'web3forms-browser');
+  const duplicate = await handleQuoteRequest({ body: validBody, ip: 'browser-2', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  assert.equal(duplicate.body.status, 'browser_already_reported');
+  assert.equal(duplicate.body.ok, false);
+});
+
+test('a rejected browser dispatch releases its claim and allows retry with the same attempt id', async () => {
+  const store = createQuoteStore();
+  const prepare = await handleQuoteRequest({ body: validBody, ip: 'browser-3', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  const { ticket } = prepare.body.browserDelivery as { ticket: string };
+  await handleQuoteRequest({ body: { action: 'browser-result', ticket, accepted: false }, ip: 'browser-3', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  assert.equal(await store.getDelivered(validBody.attemptId), null);
+  const retry = await handleQuoteRequest({ body: validBody, ip: 'browser-3', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  assert.equal(retry.body.status, 'browser_delivery_required');
+});
+
+test('forged and expired browser receipts cannot mark an attempt accepted', async () => {
+  const store = createQuoteStore();
+  let clock = Date.now();
+  const prepare = await handleQuoteRequest({ body: validBody, ip: 'browser-4', env: browserEnv, fetchImpl: noProviderFetch, store, now: () => clock, log: silent });
+  const { ticket } = prepare.body.browserDelivery as { ticket: string };
+  for (const value of ['forged', ticket.slice(0, -2) + 'XX']) {
+    const bad = await handleQuoteRequest({ body: { action: 'browser-result', ticket: value, accepted: true }, ip: 'browser-4', env: browserEnv, fetchImpl: noProviderFetch, store, now: () => clock, log: silent });
+    assert.equal(bad.statusCode, 400);
+  }
+  clock += 61_000;
+  const expired = await handleQuoteRequest({ body: { action: 'browser-result', ticket, accepted: true }, ip: 'browser-4', env: browserEnv, fetchImpl: noProviderFetch, store, now: () => clock, log: silent });
+  assert.equal(expired.statusCode, 400);
+  assert.equal(await store.getDelivered(validBody.attemptId), null);
+});
+
+test('browser mode refuses missing signing configuration, invalid keys and spam before dispatch', async () => {
+  const store = createQuoteStore();
+  for (const env of [{ ...browserEnv, QUOTE_BROWSER_SIGNING_SECRET: undefined }, { ...browserEnv, WEB3FORMS_ACCESS_KEY: 'YOUR_ACCESS_KEY_HERE' }]) {
+    const result = await handleQuoteRequest({ body: validBody, ip: 'browser-5', env, fetchImpl: noProviderFetch, store, log: silent });
+    assert.equal(result.statusCode, 503);
+    assert.equal(result.body.browserDelivery, undefined);
+  }
+  const spam = await handleQuoteRequest({ body: { ...validBody, honeypotWebsite: 'spam' }, ip: 'browser-5', env: browserEnv, fetchImpl: noProviderFetch, store, log: silent });
+  assert.equal(spam.body.status, 'spam_rejected');
+});
+
+test('memory browser leases expire instead of blocking abandoned submissions forever', async () => {
+  let clock = 1000;
+  const store = createMemoryStore(() => clock);
+  assert.equal(await store.claim('abandoned'), true);
+  assert.equal(await store.claim('abandoned'), false);
+  clock += 61_000;
+  assert.equal(await store.claim('abandoned'), true);
+});

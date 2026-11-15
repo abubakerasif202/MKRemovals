@@ -1,6 +1,7 @@
 import { validateQuoteSubmission, formatMoveBriefText } from './quote-validation.js';
 import { mrkBusiness } from '../config/business.js';
 import { getQuoteStore, type QuoteStore } from './quote-store.js';
+import { createBrowserTicket, verifyBrowserTicket, hasBrowserSigningSecret } from './quote-browser-ticket.js';
 
 export { createMemoryStore as createQuoteStore, RATE_LIMIT_MAX_REQUESTS, RATE_LIMIT_WINDOW_MS } from './quote-store.js';
 export type { QuoteStore } from './quote-store.js';
@@ -11,8 +12,10 @@ export type { QuoteStore } from './quote-store.js';
  *
  * Contract:
  *  - `delivered` is only returned when a provider confirms acceptance of the message.
- *  - Providers are tried in order and the first confirmed success stops the chain,
- *    so one enquiry can never be delivered twice.
+ *  - Server providers stop after the first confirmed success. Browser mode prepares one
+ *    Web3Forms dispatch and records a signed browser report, never a second server send.
+ *  - Known acceptance is deduplicated; an ambiguous browser response cannot guarantee
+ *    exactly-once email delivery and the UI warns before a manual retry.
  *  - Every non-delivered outcome is an `ok: false` response; the client keeps the form data.
  */
 
@@ -24,10 +27,13 @@ export type QuoteOutcomeStatus =
   | 'in_progress'
   | 'delivery_failed'
   | 'not_configured'
-  | 'bad_request';
+  | 'bad_request'
+  | 'browser_already_reported';
 
 export interface QuoteEnv {
   WEB3FORMS_ACCESS_KEY?: string;
+  WEB3FORMS_DELIVERY_MODE?: 'browser' | 'server';
+  QUOTE_BROWSER_SIGNING_SECRET?: string;
   RESEND_API_KEY?: string;
   RESEND_FROM_EMAIL?: string;
 }
@@ -43,6 +49,8 @@ export function readQuoteEnv(env: NodeJS.ProcessEnv = process.env): QuoteEnv {
   return {
     // `web3form_key` is the name already configured as a sensitive production variable on Vercel.
     WEB3FORMS_ACCESS_KEY: env.WEB3FORMS_ACCESS_KEY || env.web3form_key,
+    WEB3FORMS_DELIVERY_MODE: env.WEB3FORMS_DELIVERY_MODE === 'browser' ? 'browser' : 'server',
+    QUOTE_BROWSER_SIGNING_SECRET: env.QUOTE_BROWSER_SIGNING_SECRET,
     RESEND_API_KEY: env.RESEND_API_KEY,
     RESEND_FROM_EMAIL: env.RESEND_FROM_EMAIL,
   };
@@ -188,6 +196,32 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
     return fail(400, 'bad_request', 'The request could not be read. Please try again.');
   }
 
+  // A signed receipt authorizes bookkeeping for one reserved attempt. It is a browser report,
+  // not independent server evidence that the provider accepted or delivered an email.
+  const requestBody = options.body as Record<string, unknown>;
+  if (requestBody.action === 'browser-result') {
+    const ticket = verifyBrowserTicket(requestBody.ticket, options.env.QUOTE_BROWSER_SIGNING_SECRET, now());
+    if (!ticket || typeof requestBody.accepted !== 'boolean') {
+      return fail(400, 'bad_request', 'The submission receipt is invalid or expired.');
+    }
+    if (requestBody.accepted) {
+      try {
+        const existing = await store.getDelivered(ticket.attemptId);
+        if (!existing) await store.setDelivered(ticket.attemptId, {
+          referenceId: ticket.referenceId, timestamp: new Date(now()).toISOString(), provider: 'web3forms-browser',
+        });
+      } catch (err) {
+        log({ status: 'browser_record_failed', referenceId: ticket.referenceId, err: String(err) });
+        // Keep the lease until it expires if acceptance could not be recorded.
+        return fail(503, 'delivery_failed', 'Submission bookkeeping is temporarily unavailable.');
+      }
+    }
+    await store.release(ticket.attemptId);
+    log({ status: requestBody.accepted ? 'browser_reported_accepted' : 'browser_dispatch_not_confirmed',
+      referenceId: ticket.referenceId, inboxReceipt: 'unverified' });
+    return { statusCode: 200, body: { ok: true, status: 'browser_report_recorded', acceptance: 'browser_reported' } };
+  }
+
   if (!(await store.rateLimit(options.ip, now()))) {
     log({ status: 'rate_limited' });
     return fail(
@@ -215,6 +249,9 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
   // Idempotency: a retry of an attempt that was already delivered never sends a second email.
   if (attemptId) {
     const prior = await store.getDelivered(attemptId);
+    if (prior?.provider === 'web3forms-browser') {
+      return fail(409, 'browser_already_reported', 'This attempt was already reported as accepted. Please call before sending another copy.', { referenceId: prior.referenceId, moveBrief });
+    }
     if (prior) {
       return {
         statusCode: 200,
@@ -245,6 +282,7 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
     }
   }
 
+  let browserLeaseHandedOff = false;
   const work = async (): Promise<QuoteResult> => {
     const web3Key = options.env.WEB3FORMS_ACCESS_KEY?.trim();
     const resendKey = options.env.RESEND_API_KEY?.trim();
@@ -261,6 +299,26 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
 
     const referenceId = generateReferenceId(new Date(now()));
     const subject = `MRK Removals Quote Request: ${sanitized.pickupSuburb} to ${sanitized.destinationSuburb} [${referenceId}]`;
+    if (options.env.WEB3FORMS_DELIVERY_MODE === 'browser') {
+      const secret = options.env.QUOTE_BROWSER_SIGNING_SECRET;
+      if (!web3Key || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(web3Key) || !hasBrowserSigningSecret(secret)) {
+        return fail(503, 'not_configured', 'Online quote delivery is temporarily unavailable.', { moveBrief });
+      }
+      if (!attemptId) return fail(400, 'validation_error', 'Please refresh the page and try again.');
+      const ticket = createBrowserTicket(attemptId, referenceId, secret, now());
+      browserLeaseHandedOff = true;
+      log({ status: 'browser_dispatch_prepared', referenceId });
+      return { statusCode: 200, body: {
+        ok: false, status: 'browser_delivery_required', referenceId, moveBrief,
+        message: 'Please refresh this page to load the updated quote form if submission does not continue.',
+        browserDelivery: { ticket, referenceId, payload: {
+          access_key: web3Key, subject, from_name: 'MRK Removals Adelaide Website',
+          name: sanitized.fullName,
+          ...(sanitized.email ? { email: sanitized.email, replyto: sanitized.email } : {}),
+          message: `${moveBrief}\n\nReference: ${referenceId}`, botcheck: false,
+        } },
+      } };
+    }
     const attempts: ProviderAttempt[] = [];
     let confirmed: ProviderAttempt | undefined;
 
@@ -350,7 +408,7 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
       if (attemptId) {
         inFlight.delete(attemptId);
         try {
-          await store.release(attemptId);
+          if (!browserLeaseHandedOff) await store.release(attemptId);
         } catch {
           // The claim expires on its own after CLAIM_TTL_SECONDS.
         }

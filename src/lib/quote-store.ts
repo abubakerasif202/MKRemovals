@@ -45,10 +45,10 @@ export function hashIp(ip: string): string {
   return createHash('sha256').update(ip).digest('hex').slice(0, 24);
 }
 
-export function createMemoryStore(): QuoteStore {
+export function createMemoryStore(clock: () => number = Date.now): QuoteStore {
   const rate = new Map<string, { count: number; windowStart: number }>();
   const delivered = new Map<string, AttemptRecord>();
-  const claims = new Set<string>();
+  const claims = new Map<string, number>();
   return {
     kind: 'memory',
     async rateLimit(ip, nowMs) {
@@ -70,8 +70,10 @@ export function createMemoryStore(): QuoteStore {
       trim(delivered);
     },
     async claim(id) {
-      if (claims.has(id)) return false;
-      claims.add(id);
+      const current = clock();
+      for (const [key, expires] of claims) if (expires <= current) claims.delete(key);
+      if (claims.has(id) || claims.size >= MAX_MEMORY_ENTRIES) return false;
+      claims.set(id, current + CLAIM_TTL_SECONDS * 1000);
       return true;
     },
     async release(id) {
