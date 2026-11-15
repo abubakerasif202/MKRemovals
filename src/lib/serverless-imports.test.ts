@@ -11,6 +11,7 @@ const SERVERLESS_GRAPH = [
   'src/lib/quote-delivery.ts',
   'src/lib/quote-validation.ts',
   'src/lib/quote-store.ts',
+  'src/lib/quote-browser-ticket.ts',
   'src/config/business.ts',
 ];
 

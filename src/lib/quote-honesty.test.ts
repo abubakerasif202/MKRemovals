@@ -44,3 +44,48 @@ test('customer-facing success copy says "accepted" and offers a call fallback, n
   assert.doesNotMatch(src, /received (?:in|by)/i);
   assert.doesNotMatch(src, /DELIVERY CONFIRMED/);
 });
+
+import { submitBrowserQuote } from './quote-browser-client';
+const dispatch = {
+  ticket: 'signed-ticket', referenceId: 'MRK-2026-TEST1',
+  payload: { access_key: '00000000-0000-4000-8000-000000000001', message: 'TEST — mocked transport only' },
+};
+test('browser success needs a positive provider acknowledgement and records only one email-producing call', async () => {
+  const calls: string[] = [];
+  const mock = (async (url: string) => { calls.push(url); return { ok: true, json: async () => ({ success: true }) }; }) as unknown as typeof fetch;
+  const result = await submitBrowserQuote(dispatch, mock);
+  assert.equal(result.confirmed, true);
+  assert.deepEqual(calls, ['https://api.web3forms.com/submit', '/api/quote']);
+});
+test('browser provider rejection and malformed success responses never show success', async () => {
+  for (const data of [{ success: false }, {}, { success: 'true' }]) {
+    const mock = (async () => ({ ok: true, json: async () => data })) as unknown as typeof fetch;
+    assert.equal((await submitBrowserQuote(dispatch, mock)).confirmed, false);
+  }
+});
+test('browser network ambiguity is honest and never automatically resends', async () => {
+  let sends = 0;
+  const mock = (async (url: string) => {
+    if (url.startsWith('https:')) { sends++; throw new Error('lost response'); }
+    return { ok: true };
+  }) as unknown as typeof fetch;
+  const result = await submitBrowserQuote(dispatch, mock);
+  assert.equal(result.confirmed, false);
+  assert.equal(result.uncertain, true);
+  assert.equal(sends, 1);
+});
+test('receipt bookkeeping failure does not convert provider acceptance into a retry or another send', async () => {
+  let sends = 0;
+  const mock = (async (url: string) => {
+    if (url.startsWith('https:')) { sends++; return { ok: true, json: async () => ({ success: true }) }; }
+    throw new Error('receipt unavailable');
+  }) as unknown as typeof fetch;
+  assert.equal((await submitBrowserQuote(dispatch, mock)).confirmed, true);
+  assert.equal(sends, 1);
+});
+test('malformed browser dispatch cannot select a different endpoint or contact a provider', async () => {
+  let called = false;
+  const mock = (async () => { called = true; }) as unknown as typeof fetch;
+  await assert.rejects(submitBrowserQuote({ ...dispatch, payload: { access_key: 'YOUR_ACCESS_KEY_HERE', message: 'test' } }, mock));
+  assert.equal(called, false);
+});

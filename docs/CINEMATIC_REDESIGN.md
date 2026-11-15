@@ -1,3 +1,7 @@
+# Quote delivery update
+
+The cinematic implementation evidence below describes its original release. The subsequent browser transport repair is documented in [WEB3FORMS_BROWSER_FIX.md](WEB3FORMS_BROWSER_FIX.md).
+
 # MRK cinematic homepage redesign
 
 ## Scope and source

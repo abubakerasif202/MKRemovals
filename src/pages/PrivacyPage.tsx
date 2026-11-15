@@ -85,11 +85,13 @@ export const PrivacyPage: React.FC<PrivacyPageProps> = ({ onNavigate }) => {
             4. How Quote Requests Are Delivered
           </h2>
           <p>
-                     When you submit the quote form, your details are validated on our server and then
-            passed to an email-delivery service provider (currently Web3Forms, with Resend as an
-            optional backup) so that they reach MRK Removals Adelaide by email. A request is only
-            shown as sent once the provider confirms delivery. We do not keep a separate customer
-            database. This section is a draft pending owner and legal review. </p>
+            When you submit the quote form, our server validates your details and checks for spam.
+            Your browser then sends the validated request directly to Web3Forms for email delivery
+            to MRK Removals Adelaide. We show success only after Web3Forms acknowledges acceptance;
+            this does not confirm arrival in the inbox. Temporary attempt metadata helps prevent
+            duplicate submissions. We do not keep a separate customer database. This section is a
+            draft pending owner and legal review.
+          </p>
         </section>
 
         <section className="space-y-2">
