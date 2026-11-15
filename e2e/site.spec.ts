@@ -47,7 +47,7 @@ test('no horizontal overflow on native mobile device viewports', async ({ page, 
 });
 
 for (const width of [320, 375, 768, 1440, 1920]) {
-  test(`homepage screenshots at ${width}px`, async ({ page, isMobile }) => {
+  test(`homepage screenshots at ${width}px`, async ({ page, isMobile }, testInfo) => {
     test.skip(isMobile, 'Fixed mobile device emulation has its own device viewport');
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
@@ -61,20 +61,28 @@ for (const width of [320, 375, 768, 1440, 1920]) {
       window.scrollTo(0, 0);
     });
     await page.waitForLoadState('networkidle');
+    // Chromium may defer offscreen lazy requests during a fast scroll. Visit each image before decoding.
+    for (const image of await page.locator('img').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await image.evaluate((element) => (element as HTMLImageElement).decode());
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(600);
-    fs.mkdirSync(SHOTS, { recursive: true });
-    await page.screenshot({ path: path.join(SHOTS, `home-${width}.png`), fullPage: true });
+    const screenshotDir = path.join(SHOTS, testInfo.project.name);
+    fs.mkdirSync(screenshotDir, { recursive: true });
+    await page.screenshot({ path: path.join(screenshotDir, `home-${width}.png`), fullPage: true });
   });
 }
 
 for (const [width, height] of [[390, 844], [1440, 900]]) {
-  test(`hero screenshot at ${width}px`, async ({ page, isMobile }) => {
+  test(`hero screenshot at ${width}px`, async ({ page, isMobile }, testInfo) => {
     test.skip(isMobile, 'Fixed mobile device emulation has its own device viewport');
     await page.setViewportSize({ width, height });
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    fs.mkdirSync(SHOTS, { recursive: true });
-    await page.screenshot({ path: path.join(SHOTS, `hero-${width}.png`) });
+    const screenshotDir = path.join(SHOTS, testInfo.project.name);
+    fs.mkdirSync(screenshotDir, { recursive: true });
+    await page.screenshot({ path: path.join(screenshotDir, `hero-${width}.png`) });
   });
 }
 
@@ -283,7 +291,7 @@ test('homepage image payload stays within budget and only the hero is eager', as
   await page.waitForLoadState('networkidle');
   const eager = await page.evaluate(() => [...document.images].filter((i) => i.loading !== 'lazy' && i.getBoundingClientRect().width > 0).length);
   expect(eager).toBeLessThanOrEqual(3); // hero + logo wordmark (+ hero logo card hidden on mobile)
-  const bytes = await page.evaluate(() => performance.getEntriesByType('resource').filter((r) => /\.(webp|jpg|png)/.test(r.name)).reduce((a, r) => a + ((r as PerformanceResourceTiming).transferSize || 0), 0));
+  const bytes = await page.evaluate(() => performance.getEntriesByType('resource').filter((r) => /\.(avif|webp|jpg|png)/.test(r.name)).reduce((a, r) => a + ((r as PerformanceResourceTiming).transferSize || 0), 0));
   expect(bytes / 1024).toBeLessThan(500);
 });
 

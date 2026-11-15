@@ -60,7 +60,7 @@ export default function App({ initialPath }: AppProps = {}): React.ReactElement 
       ) {
         window.history.pushState({}, '', fullUrl);
       }
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }
 
     setLocationState({ pathname, search });
@@ -130,7 +130,7 @@ export default function App({ initialPath }: AppProps = {}): React.ReactElement 
         {renderRoute()}
       </main>
 
-      <Footer onNavigate={navigate} />
+      <Footer onNavigate={navigate} currentPath={cleanPath} />
     </div>
   );
 }

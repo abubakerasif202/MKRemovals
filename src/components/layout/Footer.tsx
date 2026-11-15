@@ -11,6 +11,7 @@ import { MRK_SERVICE_AREAS } from '../../content/service-areas';
 import { MRKVectorEmblem } from '../brand/MRKLogo';
 
 interface FooterProps {
+  currentPath: string;
   onNavigate: (path: string) => void;
 }
 
@@ -26,7 +27,7 @@ function useScrolledPast(px: number): boolean {
   return past;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, currentPath }) => {
   const showQuickActions = useScrolledPast(520);
   const [submitInView, setSubmitInView] = useState(false);
 
@@ -39,10 +40,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       },
       { threshold: 0.1 }
     );
-    const submitButtons = document.querySelectorAll('button[type="submit"]');
-    submitButtons.forEach((btn) => observer.observe(btn));
+    const quoteForms = document.querySelectorAll('form[aria-label="Request a Moving Quote Form"]');
+    quoteForms.forEach((form) => observer.observe(form));
     return () => observer.disconnect();
-  }, []);
+  }, [currentPath]);
 
   const isVisible = showQuickActions && !submitInView;
 
@@ -53,7 +54,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
   return (
     <>
-      <footer className="bg-[#EAF0F9] border-t border-[#D7E0EC] text-[#33445C] pb-20 md:pb-12">
+      <footer className="cinema-footer bg-[#EAF0F9] border-t border-[#D7E0EC] text-[#33445C] pb-20 md:pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-[#D7E0EC]">
             {/* Brand & Direct Contact Column */}
@@ -222,7 +223,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               document.getElementById('pricing-quote-form') ||
               document.getElementById('dedicated-quote-form');
             if (localForm) {
-              localForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              localForm.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
               const nameInput = document.getElementById('quote-fullName') as HTMLInputElement | null;
               nameInput?.focus({ preventScroll: true });
             } else {

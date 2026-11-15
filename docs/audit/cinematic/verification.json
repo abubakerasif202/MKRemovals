@@ -1,0 +1,101 @@
+{
+  "environment": "Windows Node 24 via PowerShell from WSL",
+  "baseCommit": "d6d4554",
+  "branch": "feat/cinematic-homepage",
+  "npmCi": {
+    "status": "passed",
+    "reportedVulnerabilities": 0
+  },
+  "lint": "passed",
+  "unitTests": {
+    "passed": 46,
+    "failed": 0,
+    "skipped": 4,
+    "skipReason": "Real Redis integration not enabled for this validation run"
+  },
+  "build": {
+    "status": "passed",
+    "prerenderedRoutes": 24
+  },
+  "browserTests": {
+    "status": "passed",
+    "passed": 190,
+    "failed": 0,
+    "skipped": 35,
+    "durationMinutes": 9.2,
+    "projects": [
+      "chromium",
+      "firefox",
+      "webkit",
+      "iphone",
+      "android"
+    ],
+    "skipReason": "Viewport-specific tests inapplicable to fixed device emulation, and native-device checks inapplicable to desktop projects"
+  },
+  "axe": {
+    "seriousOrCriticalViolations": 0,
+    "routes": 14,
+    "widths": [
+      1440,
+      375
+    ],
+    "projects": 5
+  },
+  "responsiveWidths": [
+    320,
+    360,
+    375,
+    390,
+    430,
+    768,
+    1024,
+    1440,
+    1920
+  ],
+  "quoteVerification": "Browser API responses mocked; shared backend delivery, retry, spam and idempotency unit tests passed. No live inbox submission.",
+  "productionDeployment": "Not performed",
+  "postVisualRefinement": {
+    "change": "Mobile hero cover-crop sizes and matching responsive preload",
+    "lint": "passed",
+    "build": "passed",
+    "targetedBrowserTests": {
+      "passed": 30,
+      "failed": 0,
+      "skipped": 10,
+      "durationMinutes": 1.5,
+      "scope": "Composition, motion, full-page captures and image budget across all five projects"
+    }
+  },
+  "screenshots": {
+    "widths": 9,
+    "overflow": 0,
+    "motionObservedAtEveryWidth": true,
+    "uncaughtBrowserErrors": 0
+  },
+  "lighthouseLatest": [
+    {
+      "mode": "mobile",
+      "scores": {
+        "performance": 85,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69
+      },
+      "lcp": 3729.28615,
+      "cls": 1.300125735171047e-06,
+      "tbt": 142
+    },
+    {
+      "mode": "desktop",
+      "scores": {
+        "performance": 88,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69
+      },
+      "lcp": 868.1800999999999,
+      "cls": 0.0005670140278572415,
+      "tbt": 232.59140000000002
+    }
+  ]
+}

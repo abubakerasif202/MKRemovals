@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Guards the bright theme: the client rejected the dark theme, so a dark page canvas or large
- * dark panel must not creep back in, and text on solid colour fills must stay readable.
+ * Guards the platinum content canvas and explicitly approved cinematic dark surfaces.
+ * The cinematic brief supersedes the former prohibition on dark homepage panels.
  */
 const ROUTES = [
   '/', '/services', '/pricing', '/quote', '/contact', '/service-areas', '/faq', '/about', '/privacy', '/terms',
@@ -25,7 +25,7 @@ test('page canvas is bright on every route', async ({ page }) => {
   }
 });
 
-test('no large dark panels on any route (logo badges and selected chips excepted)', async ({ page }) => {
+test('dark surfaces are confined to the cinematic sections and site chrome', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const offenders: string[] = [];
   for (const route of ROUTES) {
@@ -48,7 +48,7 @@ test('no large dark panels on any route (logo badges and selected chips excepted
         const cs = getComputedStyle(el);
         const r = el.getBoundingClientRect();
         if (cs.display === 'none' || r.width * r.height < 20000) continue;
-        if (el.closest('.mrk-logo-badge, button, [role="tab"]')) continue;
+        if (el.closest('.mrk-logo-badge, button, [role="tab"], .cinema-header, .cinema-footer, .cinema-hero, .pricing-section, .quote-story, .closing-section')) continue;
         if (lum(cs.backgroundColor) < 0.12) out.push(`${el.tagName.toLowerCase()}.${String(el.className).split(' ').slice(0, 3).join('.')}`);
       }
       return out;
