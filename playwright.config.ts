@@ -14,6 +14,8 @@ const channel = process.env.PW_CHANNEL || undefined;
 export default defineConfig({
   testDir: './e2e',
   timeout: 45_000,
+  // Bound concurrent browser/image work on Windows and WSL development machines.
+  workers: 2,
   retries: 0,
   reporter: [['list']],
   use: {

@@ -1,0 +1,83 @@
+[
+  {
+    "width": 320,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_mobile-640.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 360,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_mobile-640.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 375,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_mobile-640.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 390,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_mobile-640.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 430,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_mobile-640.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 768,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_banner-960.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 1024,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_banner-1376.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 1440,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_banner-1920.avif"
+    },
+    "motion": true
+  },
+  {
+    "width": 1920,
+    "overflow": 0,
+    "truck": {
+      "loaded": true,
+      "source": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_banner-1920.avif"
+    },
+    "motion": true
+  }
+]

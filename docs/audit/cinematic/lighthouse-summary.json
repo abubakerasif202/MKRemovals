@@ -1,0 +1,479 @@
+[
+  {
+    "mode": "mobile",
+    "scores": {
+      "performance": 85,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": 3729.28615,
+    "cls": 0.000001300125735171047,
+    "tbt": 142,
+    "failed": [
+      {
+        "key": "mainthread-work-breakdown",
+        "title": "Minimize main-thread work",
+        "items": [
+          {
+            "group": "styleLayout",
+            "groupLabel": "Style & Layout",
+            "duration": 910.1320000000001
+          },
+          {
+            "group": "other",
+            "groupLabel": "Other",
+            "duration": 683.267999999998
+          },
+          {
+            "group": "scriptEvaluation",
+            "groupLabel": "Script Evaluation",
+            "duration": 345.1360000000008
+          },
+          {
+            "group": "paintCompositeRender",
+            "groupLabel": "Rendering",
+            "duration": 188.76399999999947
+          },
+          {
+            "group": "parseHTML",
+            "groupLabel": "Parse HTML & CSS",
+            "duration": 34.343999999999994
+          },
+          {
+            "group": "garbageCollection",
+            "groupLabel": "Garbage Collection",
+            "duration": 16.199999999999996
+          },
+          {
+            "group": "scriptParseCompile",
+            "groupLabel": "Script Parsing & Compilation",
+            "duration": 7.968000000000001
+          }
+        ]
+      },
+      {
+        "key": "is-crawlable",
+        "title": "Page is blocked from indexing",
+        "items": [
+          {
+            "source": {
+              "type": "node",
+              "lhId": "1-111-META",
+              "path": "1,HTML,0,HEAD,4,META",
+              "selector": "head > meta",
+              "boundingRect": {
+                "top": 0,
+                "bottom": 0,
+                "left": 0,
+                "right": 0,
+                "width": 0,
+                "height": 0
+              },
+              "snippet": "<meta name=\"robots\" content=\"noindex, nofollow\" />",
+              "nodeLabel": "head > meta"
+            }
+          },
+          {
+            "source": {
+              "type": "source-location",
+              "url": "http://127.0.0.1:4173/robots.txt",
+              "urlProvider": "network",
+              "line": 4,
+              "column": 0
+            }
+          }
+        ]
+      },
+      {
+        "key": "image-delivery-insight",
+        "title": "Improve image delivery",
+        "items": [
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-0-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,5,FOOTER,0,DIV,0,DIV,0,DIV,0,DIV,0,IMG",
+              "selector": "div.grid > div.lg:col-span-4 > div.space-y-2 > img.h-16",
+              "boundingRect": {
+                "top": 9490,
+                "bottom": 9554,
+                "left": 16,
+                "right": 200,
+                "width": 184,
+                "height": 64
+              },
+              "snippet": "<img src=\"/assets/brand/mrk-logo-horizontal.webp\" alt=\"MRK Removals Adelaide\" width=\"720\" height=\"251\" loading=\"lazy\" class=\"h-16 w-auto drop-shadow-[0_6px_10px_rgba(11,27,51,0.16)]\">",
+              "nodeLabel": "MRK Removals Adelaide"
+            },
+            "url": "http://127.0.0.1:4173/assets/brand/mrk-logo-horizontal.webp",
+            "totalBytes": 59698,
+            "wastedBytes": 57740,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "Increasing the image compression factor could improve this image’s download size",
+                  "wastedBytes": 29578
+                },
+                {
+                  "reason": "This image file is larger than it needs to be (720x251) for its displayed dimensions (184x64). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 55817
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-1-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,2,DIV,2,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section.cinema-editorial > div.editorial-image > picture > img",
+              "boundingRect": {
+                "top": 2506,
+                "bottom": 2813,
+                "left": 3,
+                "right": 409,
+                "width": 406,
+                "height": 308
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/mrk_s_seamless_adelaide…\" alt=\"Professional office relocation scene with packed equipment and furniture\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "Professional office relocation scene with packed equipment and furniture"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/mrk_s_seamless_adelaide_office_move-960.avif",
+            "totalBytes": 59561,
+            "wastedBytes": 50140,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (950x720) for its displayed dimensions (380x285). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 50140
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-2-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,2,DIV,0,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section.cinema-editorial > div.editorial-image > picture > img",
+              "boundingRect": {
+                "top": 1113,
+                "bottom": 1420,
+                "left": 3,
+                "right": 409,
+                "width": 406,
+                "height": 308
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/premium_mrk_removals_ad…\" alt=\"Residential moving scene showing protective furniture wrapping\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "Residential moving scene showing protective furniture wrapping"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/premium_mrk_removals_adelaide_scene-960.avif",
+            "totalBytes": 50816,
+            "wastedBytes": 42778,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (950x720) for its displayed dimensions (380x285). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 42778
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-3-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,2,DIV,1,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section.cinema-editorial > div.editorial-image > picture > img",
+              "boundingRect": {
+                "top": 1820,
+                "bottom": 2128,
+                "left": 3,
+                "right": 409,
+                "width": 406,
+                "height": 308
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/premium_strata_move_in_…\" alt=\"Apartment relocation scene with wrapped furniture near a service lift\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "Apartment relocation scene with wrapped furniture near a service lift"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/premium_strata_move_in_adelaide-960.avif",
+            "totalBytes": 47537,
+            "wastedBytes": 40018,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (950x720) for its displayed dimensions (380x285). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 40018
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-4-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,0,SECTION,0,DIV,0,PICTURE,4,IMG",
+              "selector": "section.cinema-hero > div.hero-art > picture > img",
+              "boundingRect": {
+                "top": 370,
+                "bottom": 810,
+                "left": -6,
+                "right": 418,
+                "width": 424,
+                "height": 440
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_her…\" alt=\"MRK branded truck in an Adelaide moving scene\" width=\"1672\" height=\"941\" loading=\"eager\" decoding=\"sync\" fetchpriority=\"high\" class=\"\">",
+              "nodeLabel": "MRK branded truck in an Adelaide moving scene"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/adelaide_moving_day_hero_mobile-960.avif",
+            "totalBytes": 43738,
+            "wastedBytes": 26258,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (757x784) for its displayed dimensions (539x440). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 26258
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "key": "render-blocking-insight",
+        "title": "Render-blocking requests",
+        "items": [
+          {
+            "url": "http://127.0.0.1:4173/assets/index-DmkVkp-A.css",
+            "totalBytes": 16716,
+            "wastedMs": 310
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "desktop",
+    "scores": {
+      "performance": 88,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": 868.1800999999999,
+    "cls": 0.0005670140278572415,
+    "tbt": 232.59140000000002,
+    "failed": [
+      {
+        "key": "is-crawlable",
+        "title": "Page is blocked from indexing",
+        "items": [
+          {
+            "source": {
+              "type": "node",
+              "lhId": "1-112-META",
+              "path": "1,HTML,0,HEAD,4,META",
+              "selector": "head > meta",
+              "boundingRect": {
+                "top": 0,
+                "bottom": 0,
+                "left": 0,
+                "right": 0,
+                "width": 0,
+                "height": 0
+              },
+              "snippet": "<meta name=\"robots\" content=\"noindex, nofollow\" />",
+              "nodeLabel": "head > meta"
+            }
+          },
+          {
+            "source": {
+              "type": "source-location",
+              "url": "http://127.0.0.1:4173/robots.txt",
+              "urlProvider": "network",
+              "line": 4,
+              "column": 0
+            }
+          }
+        ]
+      },
+      {
+        "key": "image-delivery-insight",
+        "title": "Improve image delivery",
+        "items": [
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-6-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,3,HEADER,0,DIV,0,A,0,IMG",
+              "selector": "header.cinema-header > div.cinema-wrap > a.header-brand > img",
+              "boundingRect": {
+                "top": 11,
+                "bottom": 77,
+                "left": 40,
+                "right": 232,
+                "width": 192,
+                "height": 67
+              },
+              "snippet": "<img src=\"/assets/brand/mrk-logo-horizontal.webp\" alt=\"MRK Removals Adelaide\" width=\"720\" height=\"251\">",
+              "nodeLabel": "MRK Removals Adelaide"
+            },
+            "url": "http://127.0.0.1:4173/assets/brand/mrk-logo-horizontal.webp",
+            "totalBytes": 59698,
+            "wastedBytes": 57557,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "Increasing the image compression factor could improve this image’s download size",
+                  "wastedBytes": 29578
+                },
+                {
+                  "reason": "This image file is larger than it needs to be (720x251) for its displayed dimensions (192x67). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 55454
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-7-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,2,DIV,2,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section.cinema-editorial > div.editorial-image > picture > img",
+              "boundingRect": {
+                "top": 1826,
+                "bottom": 2265,
+                "left": 16,
+                "right": 674,
+                "width": 658,
+                "height": 439
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/mrk_s_seamless_adelaide…\" alt=\"Professional office relocation scene with packed equipment and furniture\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "Professional office relocation scene with packed equipment and furniture"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/mrk_s_seamless_adelaide_office_move-960.avif",
+            "totalBytes": 59561,
+            "wastedBytes": 32537,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (960x640) for its displayed dimensions (610x457). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 32537
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-8-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,2,DIV,0,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section.cinema-editorial > div.editorial-image > picture > img",
+              "boundingRect": {
+                "top": 873,
+                "bottom": 1312,
+                "left": 16,
+                "right": 674,
+                "width": 658,
+                "height": 439
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/premium_mrk_removals_ad…\" alt=\"Residential moving scene showing protective furniture wrapping\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "Residential moving scene showing protective furniture wrapping"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/premium_mrk_removals_adelaide_scene-960.avif",
+            "totalBytes": 50816,
+            "wastedBytes": 27759,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (960x640) for its displayed dimensions (610x457). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 27759
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-9-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,2,DIV,1,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section.cinema-editorial > div.editorial-image > picture > img",
+              "boundingRect": {
+                "top": 1349,
+                "bottom": 1788,
+                "left": 661,
+                "right": 1319,
+                "width": 658,
+                "height": 439
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/premium_strata_move_in_…\" alt=\"Apartment relocation scene with wrapped furniture near a service lift\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "Apartment relocation scene with wrapped furniture near a service lift"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/premium_strata_move_in_adelaide-960.avif",
+            "totalBytes": 47537,
+            "wastedBytes": 25968,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "This image file is larger than it needs to be (960x640) for its displayed dimensions (610x457). Use responsive images to reduce the image download size.",
+                  "wastedBytes": 25968
+                }
+              ]
+            }
+          },
+          {
+            "node": {
+              "type": "node",
+              "lhId": "page-10-IMG",
+              "path": "1,HTML,1,BODY,0,DIV,1,DIV,4,MAIN,0,DIV,6,SECTION,0,DIV,0,PICTURE,2,IMG",
+              "selector": "section#quote-section > div.quote-story > picture > img",
+              "boundingRect": {
+                "top": 3474,
+                "bottom": 4377,
+                "left": 40,
+                "right": 548,
+                "width": 508,
+                "height": 903
+              },
+              "snippet": "<img src=\"http://127.0.0.1:4173/assets/photography/cinematic/boulevard_twilight_truc…\" alt=\"\" width=\"1376\" height=\"768\" loading=\"lazy\" decoding=\"async\" class=\"\">",
+              "nodeLabel": "section#quote-section > div.quote-story > picture > img"
+            },
+            "url": "http://127.0.0.1:4173/assets/photography/cinematic/boulevard_twilight_truck-640.avif",
+            "totalBytes": 18123,
+            "wastedBytes": 11031,
+            "subItems": {
+              "type": "subitems",
+              "items": [
+                {
+                  "reason": "Increasing the image compression factor could improve this image’s download size",
+                  "wastedBytes": 11031
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "key": "render-blocking-insight",
+        "title": "Render-blocking requests",
+        "items": [
+          {
+            "url": "http://127.0.0.1:4173/assets/index-DmkVkp-A.css",
+            "totalBytes": 16716,
+            "wastedMs": 107
+          }
+        ]
+      }
+    ]
+  }
+]

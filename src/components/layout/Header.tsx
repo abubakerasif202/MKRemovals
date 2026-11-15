@@ -1,187 +1,146 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, Phone } from 'lucide-react';
-import { mrkBusiness, PRIMARY_NAV_ITEMS } from '../../config/business';
-
-interface HeaderProps {
+import React, { useState, useEffect, useRef } from "react";
+import { Menu, X, Phone, ArrowRight } from "lucide-react";
+import { mrkBusiness } from "../../config/business";
+const links = [
+  { label: "Home", path: "/" },
+  { label: "Services", path: "/services" },
+  { label: "Pricing", path: "/pricing" },
+  { label: "Areas", path: "/service-areas" },
+  { label: "About", path: "/about" },
+  { label: "FAQs", path: "/faq" },
+  { label: "Contact", path: "/contact" },
+];
+export const Header: React.FC<{
   currentPath: string;
   onNavigate: (path: string) => void;
-}
-
-/**
- * Strictly adheres to the Universal Frontend Design Constitution Top Bar Contract:
- * Zone 1: Single text element wordmark (whitespace-nowrap shrink-0)
- * Zone 2: 5 concise single-line text navigation links (whitespace-nowrap shrink-0)
- * Zone 3: 1 primary action button (Request a Quote)
- */
-export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const toggleBtnRef = useRef<HTMLButtonElement>(null);
-
+}> = ({ currentPath, onNavigate }) => {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
+  const drawer = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
-        setMobileMenuOpen(false);
-        toggleBtnRef.current?.focus();
+    setOpen(false);
+  }, [currentPath]);
+  useEffect(() => {
+    const scroll = () => setScrolled(window.scrollY > 24);
+    scroll();
+    window.addEventListener("scroll", scroll, { passive: true });
+    return () => window.removeEventListener("scroll", scroll);
+  }, []);
+  useEffect(() => {
+    if (!open) return;
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggle.current?.focus();
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [currentPath]);
-
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
-    e.preventDefault();
+    const closeOutside = (event: PointerEvent) => {
+      if (
+        !drawer.current?.contains(event.target as Node) &&
+        !toggle.current?.contains(event.target as Node)
+      )
+        setOpen(false);
+    };
+    window.addEventListener("keydown", escape);
+    window.addEventListener("pointerdown", closeOutside);
+    return () => {
+      window.removeEventListener("keydown", escape);
+      window.removeEventListener("pointerdown", closeOutside);
+    };
+  }, [open]);
+  const go = (path: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey ||
+      event.button !== 0
+    )
+      return;
+    event.preventDefault();
+    setOpen(false);
     onNavigate(path);
   };
-
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-[#D7E0EC]">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 lg:gap-8 px-4 sm:px-6 lg:px-8 h-[68px] sm:h-[76px]">
-        {/* Zone 1: Distinctive Brand Identity Wordmark & Crest */}
-        <a
-          href="/"
-          onClick={(e) => handleLinkClick(e, '/')}
-          className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C81036] select-none"
-        >
+    <header
+      className={`cinema-header ${currentPath === "/" ? "over-hero" : "inner-header"} ${scrolled || open ? "header-solid" : ""}`}
+    >
+      <div className="cinema-wrap header-row">
+        <a className="header-brand" href="/" onClick={go("/")}>
           <img
             src={mrkBusiness.brandAssets.logoWordmark}
             alt="MRK Removals Adelaide"
-            width={720}
-            height={251}
-            className="h-12 sm:h-14 w-auto select-none drop-shadow-[0_6px_10px_rgba(11,27,51,0.18)] transition-transform duration-300 group-hover:scale-105"
+            width="720"
+            height="251"
           />
         </a>
-
-        {/* Zone 2: Clean text navigation links (Desktop) */}
-        <nav
-          aria-label="Primary Navigation"
-          className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm font-medium text-[#33445C]"
-        >
-          {PRIMARY_NAV_ITEMS.map((item) => {
-            const isActive =
-              currentPath === item.path ||
-              (item.path !== '/' && currentPath.startsWith(`${item.path}/`));
-            return (
-              <a
-                key={item.path}
-                href={item.path}
-                onClick={(e) => handleLinkClick(e, item.path)}
-                aria-current={isActive ? 'page' : undefined}
-                className={`py-1 transition-colors whitespace-nowrap shrink-0 border-b-2 ${
-                  isActive
-                    ? 'text-[#0B1B33] border-[#C81036]'
-                    : 'border-transparent hover:text-[#C81036] hover:border-[#D7E0EC]'
-                }`}
-              >
-                {item.label}
-              </a>
-            );
-          })}
+        <nav className="desktop-nav" aria-label="Primary Navigation">
+          {links.map((item) => (
+            <a
+              key={item.path}
+              href={item.path}
+              onClick={go(item.path)}
+              aria-current={currentPath === item.path ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
-
-        {/* Zone 3: Primary action (Desktop/Tablet) + Quick Call + Mobile/Tablet menu toggle */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="header-actions">
           <a
+            className="header-phone"
             href={mrkBusiness.phoneHref}
             aria-label={`Call ${mrkBusiness.phoneDisplay}`}
-            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[#E8EEF7] hover:bg-[#DCE5F2] text-xs font-semibold text-[#0B1B33] border border-[#D7E0EC] transition-all hover:border-[#C81036]/50 whitespace-nowrap min-h-[44px] min-w-[44px]"
           >
-            <Phone className="w-3.5 h-3.5 text-[#C81036]" />
-            <span className="hidden sm:inline">{mrkBusiness.phoneDisplay}</span>
-            <span className="sm:hidden font-bold">Call</span>
+            <Phone size={17} />
+            <span>{mrkBusiness.phoneDisplay}</span>
           </a>
-
           <a
+            className="header-quote btn-ruby"
             href="/quote"
-            onClick={(e) => handleLinkClick(e, '/quote')}
-            className="hidden sm:inline-flex px-4 py-2 text-xs sm:text-sm font-semibold text-white btn-ruby rounded-lg transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#124FA3]"
+            onClick={go("/quote")}
           >
-            Request a Quote
+            <span className="quote-long">Request </span>Quote{" "}
+            <ArrowRight size={16} />
           </a>
-
           <button
-            ref={toggleBtnRef}
+            ref={toggle}
+            className="menu-toggle"
             type="button"
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            aria-expanded={mobileMenuOpen}
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
             aria-controls="mrk-mobile-drawer"
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-[#0B1B33] hover:bg-[#DCE5F2] border border-[#D7E0EC] transition-colors"
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {open ? <X /> : <Menu />}
           </button>
         </div>
       </div>
-
-      {/* Accessible Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div
-          id="mrk-mobile-drawer"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation Menu"
-          className="lg:hidden bg-[#F3F7FC] border-b border-[#D7E0EC] px-4 pt-3 pb-6"
-        >
-          <nav aria-label="Mobile Navigation Links" className="flex flex-col space-y-1">
+      <div
+        id="mrk-mobile-drawer"
+        ref={drawer}
+        className={`cinema-drawer ${open ? "drawer-open" : ""}`}
+        inert={!open}
+      >
+        <nav aria-label="Mobile Navigation Links">
+          {links.map((item) => (
             <a
-              href="/"
-              onClick={(e) => handleLinkClick(e, '/')}
-              className={`px-3 py-2.5 rounded-lg text-sm font-medium ${
-                currentPath === '/'
-                  ? 'bg-[#E8EEF7] text-[#0B1B33]'
-                  : 'text-[#33445C] hover:bg-[#EEF3FA] hover:text-[#C81036]'
-              }`}
+              key={item.path}
+              href={item.path}
+              onClick={go(item.path)}
+              aria-current={currentPath === item.path ? "page" : undefined}
             >
-              Home
+              {item.label}
+              <ArrowRight size={18} />
             </a>
-            {PRIMARY_NAV_ITEMS.map((item) => {
-              const isActive =
-                currentPath === item.path || currentPath.startsWith(`${item.path}/`);
-              return (
-                <a
-                  key={item.path}
-                  href={item.path}
-                  onClick={(e) => handleLinkClick(e, item.path)}
-                  className={`px-3 py-2.5 rounded-lg text-sm font-medium ${
-                    isActive
-                      ? 'bg-[#E8EEF7] text-[#0B1B33]'
-                      : 'text-[#33445C] hover:bg-[#EEF3FA] hover:text-[#C81036]'
-                  }`}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-            <a
-              href="/faq"
-              onClick={(e) => handleLinkClick(e, '/faq')}
-              className={`px-3 py-2.5 rounded-lg text-sm font-medium ${
-                currentPath === '/faq'
-                  ? 'bg-[#E8EEF7] text-[#0B1B33]'
-                  : 'text-[#33445C] hover:bg-[#EEF3FA] hover:text-[#C81036]'
-              }`}
-            >
-              FAQs
-            </a>
-          </nav>
-
-          <div className="mt-4 pt-4 border-t border-[#D7E0EC] flex flex-col gap-2.5">
-            <a
-              href={mrkBusiness.phoneHref}
-              className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg bg-[#E8EEF7] text-[#0B1B33] border border-[#D7E0EC] text-sm font-semibold"
-            >
-              <Phone className="w-4 h-4 text-[#C81036]" />
-              <span>Call {mrkBusiness.phoneDisplay}</span>
-            </a>
-            <p className="text-xs text-[#33445C] text-center">
-              Indicative hourly rates: $130–$135 · Adelaide, SA
-            </p>
-          </div>
-        </div>
-      )}
+          ))}
+          <a href={mrkBusiness.phoneHref}>
+            <Phone size={18} />
+            Call {mrkBusiness.phoneDisplay}
+          </a>
+        </nav>
+      </div>
     </header>
   );
 };

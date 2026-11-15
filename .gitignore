@@ -10,3 +10,8 @@ coverage/
 
 test-results/
 playwright-report/
+
+# Regenerated browser captures; curated evidence is in docs/screenshots/cinematic/.
+docs/screenshots/after/chromium/
+docs/screenshots/after/firefox/
+docs/screenshots/after/webkit/
