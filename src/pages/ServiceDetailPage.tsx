@@ -8,6 +8,7 @@ import {
 } from '../config/business';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { QuoteForm } from '../components/forms/QuoteForm';
+import { ResponsiveImage } from '../components/ui/ResponsiveImage';
 import { NotFoundPage } from './NotFoundPage';
 
 interface ServiceDetailPageProps {
@@ -27,12 +28,16 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
   const getServicePhoto = (id: string) => {
     switch (id) {
       case 'house-removals':
-      case 'packing-move-preparation':
         return mrkBusiness.photographyAssets.professionalWrapping;
       case 'apartment-strata-moves':
         return mrkBusiness.photographyAssets.apartmentRelocation;
       case 'office-commercial-relocations':
         return mrkBusiness.photographyAssets.officeRelocation;
+      case 'packing-move-preparation':
+        return mrkBusiness.photographyAssets.adelaideSkylineTwilight;
+      case 'furniture-single-item-moves':
+        return '/assets/photography/mover_wrapped_armchair-960.webp';
+      case 'heavy-bulky-item-moves':
       default:
         return mrkBusiness.photographyAssets.heroTruckCinematic;
     }
@@ -71,10 +76,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({ slug, onNa
 
             {/* Contextual Photography Feature Banner */}
             <div className="relative rounded-2xl overflow-hidden border border-[#D7E0EC] h-56 sm:h-72 my-4 shadow-xl group">
-              <img
+              <ResponsiveImage
                 src={photo}
                 alt={`${service.title} in Adelaide`}
-                className="w-full h-full object-cover object-center filter brightness-110 saturate-110 transition-transform duration-700 group-hover:scale-105"
+                sizes="(min-width: 1024px) 66vw, 100vw"
+                width={1448}
+                height={720}
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B33]/60 via-[#0B1B33]/10 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">

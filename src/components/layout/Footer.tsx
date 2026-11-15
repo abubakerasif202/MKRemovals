@@ -28,6 +28,24 @@ function useScrolledPast(px: number): boolean {
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const showQuickActions = useScrolledPast(520);
+  const [submitInView, setSubmitInView] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isAnyIntersecting = entries.some((e) => e.isIntersecting);
+        setSubmitInView(isAnyIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    const submitButtons = document.querySelectorAll('button[type="submit"]');
+    submitButtons.forEach((btn) => observer.observe(btn));
+    return () => observer.disconnect();
+  }, []);
+
+  const isVisible = showQuickActions && !submitInView;
+
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     onNavigate(path);
@@ -180,7 +198,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       <div
         role="region"
         aria-label="Mobile Quick Conversion Actions"
-        className={`md:hidden fixed bottom-4 inset-x-3 z-40 pointer-events-none flex items-center justify-between gap-2 transition-all duration-300 ${showQuickActions ? "opacity-100 translate-y-0 visible" : "opacity-0 translate-y-6 invisible"}`}
+        style={{ bottom: 'max(1rem, env(safe-area-inset-bottom, 1rem))' }}
+        className={`md:hidden fixed inset-x-3 z-40 pointer-events-none flex items-center justify-between gap-2 transition-all duration-300 ${isVisible ? "opacity-100 translate-y-0 visible" : "opacity-0 translate-y-6 invisible"}`}
       >
         <a
           href={mrkBusiness.phoneHref}

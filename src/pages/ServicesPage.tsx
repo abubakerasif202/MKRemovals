@@ -7,6 +7,7 @@ import {
   getMandatoryRateDisclaimer,
 } from '../config/business';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
+import { ResponsiveImage } from '../components/ui/ResponsiveImage';
 
 interface ServicesPageProps {
   onNavigate: (path: string) => void;
@@ -16,12 +17,16 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
   const getServicePhoto = (id: string) => {
     switch (id) {
       case 'house-removals':
-      case 'packing-move-preparation':
         return mrkBusiness.photographyAssets.professionalWrapping;
       case 'apartment-strata-moves':
         return mrkBusiness.photographyAssets.apartmentRelocation;
       case 'office-commercial-relocations':
         return mrkBusiness.photographyAssets.officeRelocation;
+      case 'packing-move-preparation':
+        return mrkBusiness.photographyAssets.adelaideSkylineTwilight;
+      case 'furniture-single-item-moves':
+        return '/assets/photography/mover_wrapped_armchair-960.webp';
+      case 'heavy-bulky-item-moves':
       default:
         return mrkBusiness.photographyAssets.heroTruckCinematic;
     }
@@ -66,10 +71,13 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
             >
               {/* Top Service Photography Banner */}
               <div className="relative h-48 sm:h-56 overflow-hidden group">
-                <img
+                <ResponsiveImage
                   src={photo}
                   alt={`${service.title} in Adelaide`}
-                  className="w-full h-full object-cover object-center filter brightness-110 saturate-110 transition-transform duration-700 group-hover:scale-105"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  width={960}
+                  height={640}
+                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B33]/60 via-[#0B1B33]/10 to-transparent" />
                 <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between text-xs">
