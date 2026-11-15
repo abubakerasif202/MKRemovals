@@ -222,6 +222,8 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
           ok: true,
           status: 'delivered',
           deduplicated: true,
+          acceptance: 'provider_accepted',
+          inboxReceipt: 'unverified',
           referenceId: prior.referenceId,
           timestamp: prior.timestamp,
           moveBrief,
@@ -314,6 +316,8 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
     }
     log({
       status: 'delivered',
+      acceptance: 'provider_accepted',
+      inboxReceipt: 'unverified',
       referenceId,
       provider: confirmed.provider,
       store: store.kind,
@@ -323,7 +327,18 @@ export async function handleQuoteRequest(options: HandleQuoteOptions): Promise<Q
     });
     return {
       statusCode: 200,
-      body: { ok: true, status: 'delivered', referenceId, timestamp, moveBrief, ...fallbackContact() },
+      // delivered means the provider ACCEPTED the message. Inbox receipt cannot be observed by this site.
+      body: {
+        ok: true,
+        status: 'delivered',
+        acceptance: 'provider_accepted',
+        inboxReceipt: 'unverified',
+        provider: confirmed.provider,
+        referenceId,
+        timestamp,
+        moveBrief,
+        ...fallbackContact(),
+      },
     };
   };
 

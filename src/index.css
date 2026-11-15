@@ -126,6 +126,9 @@
   transform: translateY(-2px);
   box-shadow: 0 16px 28px -8px rgba(200, 16, 54, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.55), inset 0 -2px 0 0 rgba(0, 0, 0, 0.12);
 }
+.btn-ruby:active {
+  transform: scale(0.98);
+}
 .btn-ruby:hover::before { transform: translateX(120%); }
 
 .btn-secondary {
@@ -140,13 +143,10 @@
   transform: translateY(-2px);
   box-shadow: 0 14px 24px -10px rgba(18, 79, 163, 0.45), inset 0 1px 0 0 #FFFFFF;
 }
-
-/* Dark badge used behind the (light-on-dark) logo artwork so it stays crisp on the bright page. */
-.mrk-logo-badge {
-  background: linear-gradient(180deg, #14233F 0%, #0B1424 100%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 10px 22px -10px rgba(11, 20, 36, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+.btn-secondary:active {
+  transform: scale(0.98);
 }
+
 /* 3D Perspective Tilt Container for Selective Dimensional Effects */
 .perspective-stage {
   perspective: 1200px;
@@ -203,9 +203,31 @@
 /* Hero entrance: pure CSS so the prerendered HTML is visible immediately (no hidden-until-hydrated text). */
 @keyframes mrk-rise { from { opacity: 0.4; transform: translate3d(0, 22px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 @keyframes mrk-pop  { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(0.95); } to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } }
+@keyframes mrk-pulse-beacon {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50%      { transform: scale(1.8); opacity: 0.2; }
+}
+@keyframes mrk-float-gentle {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -6px, 0); }
+}
+@keyframes mrk-shimmer-pass {
+  0%   { transform: translate3d(-100%, 0, 0); }
+  55%  { transform: translate3d(140%, 0, 0); }
+  100% { transform: translate3d(140%, 0, 0); }
+}
+@keyframes mrk-subtle-glow {
+  0%, 100% { opacity: 0.4; transform: scale(0.98); }
+  50%      { opacity: 0.85; transform: scale(1.02); }
+}
+
 .mrk-rise { animation: mrk-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: var(--d, 0s); }
 .mrk-pop  { animation: mrk-pop 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
 .mrk-drive    { animation: mrk-drive 14s ease-out both; will-change: transform; }
+.mrk-pulse-beacon { animation: mrk-pulse-beacon 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+.mrk-float-gentle { animation: mrk-float-gentle 4.5s ease-in-out infinite; }
+.mrk-shimmer-pass { animation: mrk-shimmer-pass 5s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+.mrk-subtle-glow  { animation: mrk-subtle-glow 3.5s ease-in-out infinite; }
 
 .mrk-photo-zoom img { transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1); }
 .mrk-photo-zoom:hover img { transform: scale(1.05); }
@@ -220,7 +242,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mrk-kenburns, .mrk-float, .mrk-drive, .mrk-sheen-line, .mrk-reveal, .mrk-rise, .mrk-pop {
+  .mrk-kenburns, .mrk-float, .mrk-drive, .mrk-sheen-line, .mrk-reveal, .mrk-rise, .mrk-pop,
+  .mrk-pulse-beacon, .mrk-float-gentle, .mrk-shimmer-pass, .mrk-subtle-glow {
     animation: none !important;
   }
   .mrk-glow::after { animation: none !important; opacity: 0; }

@@ -39,22 +39,20 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-[#D7E0EC]">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 lg:gap-8 px-4 sm:px-6 lg:px-8 h-16">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 lg:gap-8 px-4 sm:px-6 lg:px-8 h-[68px] sm:h-[76px]">
         {/* Zone 1: Distinctive Brand Identity Wordmark & Crest */}
         <a
           href="/"
           onClick={(e) => handleLinkClick(e, '/')}
           className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C81036] select-none"
         >
-          <span className="mrk-logo-badge inline-flex items-center rounded-xl px-2.5 py-1 transition-transform group-hover:scale-105">
-            <img
-              src={mrkBusiness.brandAssets.logoWordmark}
-              alt="MRK Removals Adelaide"
-              width={720}
-              height={115}
-              className="h-8 sm:h-9 w-auto select-none"
-            />
-          </span>
+          <img
+            src={mrkBusiness.brandAssets.logoWordmark}
+            alt="MRK Removals Adelaide"
+            width={720}
+            height={251}
+            className="h-12 sm:h-14 w-auto select-none drop-shadow-[0_6px_10px_rgba(11,27,51,0.18)] transition-transform duration-300 group-hover:scale-105"
+          />
         </a>
 
         {/* Zone 2: Clean text navigation links (Desktop) */}

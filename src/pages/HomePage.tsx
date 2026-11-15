@@ -7,6 +7,9 @@ import {
   MapPin,
   CheckCircle2,
   Clock,
+  ShieldCheck,
+  Truck,
+  Sparkles,
 } from 'lucide-react';
 import { useReducedMotion } from '../lib/useReducedMotion';
 import {
@@ -17,6 +20,7 @@ import {
 import { MRK_SERVICES } from '../content/services';
 import { MRK_SERVICE_AREAS } from '../content/service-areas';
 import { MRK_FAQS } from '../content/faqs';
+import { MRKVectorEmblem } from '../components/brand/MRKLogo';
 import { TrustBanner } from '../components/brand/TrustBanner';
 import { MoveScopeBuilder } from '../components/interactive/MoveScopeBuilder';
 import { QuoteForm, SIZE_NOT_SELECTED } from '../components/forms/QuoteForm';
@@ -85,10 +89,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           sizes="100vw"
           width={1448}
           height={1086}
-          className="mrk-kenburns absolute inset-0 -z-20 h-full w-full object-cover object-[72%_35%]"
+          className="mrk-kenburns absolute inset-0 -z-20 h-full w-full object-cover object-[72%_22%]"
         />
         {/* Bright wash: full on mobile for legibility, left-to-right fade on desktop so the photo shines through. */}
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-white/88 lg:hidden" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-white/93 via-white/86 to-white/72 lg:hidden" />
         <div
           aria-hidden="true"
           className="absolute inset-0 -z-10 hidden lg:block"
@@ -98,20 +102,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           }}
         />
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-24 bg-gradient-to-b from-transparent to-[#F7FAFE]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-24 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <p
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10 sm:pt-16 sm:pb-16 lg:pt-24 lg:pb-24 lg:grid lg:grid-cols-12 lg:gap-10 lg:items-center">
+          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            {/* Mobile-Only Brand Crest Header */}
+            <div className="lg:hidden flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-white/95 border border-[#D7E0EC] shadow-md flex items-center justify-center p-2 mrk-float-gentle shrink-0">
+                <MRKVectorEmblem className="w-full h-full" variant="color" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-display font-bold text-sm text-[#0B1B33]">MRK Removals Adelaide</span>
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#E8EEF7] text-[#124FA3]">ABN Verified</span>
+                </div>
+                <p className="text-xs text-[#5B6B80]">Adelaide Owned &amp; Operated · Direct with Moe</p>
+              </div>
+            </div>
+
+            <div
               style={{ '--d': '0.05s' } as React.CSSProperties}
-              className="mrk-rise inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F3F7FC] border border-[#D7E0EC] text-xs font-medium text-[#0B1B33]"
+              className="mrk-rise inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F3F7FC]/95 backdrop-blur-xs border border-[#D7E0EC] text-xs font-medium text-[#0B1B33] shadow-xs"
             >
-              <span className="w-2 h-2 rounded-full bg-[#C81036]" aria-hidden="true" />
-              Adelaide, South Australia · Residential &amp; Commercial Removals
-            </p>
+              <span className="relative flex h-2.5 w-2.5 items-center justify-center shrink-0" aria-hidden="true">
+                <span className="mrk-pulse-beacon absolute inline-flex h-full w-full rounded-full bg-[#C81036]" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C81036]" />
+              </span>
+              <span>Adelaide, South Australia · Residential &amp; Commercial Removals</span>
+            </div>
 
             <h1
               id="hero-heading"
-              style={{ fontSize: 'clamp(2.3rem, 5.2vw, 4.2rem)', '--d': '0.12s' } as React.CSSProperties}
-              className="mrk-rise font-display font-extrabold text-[#0B1B33] tracking-tight leading-[1.05]"
+              style={{ fontSize: 'clamp(2.1rem, 6vw, 4.2rem)', '--d': '0.12s' } as React.CSSProperties}
+              className="mrk-rise font-display font-extrabold text-[#0B1B33] tracking-tight leading-[1.08] sm:leading-[1.05]"
             >
               Adelaide removalists,
               <br />
@@ -119,12 +140,31 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </h1>
 
             <p
-              style={{ '--d': '0.22s' } as React.CSSProperties}
+              style={{ '--d': '0.2s' } as React.CSSProperties}
               className="mrk-rise text-base sm:text-lg text-[#33445C] leading-relaxed max-w-2xl"
             >
               House, apartment and office moves across Adelaide, coordinated directly with{' '}
-              {mrkBusiness.ownerContactName.value}. Tell us about your move and get a clear quote.
+              <strong className="font-semibold text-[#0B1B33]">{mrkBusiness.ownerContactName.value}</strong>. Tell us about your move and get a clear quote.
             </p>
+
+            {/* Quick Confidence Pillars: Mobile & Desktop Hero Micro-Pills */}
+            <div
+              style={{ '--d': '0.26s' } as React.CSSProperties}
+              className="mrk-rise grid grid-cols-3 gap-2 sm:gap-3 max-w-xl pt-0.5"
+            >
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-xs border border-[#D7E0EC] text-[11px] sm:text-xs font-medium text-[#0B1B33] shadow-xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#C81036] shrink-0" aria-hidden="true" />
+                <span className="truncate">$1M Insurance</span>
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-xs border border-[#D7E0EC] text-[11px] sm:text-xs font-medium text-[#0B1B33] shadow-xs">
+                <Truck className="w-3.5 h-3.5 text-[#124FA3] shrink-0" aria-hidden="true" />
+                <span className="truncate">2-Man + Truck</span>
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-white/90 backdrop-blur-xs border border-[#D7E0EC] text-[11px] sm:text-xs font-medium text-[#0B1B33] shadow-xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#8A6414] shrink-0" aria-hidden="true" />
+                <span className="truncate">Zero Hidden Fees</span>
+              </div>
+            </div>
 
             <div
               style={{ '--d': '0.32s' } as React.CSSProperties}
@@ -133,46 +173,63 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 onClick={scrollToQuote}
-                className="mrk-glow min-h-12 px-7 rounded-xl btn-ruby text-white text-base font-bold inline-flex items-center justify-center gap-2.5 cursor-pointer shadow-lg"
+                className="mrk-glow min-h-12 px-7 rounded-xl btn-ruby text-white text-base font-bold inline-flex items-center justify-center gap-2.5 cursor-pointer shadow-lg active:scale-[0.98] transition-transform"
               >
                 <span>Get a Free Quote</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
               <a
                 href={mrkBusiness.phoneHref}
-                className="min-h-12 px-7 rounded-xl btn-secondary text-[#0B1B33] text-base font-semibold inline-flex items-center justify-center gap-2.5"
+                className="min-h-12 px-7 rounded-xl btn-secondary text-[#0B1B33] text-base font-semibold inline-flex items-center justify-center gap-2.5 active:scale-[0.98] transition-transform"
               >
                 <Phone className="w-4 h-4 text-[#C81036]" />
                 <span>Call {mrkBusiness.phoneDisplay}</span>
               </a>
             </div>
 
-            <p
-              style={{ '--d': '0.42s' } as React.CSSProperties}
-              className="mrk-rise flex items-start gap-2 text-sm text-[#33445C] max-w-2xl"
+            {/* Honest Upfront Rates Card */}
+            <div
+              style={{ '--d': '0.4s' } as React.CSSProperties}
+              className="mrk-rise mrk-surface-elevated rounded-2xl p-4 sm:p-5 border border-[#D7E0EC] shadow-xs max-w-2xl"
             >
-              <Clock className="w-4 h-4 text-[#C81036] shrink-0 mt-0.5" aria-hidden="true" />
-              <span>
-                <strong className="text-[#0B1B33]">{formatIndicativeRateHeadline()}</strong>{' '}
-                {getMandatoryRateDisclaimer()}
-              </span>
-            </p>
+              <div className="flex items-start gap-3">
+                <div className="w-9 h-9 rounded-xl bg-[#E8EEF7] border border-[#D7E0EC] flex items-center justify-center shrink-0 mt-0.5">
+                  <Clock className="w-4 h-4 text-[#C81036]" aria-hidden="true" />
+                </div>
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-display text-sm sm:text-base font-bold text-[#0B1B33]">
+                      {formatIndicativeRateHeadline()}
+                    </span>
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#E8EEF7] text-[#124FA3] border border-[#D7E0EC]">
+                      GST Included Upfront
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#33445C] leading-relaxed">
+                    {getMandatoryRateDisclaimer()}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="mrk-pop hidden lg:block lg:col-span-5">
-            <div className="mrk-float rounded-3xl overflow-hidden border border-[#D7E0EC] shadow-[0_30px_80px_-30px_rgba(200,16,54,0.55)]">
+          <div className="mrk-pop hidden lg:flex lg:col-span-5 justify-center">
+            <div className="relative">
+              {/* Soft white halo so the emblem reads cleanly over the photo. */}
+              <div aria-hidden="true" className="absolute inset-0 -z-10 scale-110 rounded-full bg-white/70 blur-2xl" />
               <img
                 src={mrkBusiness.brandAssets.logoFull}
-                alt="MRK Removals Adelaide logo"
-                width={960}
+                alt="MRK Removals Adelaide emblem"
+                width={640}
                 height={640}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto"
+                className="mrk-float w-full max-w-[380px] h-auto drop-shadow-[0_24px_40px_rgba(11,27,51,0.35)]"
               />
             </div>
           </div>
-        </div>      </section>
+        </div>
+      </section>
 
       {/* 2. TRUST */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-14 relative z-10">
