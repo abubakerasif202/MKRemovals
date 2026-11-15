@@ -83,13 +83,15 @@ export const Header: React.FC<HeaderProps> = ({ currentPath, onNavigate }) => {
         </nav>
 
         {/* Zone 3: Primary action (Desktop/Tablet) + Quick Call + Mobile/Tablet menu toggle */}
-        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <a
             href={mrkBusiness.phoneHref}
-            className="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E8EEF7] hover:bg-[#DCE5F2] text-xs font-semibold text-[#0B1B33] border border-[#D7E0EC] transition-all hover:border-[#C81036]/50 whitespace-nowrap"
+            aria-label={`Call ${mrkBusiness.phoneDisplay}`}
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-[#E8EEF7] hover:bg-[#DCE5F2] text-xs font-semibold text-[#0B1B33] border border-[#D7E0EC] transition-all hover:border-[#C81036]/50 whitespace-nowrap min-h-[44px] min-w-[44px]"
           >
             <Phone className="w-3.5 h-3.5 text-[#C81036]" />
-            <span>{mrkBusiness.phoneDisplay}</span>
+            <span className="hidden sm:inline">{mrkBusiness.phoneDisplay}</span>
+            <span className="sm:hidden font-bold">Call</span>
           </a>
 
           <a

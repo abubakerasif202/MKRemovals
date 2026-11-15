@@ -7,6 +7,7 @@ import {
 } from '../config/business';
 import { Breadcrumbs } from '../components/layout/Breadcrumbs';
 import { MRKVectorEmblem } from '../components/brand/MRKLogo';
+import { ResponsiveImage } from '../components/ui/ResponsiveImage';
 
 interface AboutPageProps {
   onNavigate: (path: string) => void;
@@ -118,18 +119,21 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       {/* Commercial Fleet & Care Standards Feature */}
       <section className="mrk-surface-elevated rounded-3xl p-6 sm:p-10 border border-[#D7E0EC] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center shadow-xl">
         <div className="lg:col-span-6 relative rounded-2xl overflow-hidden border border-[#D7E0EC] h-64 sm:h-80 shadow-2xl group">
-          <img
+          <ResponsiveImage
             src={mrkBusiness.photographyAssets.heroTruckCinematic}
-            alt="MRK Removals Adelaide commercial pantechnicon moving truck on North Terrace"
-            className="w-full h-full object-cover object-center filter brightness-110 saturate-110 transition-transform duration-700 group-hover:scale-105"
+            alt="MRK Removals Adelaide branded moving truck on moving day"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            width={1672}
+            height={941}
+            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B33]/55 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B33]/55 via-transparent to-transparent pointer-events-none" />
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-white">
             <span className="font-semibold flex items-center gap-1.5">
               <Truck className="w-4 h-4 text-[#C81036]" />
               Heavy-Duty Enclosed Pantechnicon Fleet
             </span>
-            <span className="font-mono text-[10px] text-[#8A6414]">ADELAIDE REGISTERED</span>
+            <span className="font-mono text-[10px] text-white/90">ADELAIDE REGISTERED</span>
           </div>
         </div>
 

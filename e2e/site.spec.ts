@@ -24,7 +24,8 @@ async function fillValidQuote(page: Page) {
 }
 
 for (const width of WIDTHS) {
-  test(`no horizontal overflow on key routes at ${width}px`, async ({ page }) => {
+  test(`no horizontal overflow on key routes at ${width}px`, async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Fixed mobile device emulation has its own device viewport');
     await page.setViewportSize({ width, height: 900 });
     for (const route of ROUTES) {
       await page.goto(route);
@@ -35,8 +36,19 @@ for (const width of WIDTHS) {
   });
 }
 
+test('no horizontal overflow on native mobile device viewports', async ({ page, isMobile }) => {
+  test.skip(!isMobile, 'Mobile emulation only');
+  for (const route of ROUTES) {
+    await page.goto(route);
+    await page.waitForLoadState('networkidle');
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow, `${route} overflows by ${overflow}px on mobile device`).toBeLessThanOrEqual(0);
+  }
+});
+
 for (const width of [320, 375, 768, 1440, 1920]) {
-  test(`homepage screenshots at ${width}px`, async ({ page }) => {
+  test(`homepage screenshots at ${width}px`, async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Fixed mobile device emulation has its own device viewport');
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await page.waitForLoadState('networkidle');
@@ -56,7 +68,8 @@ for (const width of [320, 375, 768, 1440, 1920]) {
 }
 
 for (const [width, height] of [[390, 844], [1440, 900]]) {
-  test(`hero screenshot at ${width}px`, async ({ page }) => {
+  test(`hero screenshot at ${width}px`, async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Fixed mobile device emulation has its own device viewport');
     await page.setViewportSize({ width, height });
     await page.goto('/');
     await page.waitForLoadState('networkidle');

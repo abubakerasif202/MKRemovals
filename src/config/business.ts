@@ -58,6 +58,7 @@ export type MRKBusinessConfig = {
   };
   photographyAssets: {
     heroTruckCinematic: string;
+    heroTruckMobile: string;
     adelaideSkylineTwilight: string;
     professionalWrapping: string;
     apartmentRelocation: string;
@@ -141,11 +142,12 @@ export const mrkBusiness: MRKBusinessConfig = {
     roundCrestConcept: '/assets/brand/mrk-logo-circle.webp',
   },
   photographyAssets: {
-    heroTruckCinematic: '/assets/photography/midnight_delivery_truck-960.webp',
+    heroTruckCinematic: '/assets/photography/adelaide_moving_day_hero_banner-960.webp',
+    heroTruckMobile: '/assets/photography/adelaide_moving_day_hero_mobile-960.webp',
     adelaideSkylineTwilight: '/assets/photography/boulevard_twilight_truck-960.webp',
-    professionalWrapping: '/assets/photography/crew_protecting_furniture-960.webp',
-    apartmentRelocation: '/assets/photography/mover_wrapped_armchair-960.webp',
-    officeRelocation: '/assets/photography/office_commercial_relocation-960.webp',
+    professionalWrapping: '/assets/photography/premium_mrk_removals_adelaide_scene-960.webp',
+    apartmentRelocation: '/assets/photography/premium_strata_move_in_adelaide-960.webp',
+    officeRelocation: '/assets/photography/mrk_s_seamless_adelaide_office_move-960.webp',
   },
 };
 
