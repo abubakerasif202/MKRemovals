@@ -1,5 +1,0 @@
-# MRK Removals Adelaide — Preview Robots Configuration
-# Safe Preview: Search indexing is paused pending owner sign-off.
-# Set MRK_PRODUCTION_INDEXING=true to authorize live production crawling.
-User-agent: *
-Disallow: /
