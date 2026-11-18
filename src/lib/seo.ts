@@ -15,24 +15,48 @@ export interface RouteSeoMeta {
   jsonLd: Record<string, unknown>[];
 }
 
+/** Hosts that serve the live site: the canonical apex and its www alias. */
+export function getProductionHosts(): string[] {
+  const apex = new URL(mrkBusiness.canonicalOrigin).hostname;
+  return [apex, `www.${apex}`];
+}
+
+export function isProductionHost(host: string): boolean {
+  return getProductionHosts().includes(host.trim().toLowerCase());
+}
+
+export interface IndexingInputs {
+  /** Request/browser hostname when known (browser, edge). Undefined at build time. */
+  host?: string;
+  /** Build-time environment (process.env shape). */
+  env?: Record<string, string | undefined>;
+}
+
 /**
- * Evaluates whether production indexing is currently authorized.
- * Safe preview by default: requires explicit MRK_PRODUCTION_INDEXING=true or VITE_MRK_PRODUCTION_INDEXING=true.
+ * Decides whether this build/page is allowed to be indexed.
+ *
+ * - Host known (browser): the canonical production host is ALWAYS indexable, whatever the env says.
+ *   Any other host (vercel.app previews, localhost) is noindex.
+ * - Host unknown (build/SSR): VERCEL_ENV decides. `production` -> index; `preview`/`development` -> noindex.
+ *   Off-Vercel builds (VERCEL_ENV unset) stay noindex unless MRK_PRODUCTION_INDEXING=true.
+ * - MRK_PREVIEW_ONLY=true is an explicit kill switch for build-time decisions.
+ *
+ * A missing env var can never deindex the production host, because the host check does not read env.
  */
+export function resolveIndexingAuthorized({ host, env = {} }: IndexingInputs = {}): boolean {
+  if (host) return isProductionHost(host);
+
+  if (env.MRK_PREVIEW_ONLY === 'true') return false;
+  if (env.VERCEL_ENV === 'production') return true;
+  if (env.VERCEL_ENV === 'preview' || env.VERCEL_ENV === 'development') return false;
+  return env.MRK_PRODUCTION_INDEXING === 'true' || env.VITE_MRK_PRODUCTION_INDEXING === 'true';
+}
+
+/** Current-environment wrapper: browser hostname when available, otherwise build-time process.env. */
 export function isProductionIndexingEnabled(): boolean {
-  if (typeof process !== 'undefined' && process.env) {
-    if (process.env.MRK_PREVIEW_ONLY === 'true') return false;
-    if (process.env.MRK_PRODUCTION_INDEXING === 'true') return true;
-    if (process.env.VITE_MRK_PRODUCTION_INDEXING === 'true') return true;
-    if (process.env.VERCEL_ENV === 'production') return true;
-  }
-  if (typeof import.meta !== 'undefined' && (import.meta as any).env) {
-    if ((import.meta as any).env.VITE_MRK_PREVIEW_ONLY === 'true') return false;
-    if ((import.meta as any).env.VITE_MRK_PRODUCTION_INDEXING === 'true') return true;
-    if ((import.meta as any).env.MRK_PRODUCTION_INDEXING === 'true') return true;
-    if ((import.meta as any).env.VERCEL_ENV === 'production') return true;
-  }
-  return false;
+  const host = typeof window !== 'undefined' ? window.location.hostname : undefined;
+  const env = typeof process !== 'undefined' && process.env ? process.env : {};
+  return resolveIndexingAuthorized({ host, env });
 }
 
 export function buildCanonicalUrl(pathname: string): string {

@@ -3,9 +3,21 @@
   "framework": "vite",
   "cleanUrls": true,
   "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "missing": [{ "type": "host", "value": "^(www\\.)?mrkremovalsadelaide\\.com\\.au$" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
+    {
+      "source": "/robots.txt",
+      "has": [{ "type": "host", "value": "^(www\\.)?mrkremovalsadelaide\\.com\\.au$" }],
+      "destination": "/robots.production.txt"
+    },
+    { "source": "/robots.txt", "destination": "/robots.preview.txt" },
     { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]

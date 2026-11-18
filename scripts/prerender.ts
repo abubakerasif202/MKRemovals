@@ -17,7 +17,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
-const publicDir = path.resolve(projectRoot, 'public');
 
 function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => {
@@ -58,15 +57,14 @@ async function prerender() {
     .map((name) => `\n    <link rel="preload" href="/assets/${name}" as="font" type="font/woff2" crossorigin />`)
     .join('');
 
-  // 1. Write robots.txt and sitemap.xml to both dist/ and public/
-  const robotsContent = generateRobotsTxt(isProdAuthorized);
-  const sitemapContent = generateSitemapXml();
-
-  fs.writeFileSync(path.join(distDir, 'robots.txt'), robotsContent, 'utf-8');
-  fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsContent, 'utf-8');
-  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapContent, 'utf-8');
-  fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapContent, 'utf-8');
-  console.log(`[SEO Prerender] Wrote robots.txt and sitemap.xml`);
+  // 1. Write both robots variants and the sitemap to dist/ only (never into tracked public/).
+  //    No dist/robots.txt is emitted: vercel.json rewrites /robots.txt by HOST, so the production
+  //    host always gets the production file and every other host gets Disallow: / regardless of build env.
+  fs.rmSync(path.join(distDir, 'robots.txt'), { force: true });
+  fs.writeFileSync(path.join(distDir, 'robots.production.txt'), generateRobotsTxt(true), 'utf-8');
+  fs.writeFileSync(path.join(distDir, 'robots.preview.txt'), generateRobotsTxt(false), 'utf-8');
+  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), generateSitemapXml(), 'utf-8');
+  console.log(`[SEO Prerender] Wrote robots.production.txt, robots.preview.txt and sitemap.xml`);
 
   // 2. Collect all routes to render
   const routesToRender = [
